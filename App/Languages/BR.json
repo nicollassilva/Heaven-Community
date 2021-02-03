@@ -1,0 +1,12 @@
+{
+    "enviroments_string_error": "Erro ao encontrar o modo padrão de ambiente.",
+    "login_forgot_password": "Esqueci minha senha",
+    "login_register": "Cadastrar",
+    "card_statistics_registered": "Registrados",
+    "card_statistics_topics": "Tópicos",
+    "card_statistics_comments": "Comentários",
+    "card_statistics_views": "Visualizações",
+    "categorie_primary_not_found": "Nenhuma categoria primária foi encontrada.",
+    "categorie_secondary_not_found": "Nenhuma categoria secundária foi encontrada.",
+    "categorie_tertiary_not_found": "Nenhuma categoria terciária foi encontrada."
+}

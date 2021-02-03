@@ -1,0 +1,9 @@
+{
+    "enviroments_string_error": "Error finding the default environment mode.",
+    "login_forgot_password": "Forgot My Password",
+    "login_register": "Register",
+    "card_statistics_registered": "Registered",
+    "card_statistics_topics": "Topics",
+    "card_statistics_comments": "Comments",
+    "card_statistics_views": "Views"
+}

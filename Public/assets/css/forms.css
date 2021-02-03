@@ -1,0 +1,60 @@
+button.btn { box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.07) }
+
+button.btn.btn-success { background: var(--default-wallpaper), var(--success); }
+button.btn.btn-primary { background: var(--default-wallpaper), var(--primary); }
+button.btn.btn-secondary { background: var(--default-wallpaper), var(--secondary); }
+button.btn.btn-dark { background: var(--default-wallpaper), var(--dark); }
+button.btn.btn-info { background: var(--default-wallpaper), var(--info); }
+button.btn.btn-danger { background: var(--default-wallpaper), var(--danger); }
+button.btn.btn-warning { background: var(--default-wallpaper), var(--warning); }
+
+header input.input-search {
+    background-color: rgba(0, 0, 0, .1);
+    border: none;
+    height: 70px;
+    width: 300px;
+    border-radius: 0;
+    padding: 0 30px;
+    font-size: 14px;
+}
+
+header input.input-search:focus {
+    background-color: rgba(0, 0, 0, .1) !important;
+    color: #eee !important;
+}
+
+header input.input-search::placeholder,
+header input.input-search::-webkit-input-placeholder,
+header .login-box form input::placeholder,
+header .login-box form input::-webkit-input-placeholder { color: #eee !important; font-size: 14px; }
+
+header .login-box form input::placeholder,
+header .login-box form input::-webkit-input-placeholder { color: #777 !important; }
+
+header .login-box form {
+    width: 100%;
+    position: relative;
+    max-height: 170px;
+    height: 170px;
+}
+header .login-box form input { height: 50px; font-size: 14px; }
+
+header .login-box form .form-group { margin-bottom: 10px; }
+
+header .login-box form input:focus { box-shadow: none; }
+
+header .custom-checkbox label,
+header .custom-checkbox input { cursor: pointer !important; }
+
+header .custom-checkbox label { font-size: 14px; margin-top: 0.8rem; }
+
+header .custom-checkbox .custom-control-label::after,
+header .custom-checkbox .custom-control-label::before { top: 0.10rem; }
+
+header .login-box form button[type="submit"] { height: 40px; }
+
+header .login-box form button[type="submit"],
+header .login-container .actions button {
+    font-size: 13px;
+    font-weight: 600;
+}

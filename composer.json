@@ -1,0 +1,41 @@
+{
+  "name": "nicollassilva/mittelorm",
+  "description": "\u0016MittelPHP is an ORM that works with ActiveRecord to help communicate with your database.",
+  "keywords": [
+    "MittelPHP",
+    "CRUD",
+    "PHPCRUD",
+    "CRUDPHP",
+    "Database",
+    "Table",
+    "Create",
+    "Read",
+    "Update",
+    "Delete",
+    "ActiveRecord",
+    "Relationships"
+  ],
+  "homepage": "https://www.nicollas.site",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Nícollas Silva",
+      "email": "lyod.hp@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^7.2.5",
+    "ext-pdo": "*",
+    "nicollassilva/simplephp": "^v1.9.0",
+    "vlucas/phpdotenv": "5.2.x-dev",
+    "ramsey/uuid": "4.x-dev",
+    "coffeecode/router": "^1.0.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "App/"
+    }
+  }
+}
