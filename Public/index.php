@@ -17,6 +17,7 @@ if (Configuration::$forumMaintenance) {
     $router->get("/", "WebController@maintenance", 'Web.index');
 } else {
     $router->get("/", "WebController@index", "Web.index");
+    $router->get("/register", "WebController@register", "Web.Register");
 }
 
 $router->dispatch();

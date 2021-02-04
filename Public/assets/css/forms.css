@@ -19,7 +19,7 @@ header input.input-search {
 }
 
 header input.input-search:focus {
-    background-color: rgba(0, 0, 0, .1) !important;
+    background-color: rgba(87, 74, 74, 0.1) !important;
     color: #eee !important;
 }
 
@@ -37,11 +37,14 @@ header .login-box form {
     max-height: 170px;
     height: 170px;
 }
-header .login-box form input { height: 50px; font-size: 14px; }
+header .login-box form input,
+.register-box form input { height: 50px; font-size: 14px; }
 
-header .login-box form .form-group { margin-bottom: 10px; }
+header .login-box form .form-group,
+.register-box form .form-group { margin-bottom: 10px; }
 
-header .login-box form input:focus { box-shadow: none; }
+header .login-box form input:focus,
+.register-box form input:focus { box-shadow: none; }
 
 header .custom-checkbox label,
 header .custom-checkbox input { cursor: pointer !important; }
@@ -58,3 +61,20 @@ header .login-container .actions button {
     font-size: 13px;
     font-weight: 600;
 }
+
+.register-box p.text-muted { font-size: 12px; margin-top: 5px; }
+.register-box .form-group { position: relative; }
+.register-box .form-group button.question {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+}
+
+.register-box select { height: 50px; }
+.register-box button[type="submit"] { height: 50px; }

@@ -6,6 +6,8 @@
     --medium-color: #2196f3;
     --second-strong-color: #2979ff;
     --second-medium-color: #448aff;
+
+    --border-default: #81a9f0;
     --fontAwesome: "Font Awesome 5 Free";
 
     --background: #eee;
@@ -52,7 +54,13 @@ header {
     height: 450px;
     background: var(--default-wallpaper), var(--strong-color);
     position: relative;
-    box-shadow: 0 3px 0 #81a9f0;
+    animation: moveBackground 1000s linear infinite;
+    box-shadow: 0 3px 0 var(--border-default);
+}
+
+@keyframes moveBackground {
+    0% { background-position: 0 0; }
+    100% { background-position: -10000px 0; }
 }
 
 header .menu {
@@ -61,7 +69,7 @@ header .menu {
     background-color: rgba(0, 0, 0, .1);
     float: left;
     position: relative;
-    box-shadow: 0 3px 0 #81a9f0;
+    box-shadow: 0 3px 0 var(--border-default);
 }
 
 header .menu ul {
@@ -147,11 +155,12 @@ header .login-container .actions {
     padding-top: 10px;
 }
 
-header .login-container .actions button {
-    height: 40px;
+header .login-container .actions a {
+    font-size: 13px;
 }
 
-header .logo {
+header .logo,
+footer .logo {
     width: 300px;
     height: 300px;
     margin-top: 40px;
@@ -160,18 +169,21 @@ header .logo {
     flex-direction: column;
 }
 
-header .logo span:not(:last-of-type) {
+header .logo span:not(:last-of-type),
+footer .logo span:not(:last-of-type) {
     font-family: 'Audiowide', cursive;
     font-size: 40px;
     color: white;
     -webkit-user-select: none;
 }
 
-header .logo span:nth-child(2) {
+header .logo span:nth-child(2),
+footer .logo span:nth-child(2) {
     margin-top: -30px;
 }
 
-header .logo span:last-of-type {
+header .logo span:last-of-type,
+footer .logo span:last-of-type {
     font-size: 11px;
     width: 100%;
     height: 40px;
@@ -200,6 +212,7 @@ header .logo .socials a {
     align-items: center;
     text-decoration: none;
     color: white;
+    border: 1px solid rgba(255, 255, 255, .3);
 }
 
 header .logo .socials a:last-of-type {
@@ -669,3 +682,30 @@ div.breadcrumb-box {
 }
 
 .swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet-active { opacity: 1; background-color: var(--second-strong-color); }
+
+footer {
+    width: 100%;
+    height: 200px;
+    background: var(--default-wallpaper), var(--second-strong-color);
+    float: left;
+    margin-top: 40px;
+    border-top: 5px solid var(--border-default);
+}
+
+footer .logo { height: 200px; margin-top: 0; }
+
+.register-box {
+    padding: 10px 30px;
+}
+
+.register-box span:first-of-type {
+    width: 100%;
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--strong-color);
+    text-align: center;
+    float: left;
+}
+
+.popover .popover-header { font-size: 14px; }
+.popover .popover-body { font-size: 13px; color: var(--default-text); }

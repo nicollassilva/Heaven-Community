@@ -7,12 +7,37 @@ use App\{
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <base href="/">
+
+    <meta name="author" content="Nícollas Silva - Nicollas#8412 @Dont remove this credits">
+    <meta name="title" content="<?php echo $heavenTitle ?? ForumConfiguration::$forumName . ' - ' . ForumConfiguration::$forumTitle ?>!">
+    <meta name="description" content="<?php echo $heavenDescription ?? ForumConfiguration::$forumDescription ?>!">
+    <meta name="keywords" content="<?php echo ForumConfiguration::$forumKeywords ?>">
+    <meta name="rating" content="Geral">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:title" content="<?php echo $heavenTitle ?? ForumConfiguration::$forumName . ' - ' . ForumConfiguration::$forumTitle ?>!">
+    <meta property="og:url" content="<?php echo ForumConfiguration::$forumAddress ?>">
+    <meta property="og:image" content="<?php echo ForumConfiguration::$forumAddress ?>media/images/logonova.gif">
+
+    <meta name="theme-color" content="#2980b9">
+    <meta name="msapplication-navbutton-color" content="#2980b9">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="<?php echo ForumConfiguration::$forumTwitter ?>">
+    <meta name="twitter:title" content="<?php echo $heavenTitle ?? ForumConfiguration::$forumName . ' - ' . ForumConfiguration::$forumTitle ?>!">
+    <meta name="twitter:description" content="<?php echo $heavenDescription ?? ForumConfiguration::$forumDescription ?>!">
+
+
+    <title><?php echo $heavenTitle ?? ForumConfiguration::$forumName . ' - ' . ForumConfiguration::$forumTitle ?></title>
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/reset.css">
@@ -21,6 +46,8 @@ use App\{
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
     <link rel="stylesheet" href="assets/css/default.css">
+    
+    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
 </head>
 
 <body>
@@ -80,8 +107,8 @@ use App\{
                     </form>
                 </div>
                 <div class="actions">
-                    <button class="btn btn-dark"><i class="fas fa-user-plus"></i> <?php echo GetLanguage::get('login_register') ?></button>
-                    <button class="btn btn-danger"><i class="fas fa-question"></i> <?php echo GetLanguage::get('login_forgot_password') ?></button>
+                    <a href="/register" class="btn btn-dark"><i class="fas fa-user-plus"></i> <?php echo GetLanguage::get('login_register') ?></a>
+                    <a class="btn btn-danger"><i class="fas fa-question"></i> <?php echo GetLanguage::get('login_forgot_password') ?></a>
                 </div>
             </div>
         </div>
@@ -90,8 +117,10 @@ use App\{
         <div class="container">
             <nav aria-label="breadcrumb" class="breadcrumb-nav">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Página Inicial</li>
+                    <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                    <?php if(isset($heavenBreadcrumb)) { foreach($heavenBreadcrumb as $breadcrumb) { ?>
+                        <li class="breadcrumb-item active" aria-current="page"><?php echo $breadcrumb ?></li>
+                    <?php }} ?>
                 </ol>
             </nav>
         </div>

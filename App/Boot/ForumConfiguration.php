@@ -10,6 +10,8 @@ abstract class ForumConfiguration {
     public static $forumName = 'Heaven Fórum';
     public static $forumTitle = 'Uma cobertura completa do mundo dos games!';
     public static $forumDescription = 'Conteúdos sobre Transformice, Minecraft, World of WarCraft, Mu Online, Habbo Hotel, DDTank, Programação, Design e outras coisas!';
+    public static $forumTwitter = '@YourTwitterHere';
+    public static $forumKeywords = 'Habbo, Habblet, Jogos, CMS, Pixel, Tutoriais, PunBB, DDTank, Counter Strike, CrossFire, Grand Chase, Mu Online, Fóruns, Forumeiros, rpg, mmorpg forum, jogos mmorpg, ficheiros mmorpg, desenvolvimento';
 
     public static $forumEnvironments = ['development', 'production'];
     public static $forumMode = 'development';

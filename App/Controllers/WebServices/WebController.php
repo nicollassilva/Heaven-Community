@@ -30,6 +30,13 @@ class WebController extends BaseApiController implements WebServicesControllerIn
         ]);
     }
 
+    public function register()
+    {
+        return $this->view('register', [
+            'terms' => isset($_POST['terms']) ? true : false
+        ]);
+    }
+
     public function create()
     {
         
