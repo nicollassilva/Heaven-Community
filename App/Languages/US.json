@@ -5,5 +5,55 @@
     "card_statistics_registered": "Registered",
     "card_statistics_topics": "Topics",
     "card_statistics_comments": "Comments",
-    "card_statistics_views": "Views"
+    "card_statistics_views": "Views",
+    "categorie_primary_not_found": "No primary categories were found.",
+    "categorie_secondary_not_found": "No secondary categories were found.",
+    "categorie_tertiary_not_found": "No tertiary categories were found.",
+    "last_activities_title": "Latest activities",
+    "our_partners": "Our partners",
+    "register_text_first_call": "Create your account",
+    "register_text_question_email": "Because they want my email?",
+    "register_text_response_email": "We use your email to confirm your account and, if your password is forgotten.",
+    "register_text_required_fields": "Fields marked with asterisks are mandatory.",
+    "register_text_choise_genders": "Choose your gender",
+    "register_text_gender_male": "Male",
+    "register_text_choise_female": "Female",
+    "register_text_choise_undefined": "Other/Do not disclose",
+    "register_text_choise_terms": "Terms & Conditions",
+    "register_text_agree_terms": "I confirm that I have read and agree with the Terms & Conditions mentioned next.",
+    "register_text_disagree_terms": "I do not accept the terms.",
+    "register_text_button_register": "Sign up now"
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

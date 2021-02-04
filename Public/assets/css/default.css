@@ -695,10 +695,10 @@ footer {
 footer .logo { height: 200px; margin-top: 0; }
 
 .register-box {
-    padding: 10px 30px;
+    padding: 10px 20px;
 }
 
-.register-box span:first-of-type {
+.register-box span.title {
     width: 100%;
     font-size: 48px;
     font-weight: 600;
@@ -709,3 +709,14 @@ footer .logo { height: 200px; margin-top: 0; }
 
 .popover .popover-header { font-size: 14px; }
 .popover .popover-body { font-size: 13px; color: var(--default-text); }
+
+.register-box .terms {
+    background-color: #fafafa;
+    border: 1px solid rgba(0, 0, 0, .100);
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    overflow-y: auto;
+    max-height: 360px;
+    min-height: 360px;
+}
