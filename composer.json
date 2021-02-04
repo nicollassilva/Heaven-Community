@@ -35,7 +35,8 @@
     "vlucas/phpdotenv": "5.2.x-dev",
     "ramsey/uuid": "4.x-dev",
     "coffeecode/router": "^1.0.7",
-    "wixel/gump": "1.11"
+    "wixel/gump": "1.11",
+    "phpmailer/phpmailer": "^6.2"
   },
   "autoload": {
     "psr-4": {

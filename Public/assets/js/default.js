@@ -85,7 +85,7 @@ Community = {
                         progressBarColor: 'rgba(68, 189, 50, 1.0)',
                         message: t.msg
                     }), t.href && "" != t.href && setTimeout(() => {
-                        "/" != t.href ? webCode.navigate(t.href) : window.location.href = t.href
+                        window.location.href = t.href
                     }, 2e3)) : t.warning && iziToast.warning({
                         title: t.title,
                         icon: 'fas fa-exclamation',

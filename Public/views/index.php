@@ -2,6 +2,7 @@
 
 use App\Languages\GetLanguage;
 use App\Models\WebServices\Categories\Tertiary;
+use App\Models\Apis\User;
 
 include "includes/header.php";
 
@@ -13,7 +14,7 @@ include "includes/header.php";
                 <div class="card">
                     <i class="fas bg-dark fa-users"></i>
                     <span>
-                        <p><?php echo GetLanguage::get('card_statistics_registered') ?></p>18
+                        <p><?php echo GetLanguage::get('card_statistics_registered') ?></p><?php echo (new User)->countAllRegistered() ?>
                     </span>
                 </div>
             </div>

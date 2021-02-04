@@ -111,4 +111,17 @@ class User extends BaseApiModel {
 
         return $newUser;
     }
+
+    public function countAllRegistered()
+    {
+        if (!isset($_SESSION['allRegistered'])) {
+            $all = $this
+                ->count()
+                ->execute();
+
+            $_SESSION['allRegistered'] = $all;
+        }
+
+        return $_SESSION['allRegistered'] ?? $all;
+    }
 }

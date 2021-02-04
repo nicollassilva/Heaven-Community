@@ -16,7 +16,7 @@ abstract class ForumConfiguration {
     public static $forumEnvironments = ['development', 'production'];
     public static $forumMode = 'development';
     public static $forumMaintenance = false;
-    public static $forumMaintenanceTime = 0;
+    
     public static $uploadFolder = 'uploads/';
     public static $forumLanguage = 'BR'; // BR, US, FR, IT, ES
 

@@ -5,10 +5,13 @@
     setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
     require dirname(__DIR__, 1) . "/vendor/autoload.php";
 
-use App\Boot\ForumConfiguration as Configuration;
 use CoffeeCode\Router\Router;
+use App\Core\PHPMailer\HeavenMail;
+use App\Boot\ForumConfiguration as Configuration;
 
 Configuration::setMode();
+
+echo (new HeavenMail)->sendMail('lyod.hp@gmail.com', 'lyod.hp', 'Bem vindo ao HeavenCommunity!', 'registerEmail');
 
 $router = new Router(Configuration::$forumAddress, '@');
 $router->namespace("App\Controllers\WebServices");
