@@ -11,8 +11,6 @@ use App\Boot\ForumConfiguration as Configuration;
 
 Configuration::setMode();
 
-echo (new HeavenMail)->sendMail('lyod.hp@gmail.com', 'lyod.hp', 'Bem vindo ao HeavenCommunity!', 'registerEmail');
-
 $router = new Router(Configuration::$forumAddress, '@');
 $router->namespace("App\Controllers\WebServices");
 
@@ -25,6 +23,7 @@ if (Configuration::$forumMaintenance) {
     $router->namespace("App\Controllers\Apis");
 
     $router->post("/register", "UserController@store", "User.Store");
+    $router->get("/account/verify/{token}", "UserController@verifyAccount", "User.VerifyAccount");
 }
 
 $router->dispatch();

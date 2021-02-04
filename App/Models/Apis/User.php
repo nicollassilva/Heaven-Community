@@ -91,6 +91,7 @@ class User extends BaseApiModel {
 
     public function register(Array $data)
     {
+        $token = $this->aleatoryToken(30);
         $newUser = (new User())
             ->request([
                 'username' => strip_tags(htmlspecialchars(trim($data['username']))),
@@ -100,7 +101,7 @@ class User extends BaseApiModel {
                 'register_time' => time(),
                 'last_time' => time(),
                 'ip_register' => $this->getAdressIP(),
-                'token_forgout' => $this->aleatoryToken(30),
+                'token_forgout' => $token,
                 'uuid' => Uuid::uuid1()->toString(),
                 'facebook' => strip_tags(htmlspecialchars(trim($data['facebook']))),
                 'discord' => strip_tags(htmlspecialchars(trim($data['discord']))),
@@ -109,7 +110,7 @@ class User extends BaseApiModel {
                 'twitter' => strip_tags(htmlspecialchars(trim($data['twitter']))),
             ])->create();
 
-        return $newUser;
+        return $newUser ? $token : false;
     }
 
     public function countAllRegistered()

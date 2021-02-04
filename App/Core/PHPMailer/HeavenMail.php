@@ -18,7 +18,7 @@ class HeavenMail {
 
     function __construct()
     {
-        $this->modeDevelopment = ForumConfiguration::$forumMode == 'development' ? true : false;
+        $this->modeDevelopment = ForumConfiguration::$forumMailDebugger;
         $this->mail = new PHPMailer();
         $this->delegateSettings();
     }
@@ -57,19 +57,13 @@ class HeavenMail {
             $this->mail->Port        = $this->serverSettings['port'];
             $this->mail->SMTPSecure  = PHPMailer::ENCRYPTION_STARTTLS;
             $this->mail->SMTPAuth    = true;
-            // $this->mail->SMTPOptions = array(
-            //     'ssl' => array(
-            //         'verify_peer' => false,
-            //         'verify_peer_name' => false,
-            //         'allow_self_signed' => true
-            //     )
-            // );
+
             $this->mail->Username    = $this->serverSettings['from_address'];
             $this->mail->Password    = $this->serverSettings['password'];
-            $this->mail->Charset     = 'UTF-8';
+            $this->mail->CharSet     = 'UTF-8';
 
             $this->mail->isHTML(true);
-            $this->mail->Subject     = $this->subject;
+            $this->mail->Subject     = utf8_encode($this->subject);
             $this->mail->msgHTML($this->bodyMail);
             $this->mail->AltBody     = $this->altBody;
 
@@ -88,10 +82,10 @@ class HeavenMail {
      * @param string $bodyFile
      * @param string $titleEndBody
      */
-    public function sendMail(String $toEmail, String $toUsername, String $titleMail, String $bodyFile, String $titleEndBody = ''): Bool
+    public function sendMail(String $toEmail, String $toUsername, String $titleMail, String $bodyFile, ?Array $variables = null, String $titleEndBody = ''): Bool
     {
         $this->subject = $titleMail;
-        $this->bodyMail = @file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $bodyFile . '.html');
+        $this->bodyMail = $this->renderHtmlFile($bodyFile, $variables);
         $this->altBody = $titleEndBody;
         if (!$this->bodyMail) {
             return false;
@@ -104,6 +98,27 @@ class HeavenMail {
             } catch(Exception $e) {
                 return false;
             }
+        }
+    }
+
+    /**
+     * @param string $bodyFile
+     * @param array $data
+     */
+    public function renderHtmlFile(String $bodyFile, ?Array $data = null)
+    {
+        $completePath =__DIR__ . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $bodyFile . '.html';
+        if (file_exists($completePath)) {
+            $renderedHTML = @file_get_contents($completePath);
+            if (is_array($data)) {
+                foreach($data as $variable => $value) {
+                    $renderedHTML = str_replace('%' . $variable . '%', $value, $renderedHTML);
+                }
+            }
+
+            return $renderedHTML;
+        } else {
+            return false;
         }
     }
 }

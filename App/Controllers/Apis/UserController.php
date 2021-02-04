@@ -2,19 +2,24 @@
 
 namespace App\Controllers\Apis;
 
+use App\Boot\ForumConfiguration;
 use App\Controllers\_interfaces\WebApisControllerInterface;
+use App\Core\PHPMailer\HeavenMail;
 use App\Core\Utils\BaseApiController;
 use App\Languages\GetLanguage;
 use App\Models\Apis\User;
+use PHPMailer\PHPMailer\Exception;
 
 class UserController extends BaseApiController implements WebApisControllerInterface {
     protected $model;
     protected $router;
+    protected $mailSystem;
 
     function __construct(Object $router)
     {
         $this->model = new User();
         $this->router = $router;
+        $this->mailSystem = new HeavenMail;
     }
 
     public function store(Array $data)
@@ -39,7 +44,25 @@ class UserController extends BaseApiController implements WebApisControllerInter
         $newUser = $this->model->register($response);
 
         if($newUser) {
-            return $this->response(GetLanguage::get('registered_success'), "success", "/me/profile");
+            try{
+                $user = trim(strip_tags(htmlspecialchars($response['username'])));
+                $email = trim($response['email']);
+                
+                $this->mailSystem->sendMail(
+                    $email,
+                    $user,
+                    GetLanguage::get('register_text_email_sent'),
+                    'registerEmail',
+                    [
+                        'toName' => $user,
+                        'article' => GetLanguage::get('register_text_email_sent'),
+                        'urlVerify' => $this->router->route("User.VerifyAccount", ["token" => $newUser])
+                    ]
+                );
+            } catch(Exception $e) {}
+            
+
+            return $this->response(GetLanguage::get('registered_success'), "success", "/account/profile");
         } else {
             return $this->response("Error Code R01");
         }

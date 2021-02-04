@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+<?php
+
+    use App\Boot\ForumConfiguration;
+    use App\Languages\GetLanguage;
+
+?>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
     xmlns:o="urn:schemas-microsoft-com:office:office">
 
@@ -286,7 +291,7 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
                                 <td class="logo" style="text-align: center;">
-                                    <h1><a href="#" target="_blank">HeavenCommunity</a></h1>
+                                    <h1><a href="#"><?php echo ForumConfiguration::$forumName ?></a></h1>
                                 </td>
                             </tr>
                         </table>
@@ -298,7 +303,7 @@
                             <tr>
                                 <td style="padding: 0 2.5em; text-align: center; padding-bottom: 3em;">
                                     <div class="text">
-                                        <h2>%article%</h2>
+                                        <h2><?php echo GetLanguage::get('register_text_email_sent') ?></h2>
                                     </div>
                                 </td>
                             </tr>
@@ -308,8 +313,8 @@
                                         <img src="https://i.pinimg.com/originals/be/2d/30/be2d307e7f0004d3b014ee1120756a93.png" alt=""
                                             style="width: 150px; height: 150px; margin: auto; display: block; background-position: center; background-size: cover">
                                         <h3 class="name">%toName%</h3>
-                                        <span class="position">Member</span>
-                                        <p><a href="%urlVerify%" class="btn btn-primary">Verify my account</a></p>
+                                        <span class="position"><?php echo GetLanguage::get('default_member_role') ?></span>
+                                        <p><a href="#" class="btn btn-primary"><?php echo GetLanguage::get('register_text_email_button_verify_account') ?></a></p>
                                     </div>
                                 </td>
                             </tr>
@@ -322,8 +327,8 @@
                 style="margin: auto;">
                 <tr>
                     <td class="bg_light" style="text-align: center;">
-                        <p>Don't you know the source of this email or does it seem strange to you? You can <a target="_blank" href="#"
-                                style="color: rgba(0,0,0,.8);">Unsubscribe here</a></p>
+                        <p><?php echo GetLanguage::get('register_text_email_strange_source') ?> <a href="#"
+                                style="color: rgba(0,0,0,.8);"><?php echo GetLanguage::get('register_text_email_strange_source_link') ?></a></p>
                     </td>
                 </tr>
             </table>

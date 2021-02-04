@@ -15,6 +15,8 @@ abstract class ForumConfiguration {
 
     public static $forumEnvironments = ['development', 'production'];
     public static $forumMode = 'development';
+    
+    public static $forumMailDebugger = false;
     public static $forumMaintenance = false;
     
     public static $uploadFolder = 'uploads/';

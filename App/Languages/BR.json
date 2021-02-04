@@ -53,5 +53,6 @@
     "user_already_registered": "Esse usuário ou e-mail já foi cadastrado",
     "user_banned_by_ip": "Você foi BANIDO POR IP e NÃO PODE criar uma nova conta.",
     "register_max_account_by_ip": "Você já atingiu o máximo de contas permitidas.",
-    "registered_success": "Cadastro efetuado com sucesso!"
+    "registered_success": "Cadastro efetuado com sucesso!",
+    "register_text_email_sent": "Obrigado por se registrar no nosso fórum!"
 }
