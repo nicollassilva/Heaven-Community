@@ -1,8 +1,11 @@
 {
-  "name": "nicollassilva/mittelorm",
-  "description": "\u0016MittelPHP is an ORM that works with ActiveRecord to help communicate with your database.",
+  "name": "nicollassilva/heavencommunity",
+  "description": "A modern and secure CMS for creating discussion forums. Fully editable and supports multi-languages.",
   "keywords": [
-    "MittelPHP",
+    "HeavenCommunity",
+    "Forum",
+    "DevOps",
+    "PHP",
     "CRUD",
     "PHPCRUD",
     "CRUDPHP",
@@ -31,7 +34,8 @@
     "nicollassilva/simplephp": "^v1.9.0",
     "vlucas/phpdotenv": "5.2.x-dev",
     "ramsey/uuid": "4.x-dev",
-    "coffeecode/router": "^1.0.7"
+    "coffeecode/router": "^1.0.7",
+    "wixel/gump": "1.11"
   },
   "autoload": {
     "psr-4": {

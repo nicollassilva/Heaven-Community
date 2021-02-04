@@ -10,9 +10,21 @@ use App\{
 
 class BaseApiModel extends BaseModel {
     protected $uploadTypes = [
-        'profiles'
+        'arts', 'profiles'
     ];
     protected $baseToUpload = "../Public/";
+
+    /**
+     * @param string $tableName
+     * @param string $primaryKey
+     */
+    public function __construct(String $tableName, String $primaryKey)
+    {
+        if(empty($tableName) || empty($primaryKey))
+            return;
+
+        parent::__construct($tableName, $primaryKey);
+    }
 
     /**
      * @param string $typeUpload

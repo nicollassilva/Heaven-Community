@@ -8,8 +8,6 @@ use App\Models\WebServices\Categories\Primary;
 use App\Models\WebServices\Categories\Secondary;
 
 class WebController extends BaseApiController implements WebServicesControllerInterface {
-    protected $router;
-    protected $repository;
 
     public function index()
     {

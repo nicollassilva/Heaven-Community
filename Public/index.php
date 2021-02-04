@@ -18,6 +18,10 @@ if (Configuration::$forumMaintenance) {
 } else {
     $router->get("/", "WebController@index", "Web.index");
     $router->get("/register", "WebController@register", "Web.Register");
+
+    $router->namespace("App\Controllers\Apis");
+
+    $router->post("/register", "UserController@store", "User.Store");
 }
 
 $router->dispatch();

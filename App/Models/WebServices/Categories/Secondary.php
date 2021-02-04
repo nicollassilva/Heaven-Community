@@ -3,16 +3,13 @@
 namespace App\Models\WebServices\Categories;
 
 use App\Core\Utils\BaseApiModel;
-use SimplePHP\Model\SimplePHP;
 
-class Secondary extends SimplePHP {
-    protected $table = 'categories_secondary',
-              $core;
+class Secondary extends BaseApiModel {
+    protected $table = 'categories_secondary';
 
     function __construct()
     {
-        parent::__construct();
-        $this->core = new BaseApiModel;
+        parent::__construct('categories_secondary', 'id');
     }
 
     public function show(Int $id)

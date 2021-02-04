@@ -3,6 +3,7 @@
 namespace App\Core\Utils;
 
 use App\Core\Utils\BaseController;
+use App\Languages\GetLanguage;
 
 class BaseApiController extends BaseController {
     protected $messageTypes = ['warning', 'success', 'error'];
@@ -16,7 +17,7 @@ class BaseApiController extends BaseController {
     public function response(String $response, String $typeMessage = 'error', String $href = "", Array $data = [])
     {
         if(in_array($typeMessage, $this->messageTypes)) {
-            $title = $typeMessage === 'error' ? 'Oops...' : ($typeMessage === 'warning' ? 'Hey...' : 'Yeah!');
+            $title = $typeMessage === 'error' ? GetLanguage::get('notification_title_error') : ($typeMessage === 'warning' ? GetLanguage::get('notification_title_warning') : GetLanguage::get('notification_title_success'));
         } else {
             $typeMessage = 'error';
             $title = 'Oops...';

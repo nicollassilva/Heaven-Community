@@ -2,7 +2,20 @@
 
 namespace App\Core\Utils;
 
-class BaseModel {
+use SimplePHP\Model\SimplePHP;
+
+class BaseModel extends SimplePHP {
+    /**
+     * @param string $tableName
+     * @param string $primaryKey
+     */
+    public function __construct(String $tableName, String $primaryKey)
+    {
+        if(empty($tableName) || empty($primaryKey))
+            return;
+
+        parent::__construct($tableName, $primaryKey);
+    }
 
     public function antiSqlInjection(Array $words)
     {

@@ -3,18 +3,19 @@
 use App\Boot\ForumConfiguration;
 use App\Languages\GetLanguage;
 
-$heavenTitle = 'Faça seu registro agora!';
-$heavenDescription = 'Registre-se agora no ' . ForumConfiguration::$forumName . ' e obtenha diversos conteúdos grátis e fácil!';
-$heavenBreadcrumb = ['Registro', 'Aceitar os Termos e Condições'];
-include "includes/header.php";
+    $heavenTitle = 'Faça seu registro agora!';
+    $heavenDescription = 'Registre-se agora no ' . ForumConfiguration::$forumName . ' e obtenha diversos conteúdos grátis e fácil!';
+    $heavenBreadcrumb = ['Registro', 'Criar minha conta'];
+    include "includes/header.php";
 ?>
 <div class="container">
     <div class="general-box register-box bg-white">
         <span class="title"><?php echo GetLanguage::get('register_text_first_call') ?></span>
         <p class="text-muted"><?php echo GetLanguage::get('register_text_required_fields') ?></p>
+        <p class="text-muted"><?php echo GetLanguage::get('register_text_required_fields') ?></p>
         <div class="row">
             <div class="col col-7">
-                <form action="" method="post" class="col-12" autocomplete="off">
+                <form action="/register" method="post" class="col-12" autocomplete="off">
                     <div class="row col-12">
                         <div class="col col-6">
                             <div class="form-group">
@@ -55,18 +56,18 @@ include "includes/header.php";
                     <div class="row col-12">
                         <div class="col col-6">
                             <div class="form-group">
-                                <select class="custom-select custom-select-sm">
+                                <select class="custom-select custom-select-sm" name="gender">
                                     <option selected>* <?php echo GetLanguage::get('register_text_choise_genders') ?></option>
-                                    <option value="1"><?php echo GetLanguage::get('register_text_gender_male') ?></option>
-                                    <option value="2"><?php echo GetLanguage::get('register_text_choise_female') ?></option>
-                                    <option value="3"><?php echo GetLanguage::get('register_text_choise_undefined') ?></option>
+                                    <option value="M"><?php echo GetLanguage::get('register_text_gender_male') ?></option>
+                                    <option value="F"><?php echo GetLanguage::get('register_text_choise_female') ?></option>
+                                    <option value="U"><?php echo GetLanguage::get('register_text_choise_undefined') ?></option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <select class="custom-select custom-select-sm">
+                                <select class="custom-select custom-select-sm" name="terms">
                                     <option selected>* <?php echo GetLanguage::get('register_text_choise_terms') ?></option>
-                                    <option value="1"><?php echo GetLanguage::get('register_text_agree_terms') ?></option>
-                                    <option value="2"><?php echo GetLanguage::get('register_text_disagree_terms') ?></option>
+                                    <option value="Y"><?php echo GetLanguage::get('register_text_agree_terms') ?></option>
+                                    <option value="N"><?php echo GetLanguage::get('register_text_disagree_terms') ?></option>
                                 </select>
                             </div>
                         </div>

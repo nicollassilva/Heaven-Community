@@ -696,6 +696,9 @@ footer .logo { height: 200px; margin-top: 0; }
 
 .register-box {
     padding: 10px 20px;
+    height: 550px;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, .100);
+    border: 1px solid rgba(0, 0, 0, .100);
 }
 
 .register-box span.title {
