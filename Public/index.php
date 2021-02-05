@@ -6,10 +6,13 @@
     require dirname(__DIR__, 1) . "/vendor/autoload.php";
 
 use CoffeeCode\Router\Router;
-use App\Core\PHPMailer\HeavenMail;
 use App\Boot\ForumConfiguration as Configuration;
+use App\Models\Apis\User;
 
 Configuration::setMode();
+
+$user = new User;
+$user->userLogged();
 
 $router = new Router(Configuration::$forumAddress, '@');
 $router->namespace("App\Controllers\WebServices");
@@ -23,6 +26,7 @@ if (Configuration::$forumMaintenance) {
     $router->namespace("App\Controllers\Apis");
 
     $router->post("/register", "UserController@store", "User.Store");
+    $router->post("/login", "UserController@login", "User.Login");
     $router->get("/account/verify/{token}", "UserController@verifyAccount", "User.VerifyAccount");
 }
 

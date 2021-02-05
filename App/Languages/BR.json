@@ -17,7 +17,7 @@
     "register_text_first_call": "Crie sua conta",
     "register_text_question_email": "Porque querem meu e-mail?",
     "register_text_response_email": "Usamos seu e-mail para confirmar sua conta e, eventual esquecimento da sua senha.",
-    "register_text_required_fields": "Os campos marcados com asteríscos são obrigatórios. LEIA OS TERMOS E CONDIÇÕES AO LADO ANTES DE EFETUAR O REGISTRO!",
+    "register_text_required_fields": "* Os campos marcados com asteríscos são obrigatórios. <br /><br />LEIA OS TERMOS E CONDIÇÕES AO LADO ANTES DE EFETUAR O REGISTRO!",
     "register_text_field_username": "Nome de usuário",
     "register_text_field_email": "Endereço de e-mail",
     "register_text_field_password": "Sua senha",
@@ -35,6 +35,7 @@
     "register_text_agree_terms": "Confirmo ter lido e estou de acordo com os Termos & Condições citados ao lado.",
     "register_text_disagree_terms": "Não aceito os termos.",
     "register_text_button_register": "Cadastrar agora",
+    "register_text_not_accept_terms": "Você precisa estar de acordo com os termos e condições para cadastrar.",
     "validation_field_username_required": "O nome de usuário é obrigatório",
     "validation_field_username_minlen": "O nome do usuário precisa ter no mínimo 4 caracteres",
     "validation_field_username_maxlen": "O nome do usuário precisa ter no máximo 100 caracteres",
@@ -54,5 +55,12 @@
     "user_banned_by_ip": "Você foi BANIDO POR IP e NÃO PODE criar uma nova conta.",
     "register_max_account_by_ip": "Você já atingiu o máximo de contas permitidas.",
     "registered_success": "Cadastro efetuado com sucesso!",
-    "register_text_email_sent": "Obrigado por se registrar no nosso fórum!"
+    "register_text_email_sent": "Obrigado por se registrar no nosso fórum!",
+    "automatic_checkbox_login_label": "Login automático",
+    "button_enter": "Entrar",
+    "login_text_span_one": "Entre no",
+    "login_text_span_two": "Faça login agora",
+    "login_account_no_exists": "Nome de usuário não registrado",
+    "incorrect_password": "Senha inválida",
+    "login_text_welcome_back": "Seja bem-vindo novamente!"
 }

@@ -11,10 +11,20 @@ use App\Models\Apis\User;
 use PHPMailer\PHPMailer\Exception;
 
 class UserController extends BaseApiController implements WebApisControllerInterface {
+
+    /** @var object */
     protected $model;
+
+    /** @var object */
     protected $router;
+
+    /** @var object */
     protected $mailSystem;
 
+    /**
+     * @param object $router
+     * @return void
+     */
     function __construct(Object $router)
     {
         $this->model = new User();
@@ -22,6 +32,10 @@ class UserController extends BaseApiController implements WebApisControllerInter
         $this->mailSystem = new HeavenMail;
     }
 
+    /**
+     * @param array $data
+     * @return string
+     */
     public function store(Array $data)
     {
         $response = $this->model->antiSqlInjection($data);
@@ -40,6 +54,9 @@ class UserController extends BaseApiController implements WebApisControllerInter
 
         if($limitAccount)
             return $this->response(GetLanguage::get('register_max_account_by_ip'));
+
+        if($data['terms'] === 'N')
+            return $this->response(GetLanguage::get('register_text_not_accept_terms'));
 
         $newUser = $this->model->register($response);
 
@@ -65,6 +82,41 @@ class UserController extends BaseApiController implements WebApisControllerInter
             return $this->response(GetLanguage::get('registered_success'), "success", "/account/profile");
         } else {
             return $this->response("Error Code R01");
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return string
+     */
+    public function login(Array $data)
+    {
+        $response = $this->model->antiSqlInjection($data);
+        $validate = $this->model->validateLogin($response);
+            if(is_array($validate)) return $this->response($validate[0]);
+
+        $ipBan = $this->model->findBanByIp();
+        
+        if($ipBan)
+            return $this->response(GetLanguage::get('user_banned_by_ip'));
+
+        $username = trim(htmlspecialchars(strip_tags($response['username'])));
+        $user = $this->model->getUserByUsername($username);
+
+        if(!is_array($user))
+            return $this->response(GetLanguage::get('login_account_no_exists'));
+
+        if(!password_verify($response['password'], $user['password'])) {
+            return $this->response(GetLanguage::get('incorrect_password'));
+        } else {
+            $_SESSION['user_uuid'] = $user['uuid'];
+            $this->model->updateLogin($user['id']);
+
+            if(isset($response['autoLogin']) && $response['autoLogin'] == 'on') {
+                setcookie('heaven_user_cookie_uuid', $user['uuid'], time() + 604800, "/");
+            }
+
+            return $this->response(GetLanguage::get('login_text_welcome_back'), "success", "/");
         }
     }
 

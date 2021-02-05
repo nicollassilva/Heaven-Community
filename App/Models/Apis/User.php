@@ -97,10 +97,12 @@ class User extends BaseApiModel {
                 'username' => strip_tags(htmlspecialchars(trim($data['username']))),
                 'password' => trim($this->hashFormat($data['password'])),
                 'email' => trim(htmlspecialchars($data['email'])),
+                'gender' => trim(htmlspecialchars(strip_tags($data['gender']))),
                 'url' => random_int(0, 1000000),
                 'register_time' => time(),
                 'last_time' => time(),
                 'ip_register' => $this->getAdressIP(),
+                'ip_last' => $this->getAdressIP(),
                 'token_forgout' => $token,
                 'uuid' => Uuid::uuid1()->toString(),
                 'facebook' => strip_tags(htmlspecialchars(trim($data['facebook']))),
@@ -124,5 +126,98 @@ class User extends BaseApiModel {
         }
 
         return $_SESSION['allRegistered'] ?? $all;
+    }
+
+    public function validateLogin(Array $filters)
+    {
+        $validation = \GUMP::is_valid($filters, [
+            'username' => 'required|min_len,4|max_len,100|regex,/^([À-üA-Za-z\.:_\-0-9\!\@]+)$/',
+            'password' => 'required|min_len,6|max_len,100'
+        ], [
+            'username' => [
+                'required' => GetLanguage::get("validation_field_username_required"),
+                'min_len' => GetLanguage::get("validation_field_username_minlen"),
+                'max_len' => GetLanguage::get("validation_field_username_maxlen"),
+                'regex' => GetLanguage::get("validation_field_username_regex")
+            ],
+            'password' => [
+                'required' => GetLanguage::get("validation_field_password_required"),
+                'min_len' => GetLanguage::get("validation_field_password_minlen"),
+                'max_len' => GetLanguage::get("validation_field_password_maxlen")
+            ]
+        ]);
+
+        return $validation;
+    }
+
+    public function getUserByUsername(String $username)
+    {
+        return $this->
+            where([['username', '=', $username]])
+            ->except(['token_forgout'])
+            ->limit(1)
+            ->execute();
+    }
+
+    public function updateLogin(Int $id)
+    {
+        $user = (new User)->find($id)->execute(true);
+        if($user) {
+            $user->last_time = time();
+            $user->ip_last = $this->getAdressIP();
+            $user->save();
+        }
+
+        return $this;
+    }
+
+    public function userLogged()
+    {
+        $uuidCookie = isset($_COOKIE['heaven_user_cookie_uuid']) ? $_COOKIE['heaven_user_cookie_uuid'] : null;
+        $uuidSession = isset($_SESSION['user_uuid']) ? $_SESSION['user_uuid'] : null;
+
+        if ($uuidSession !== null) {
+            $user = $this->where([
+                ['uuid', '=', $uuidSession],
+                ['ip_last', '=', $this->getAdressIP()]
+            ])->limit(1)->except(['password'])->execute();
+
+            if (is_array($user)) {
+                unset($_SESSION['user_uuid']);
+                $_SESSION['userHeavenLogged'] = $user;
+
+                return true;
+            }
+        } else {
+            if (isset($_SESSION['userHeavenLogged'])) {
+                return true;
+            } else {
+                if ($uuidCookie !== null) {
+                    $user = $this->where([
+                        ['uuid', '=', strip_tags(trim(htmlspecialchars($uuidCookie)))],
+                        ['ip_last', '=', $this->getAdressIP()]
+                    ])->except(['password'])->limit(1)->execute();
+                    if (is_array($user)) {
+                        unset($_SESSION['user_uuid']);
+                        $_SESSION['userHeavenLogged'] = $user;
+                        
+                        return true;
+                    } else {
+                        if(isset($_COOKIE['pixelfeed_user_uuid']))
+                            setcookie('pixelfeed_user_uuid', null, -1, "/");
+                            
+                        session_destroy();
+                        return false;
+                    }
+                } else {
+                    if(isset($_COOKIE['pixelfeed_user_uuid']))
+                        setcookie('pixelfeed_user_uuid', null, -1, "/");
+
+                    unset($_SESSION['user_uuid']);
+                    unset($_SESSION['userHeavenLogged']);
+                    return false;
+                }
+            }
+        }
     }
 }

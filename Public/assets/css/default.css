@@ -159,6 +159,129 @@ header .login-container .actions a {
     font-size: 13px;
 }
 
+header .logged-box {
+    width: 350px;
+    height: 405px;
+    margin-right: 20px;
+    background-color: var(--background);
+    border-radius: 5px;
+    float: right;
+    padding: 10px;
+}
+
+header .logged-box .box-me {
+    width: 100%;
+    height: 60px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, .05);
+    padding: 10px;
+}
+
+header .logged-box .box-me a.menuLogged {
+    width: 60px;
+    height: 40px;
+    float: left;
+    text-decoration: none;
+    color: #555;
+    border-right: 1px solid #eee;
+    cursor: pointer;
+}
+
+header .logged-box .box-me a.menuLogged span { font-size: 10px; }
+
+header .logged-box .box-me a.menuLogged:hover { color: var(--strong-color) }
+
+header .logged-box .box-me .dropdown {
+    width: calc(100% - 120px);
+    float: right;
+    height: 40px;
+    position: relative;
+    padding-left: 10px;
+}
+
+header .logged-box .box-me .dropdown .me,
+header .logged-box .box-me .dropdown .messages {
+    width: calc(100% - 50px);
+    max-width: calc(100% - 50px);
+    float: left;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--default-text);
+}
+
+header .logged-box .box-me .dropdown .messages { font-weight: 400; font-size: 12px; }
+header .logged-box .box-me .dropdown .me i { font-size: 12px; }
+
+header .logged-box .box-me .dropdown .avatar {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0px;
+    right: 2.5px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+header .logged-box .box-me .dropdown.active .avatar {
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 50px;
+    height: 50px;
+    right: -5px;
+}
+
+header .logged-box .box-me .dropdown .drop {
+    width: 200px;
+    padding-bottom: 2px;
+    position: absolute;
+    top: 50px;
+    right: -10px;
+    display: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: white;
+    border: 1px solid #ddd;
+}
+
+header .logged-box .box-me .dropdown .drop .name {
+    width: 100%;
+    height: 50px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #ddd;
+    font-weight: 600;
+    color: #aaa;
+    font-size: 14px;
+    padding: 7.5px 15px;
+    justify-content: flex-start;
+}
+
+header .logged-box .box-me .dropdown .drop a {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px dashed #f0f0f0;
+    background-color: white;
+    color: #555;
+    font-weight: 400;
+    font-size: 12px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5px 15px;
+    transition: padding-left .3s;
+}
+
+header .logged-box .box-me .dropdown .drop a:nth-child(even) { background-color: #fbfbfb; }
+
+header .logged-box .box-me .dropdown .drop a:last-of-type { height: 50px; color: red; font-weight: 600; }
+
+header .logged-box .box-me .dropdown .drop a:hover { padding-left: 20px; }
+
 header .logo,
 footer .logo {
     width: 300px;

@@ -4,7 +4,8 @@ Community = {
         this.slidesCommunity(),
         this.minimizeCategorie(),
         this.iziToastInit(),
-        this.formsBundle()
+        this.formsBundle(),
+        this.userDropdown()
     },
 
     tooltip() {
@@ -104,6 +105,19 @@ Community = {
                     })
                 }
             })
+        })
+    },
+
+    userDropdown() {
+        $('.logged-box .dropdown').on('click', function() {
+            $(this).toggleClass('active')
+            $(this).find('.drop').slideToggle('fast')
+            let i = $(this).find('.me i')
+            if(i.hasClass('fa-chevron-down')) {
+                i.removeClass('fa-chevron-down').addClass('fa-chevron-up')
+            } else {
+                i.removeClass('fa-chevron-up').addClass('fa-chevron-down')
+            }
         })
     }
 }

@@ -1,9 +1,10 @@
 <?php
 
-use App\{
-    Languages\GetLanguage,
-    Boot\ForumConfiguration
-};
+use App\Languages\GetLanguage;
+use App\Boot\ForumConfiguration;
+use App\Models\Apis\User;
+
+$userModel = new User;
 
 ?>
 <!DOCTYPE html>
@@ -46,7 +47,7 @@ use App\{
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
     <link rel="stylesheet" href="assets/css/default.css">
-    
+
     <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
 </head>
 
@@ -81,35 +82,57 @@ use App\{
                 </div>
             </div>
             <div class="login-container">
-                <div class="login-box">
-                    <span>Entre no <?php echo ForumConfiguration::$forumName ?></span>
-                    <span>Faça login agora</span>
-                    <form action="" method="post" class="form w-100" autocomplete="off">
-                        <div class="form-group">
-                            <input type="text" name="username" id="name" class="form-control" placeholder="Nome de usuário">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Sua senha">
-                        </div>
-                        <div class="row d-flex">
-                            <div class="col col-6">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="autoLogin" name="autoLogin">
-                                    <label class="custom-control-label" for="autoLogin">Login automático</label>
+                <?php if (!isset($_SESSION['userHeavenLogged'])) { ?>
+                    <div class="login-box">
+                        <span><?php echo GetLanguage::get('login_text_span_one') . ' ' . ForumConfiguration::$forumName ?></span>
+                        <span><?php echo GetLanguage::get('login_text_span_two') ?></span>
+                        <form action="/login" method="post" class="form w-100" autocomplete="off" autocomplete="off">
+                            <div class="form-group">
+                                <input type="text" name="username" id="name" class="form-control" placeholder="<?php echo GetLanguage::get('register_text_field_username') ?>">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="<?php echo GetLanguage::get('register_text_field_password') ?>">
+                            </div>
+                            <div class="row d-flex">
+                                <div class="col col-6">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="autoLogin" name="autoLogin">
+                                        <label class="custom-control-label" for="autoLogin"><?php echo GetLanguage::get('automatic_checkbox_login_label') ?></label>
+                                    </div>
+                                </div>
+                                <div class="col col-6">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success col-12 mt-1"><?php echo GetLanguage::get('button_enter') ?> </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col col-6">
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-success col-12 mt-1">Entrar</button>
+                        </form>
+                    </div>
+                    <div class="actions">
+                        <a href="/register" class="btn btn-dark"><i class="fas fa-user-plus"></i> <?php echo GetLanguage::get('login_register') ?></a>
+                        <a class="btn btn-danger"><i class="fas fa-question"></i> <?php echo GetLanguage::get('login_forgot_password') ?></a>
+                    </div>
+                <?php } else { ?>
+                    <div class="logged-box">
+                        <div class="box-me">
+                            <a class="menuLogged" center><i class="far fa-bell"></i></a>
+                            <a class="menuLogged" center><i class="far fa-envelope-open"></i></a>
+                            <div class="dropdown">
+                                <div class="me text-truncate"><?php echo $_SESSION['userHeavenLogged']['username'] ?><i class="fas fa-chevron-down ml-2"></i></div>
+                                <div class="messages"><?php echo $_SESSION['userHeavenLogged']['comments'] ?> mensagens</div>
+                                <div class="avatar" style="background-image: url('/uploads/profiles/<?php echo $_SESSION['userHeavenLogged']['avatar'] ?>')"></div>
+                                <div class="drop">
+                                    <div class="name text-truncate" center><?php echo $_SESSION['userHeavenLogged']['username'] ?></div>
+                                    <a href="">Ver meu perfil</a>
+                                    <a href="">Preferências</a>
+                                    <a href="">Minha Privacidade</a>
+                                    <a href="">Mensagens Privadas</a>
+                                    <a href="">Deslogar</a>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="actions">
-                    <a href="/register" class="btn btn-dark"><i class="fas fa-user-plus"></i> <?php echo GetLanguage::get('login_register') ?></a>
-                    <a class="btn btn-danger"><i class="fas fa-question"></i> <?php echo GetLanguage::get('login_forgot_password') ?></a>
-                </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </header>
@@ -118,9 +141,11 @@ use App\{
             <nav aria-label="breadcrumb" class="breadcrumb-nav">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-                    <?php if(isset($heavenBreadcrumb)) { foreach($heavenBreadcrumb as $breadcrumb) { ?>
-                        <li class="breadcrumb-item active" aria-current="page"><?php echo $breadcrumb ?></li>
-                    <?php }} ?>
+                    <?php if (isset($heavenBreadcrumb)) {
+                        foreach ($heavenBreadcrumb as $breadcrumb) { ?>
+                            <li class="breadcrumb-item active" aria-current="page"><?php echo $breadcrumb ?></li>
+                    <?php }
+                    } ?>
                 </ol>
             </nav>
         </div>

@@ -12,7 +12,6 @@ use App\Languages\GetLanguage;
     <div class="general-box register-box bg-white">
         <span class="title"><?php echo GetLanguage::get('register_text_first_call') ?></span>
         <p class="text-muted"><?php echo GetLanguage::get('register_text_required_fields') ?></p>
-        <p class="text-muted"><?php echo GetLanguage::get('register_text_required_fields') ?></p>
         <div class="row">
             <div class="col col-7">
                 <form action="/register" method="post" class="col-12" autocomplete="off">
