@@ -4,6 +4,7 @@ use App\Languages\GetLanguage;
 use App\Boot\ForumConfiguration;
 use App\Models\Apis\Notification;
 use App\Models\Apis\User;
+use CoffeeCode\Router\Router;
 
 $userModel = new User;
 $notificationModel = new Notification;
@@ -119,7 +120,7 @@ $notifications = $notificationModel->getNotifications();
                 <?php } else { ?>
                     <div class="logged-box">
                         <div class="box-me">
-                            <a class="menuLogged active" center><i class="far fa-bell"></i></a>
+                            <a class="menuLogged active" center><i class="far fa-bell"><?php echo $_SESSION['myNotifications']['c'] > 0 ? '<span class="badge badge-danger">'.$_SESSION['myNotifications']['c'].'</span>' : '' ?></i></a>
                             <a class="menuLogged messages" center><i class="far fa-envelope-open"></i></a>
                             <div class="dropdown">
                                 <div class="me text-truncate"><?php echo $_SESSION['userHeavenLogged']['username'] ?><i class="fas fa-chevron-down ml-2"></i></div>
@@ -127,7 +128,7 @@ $notifications = $notificationModel->getNotifications();
                                 <div class="avatar" style="background-image: url('/uploads/profiles/<?php echo $_SESSION['userHeavenLogged']['avatar'] ?>')"></div>
                                 <div class="drop">
                                     <div class="name text-truncate" center><?php echo $_SESSION['userHeavenLogged']['username'] ?></div>
-                                    <a href=""><?php echo GetLanguage::get('user_logged_menu_text_one') ?></a>
+                                    <a href="<?php echo ForumConfiguration::getRouter('User.Profile', ['handle' => $_SESSION['userHeavenLogged']['url']]) ?>"><?php echo GetLanguage::get('user_logged_menu_text_one') ?></a>
                                     <a href=""><?php echo GetLanguage::get('user_logged_menu_text_two') ?></a>
                                     <a href=""><?php echo GetLanguage::get('user_logged_menu_text_three') ?></a>
                                     <a href=""><?php echo GetLanguage::get('user_logged_menu_text_four') ?></a>

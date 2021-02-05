@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Apis;
 
-use App\Boot\ForumConfiguration;
 use App\Controllers\_interfaces\WebApisControllerInterface;
 use App\Core\PHPMailer\HeavenMail;
 use App\Core\Utils\BaseApiController;
@@ -69,10 +68,16 @@ class UserController extends BaseApiController implements WebApisControllerInter
             try{
                 $user = trim(strip_tags(htmlspecialchars($response['username'])));
                 $email = trim($response['email']);
-                $userId = $this->model->where([['username', '=', $user]])->only(['id'])->execute();
+                $getUserId = (new User)->where([['username', '=', $user]])->only(['id'])->execute();
 
-                if(is_array($userId))
-                    $this->notificationSystem->store((int) $userId['id'], GetLanguage::get('welcome_message_after_register'), $this->router->route("Web.Rules"), 'far fa-hand-peace', '#10ac84');
+                if(is_array($getUserId))
+                    $this->notificationSystem->store(
+                        (int) $getUserId['id'], 
+                        GetLanguage::get('welcome_message_after_register'), 
+                        $this->router->route("Web.Rules"), 
+                        'far fa-hand-peace', 
+                        '#10ac84'
+                    );
 
                 $this->mailSystem->sendMail(
                     $email,
@@ -140,6 +145,31 @@ class UserController extends BaseApiController implements WebApisControllerInter
         }
 
         return $this->response("Error!");
+    }
+
+    public function profile(Array $data)
+    {
+        if(is_numeric($data['handle'])) {
+            $url = (int) $data['handle'];
+            if(isset($_SESSION['userHeavenLogged']) && $url === $_SESSION['userHeavenLogged']['url']) {
+                $user = $_SESSION['userHeavenLogged'];
+            } else {
+                $user = $this->model->where([['url', '=', $url]])->limit(1)->except(['password', 'token_forgout', 'uuid'])->execute();
+            }
+            $model = $this->model;
+            return $this
+                ->view('users/profile', [
+                    'user' => $user,
+                    'isOwner' => isset($_SESSION['userHeavenLogged']) && $user['id'] === $_SESSION['userHeavenLogged']['id'],
+                    'gender' => $this->model->realGender($user['gender']),
+                    'social' => function(?String $social) use ($model) {
+                        return $model->realSocial($social);
+                    }
+                ]);
+        } else {
+            return $this
+                ->view('error');
+        }
     }
 
     public function show()

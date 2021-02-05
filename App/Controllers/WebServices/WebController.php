@@ -8,7 +8,13 @@ use App\Models\WebServices\Categories\Primary;
 use App\Models\WebServices\Categories\Secondary;
 
 class WebController extends BaseApiController implements WebServicesControllerInterface {
-
+    protected $router;
+    
+    function __construct(Object $router)
+    {
+        $this->router = $router;
+    }
+    
     public function index()
     {
         $primaryCategories = new Primary();
@@ -24,7 +30,8 @@ class WebController extends BaseApiController implements WebServicesControllerIn
         }
 
         return $this->view('index',[
-            'primaryCategories' => $allCategories ?? null
+            'primaryCategories' => $allCategories ?? null,
+            'router' => $this->router
         ]);
     }
 
@@ -33,6 +40,11 @@ class WebController extends BaseApiController implements WebServicesControllerIn
         return $this->view('register', [
             'terms' => isset($_POST['terms']) ? true : false
         ]);
+    }
+
+    public function rules()
+    {
+        return $this->view('rules');
     }
 
     public function create()

@@ -1,8 +1,8 @@
 RewriteEngine on
 Options All -Indexes
 
-RewriteCond %{HTTPS} off
+RewriteCond %{HTTPS} on
 RewriteCond %{HTTP_HOST} (www\.)?localhost
-RewriteRule (.*) https://%{HTTP_HOST} [L,R=301]
+RewriteRule (.*) http://%{HTTP_HOST} [L,R=301]
 RewriteCond %{REQUEST_URI} !Public/
 RewriteRule (.*) /Public/$1 [L]

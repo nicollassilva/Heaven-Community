@@ -22,6 +22,8 @@ abstract class ForumConfiguration {
     public static $uploadFolder = 'uploads/';
     public static $forumLanguage = 'BR'; // BR, US, FR, IT, ES
 
+    public static $router;
+
     public static function setMode()
     {
         if (!empty(self::$forumMode) && is_string(self::$forumMode) && in_array(self::$forumMode, self::$forumEnvironments)) {
@@ -51,6 +53,20 @@ abstract class ForumConfiguration {
             return $language;
         } else {
             throw new Exception("The configured language file was not found. Check the settings again.");
+        }
+    }
+
+    public static function setRoutes(Object $routes)
+    {
+        self::$router = $routes;
+    }
+
+    public static function getRouter(String $routerName, Array $options = [])
+    {
+        if(is_object(self::$router) && null !== self::$router->route($routerName)) {
+            return self::$router->route($routerName, $options);
+        } else {
+            return null;
         }
     }
 }

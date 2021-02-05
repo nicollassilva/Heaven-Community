@@ -220,4 +220,27 @@ class User extends BaseApiModel {
             }
         }
     }
+
+    public function realGender(String $gender)
+    {
+        switch ($gender) {
+            case 'M':
+                return [ 'text' => GetLanguage::get('register_text_gender_male'), 'icon' => 'fas fa-mars', 'color' => '#29AAE3'];
+                break;
+            case 'F':
+                return [ 'text' => GetLanguage::get('register_text_choise_female'), 'icon' => 'fas fa-venus', 'color' => '#FEA6D6' ];
+                break;
+            case 'U':
+                return [ 'text' => GetLanguage::get('register_text_choise_undefined'), 'icon' => 'fas fa-neuter', 'color' => '#212121' ];
+                break;
+            default:
+                return [ 'text' => GetLanguage::get('register_text_gender_male'), 'icon' => 'fas fa-mars', 'color' => '#29AAE3'];
+                break;
+        }
+    }
+
+    public function realSocial(?String $social)
+    {
+        return null !== $social ? @preg_replace("/^(https:\/\/|http:\/\/)?(www.)?(.*(\.com\/|\.app\/|\.com\.br\/|\.org\/))/", "", $social) : null;
+    }
 }

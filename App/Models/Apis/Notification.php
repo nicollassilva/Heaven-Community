@@ -54,7 +54,7 @@ class Notification extends BaseApiModel {
     public function store(Int $id, String $text, String $url = '', String $icon = '', String $iconColor = '')
     {
         try {
-            $newNotification = (new Notification)
+            (new Notification)
                 ->request([
                     'user_id' => (int) $id,
                     'text' => $text,

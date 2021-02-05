@@ -19,14 +19,18 @@ $router->namespace("App\Controllers\WebServices");
 
 if (Configuration::$forumMaintenance) {
     $router->get("/", "WebController@maintenance", 'Web.index');
-    $router->get("/rules", "WebController@rules", "Web.Rules");
 } else {
     $router->get("/", "WebController@index", "Web.index");
+    $router->get("/rules", "WebController@rules", "Web.Rules");
+
     if (!$userLogged) {
         $router->get("/register", "WebController@register", "Web.Register");
     }
 
+
     $router->namespace("App\Controllers\Apis");
+
+    $router->get("/profile/{handle}", "UserController@profile", "User.Profile");
 
     if (!$userLogged) {
         $router->post("/register", "UserController@store", "User.Store");
@@ -37,6 +41,7 @@ if (Configuration::$forumMaintenance) {
     }
 }
 
+Configuration::setRoutes($router);
 $router->dispatch();
 
 if ($router->error() && ($_SERVER['REQUEST_METHOD'] !== 'POST')) {
