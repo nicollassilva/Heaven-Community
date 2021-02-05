@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Models\Apis;
+namespace App\Models\Apis\UserUtilities;
 
 use App\Core\Utils\BaseApiModel;
-use App\Languages\GetLanguage;
-use App\Models\WebServices\Web;
 use Exception;
 
 class Notification extends BaseApiModel {

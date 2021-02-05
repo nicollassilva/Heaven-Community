@@ -2,9 +2,8 @@
 
 use App\Languages\GetLanguage;
 use App\Boot\ForumConfiguration;
-use App\Models\Apis\Notification;
+use App\Models\Apis\UserUtilities\Notification;
 use App\Models\Apis\User;
-use CoffeeCode\Router\Router;
 
 $userModel = new User;
 $notificationModel = new Notification;

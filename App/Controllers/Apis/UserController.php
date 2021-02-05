@@ -6,7 +6,8 @@ use App\Controllers\_interfaces\WebApisControllerInterface;
 use App\Core\PHPMailer\HeavenMail;
 use App\Core\Utils\BaseApiController;
 use App\Languages\GetLanguage;
-use App\Models\Apis\Notification;
+use App\Models\Apis\UserUtilities\Activitie;
+use App\Models\Apis\UserUtilities\Notification;
 use App\Models\Apis\User;
 use PHPMailer\PHPMailer\Exception;
 
@@ -24,6 +25,9 @@ class UserController extends BaseApiController implements WebApisControllerInter
     /** @var object */
     protected $notificationSystem;
 
+    /** @var object */
+    protected $activitieSystem;
+
     /**
      * @param object $router
      * @return void
@@ -34,6 +38,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
         $this->router = $router;
         $this->mailSystem = new HeavenMail;
         $this->notificationSystem = new Notification;
+        $this->activitieSystem = new Activitie;
     }
 
     /**
@@ -70,7 +75,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
                 $email = trim($response['email']);
                 $getUserId = (new User)->where([['username', '=', $user]])->only(['id'])->execute();
 
-                if(is_array($getUserId))
+                if(is_array($getUserId)) {
                     $this->notificationSystem->store(
                         (int) $getUserId['id'], 
                         GetLanguage::get('welcome_message_after_register'), 
@@ -78,6 +83,12 @@ class UserController extends BaseApiController implements WebApisControllerInter
                         'far fa-hand-peace', 
                         '#10ac84'
                     );
+
+                    $this->activitieSystem->store(
+                        (int) $getUserId['id'], 
+                        GetLanguage::get('registered_success') . ' ' . GetLanguage::get('register_text_email_sent')
+                    );
+                }
 
                 $this->mailSystem->sendMail(
                     $email,
@@ -156,15 +167,16 @@ class UserController extends BaseApiController implements WebApisControllerInter
             } else {
                 $user = $this->model->where([['url', '=', $url]])->limit(1)->except(['password', 'token_forgout', 'uuid'])->execute();
             }
-            $model = $this->model;
-            return $this
-                ->view('users/profile', [
+            $userActivities = $this->activitieSystem->getActivities($user['id']);
+
+            return $this->view('users/profile', [
                     'user' => $user,
                     'isOwner' => isset($_SESSION['userHeavenLogged']) && $user['id'] === $_SESSION['userHeavenLogged']['id'],
                     'gender' => $this->model->realGender($user['gender']),
-                    'social' => function(?String $social) use ($model) {
-                        return $model->realSocial($social);
-                    }
+                    'social' => function(?String $social) {
+                        return $this->model->realSocial($social);
+                    },
+                    'activities' => $userActivities
                 ]);
         } else {
             return $this

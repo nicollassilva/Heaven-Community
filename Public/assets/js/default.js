@@ -1,4 +1,7 @@
 Community = {
+    url: window.location.pathname,
+    urlArray: window.location.pathname.split('/'),
+
     init() {
         this.tooltip(),
         this.slidesCommunity(),
@@ -6,13 +9,15 @@ Community = {
         this.iziToastInit(),
         this.formsBundle(),
         this.userDropdown(),
-        this.userLogout()
+        this.userLogout(),
+        this.userProfile()
     },
 
     tooltip() {
         $(document).tooltip({
             selector: '[data-toggle="tooltip"]',
-            html: true
+            html: true,
+            boundary: 'window'
         });
         $('[data-toggle="popover"]').popover()
     },
@@ -178,6 +183,32 @@ Community = {
             });
         })
     },
+
+    userProfile() {
+        if(this.urlArray[1] == 'profile') {
+            $(document).on('click', '.profile-box .menuProfile ul li:not(.active)', function() {
+                $('.profile-box .menuProfile ul li').removeClass('active')
+                $(this).addClass('active')
+                let classList = $(this).attr('class').split(/\s+/)
+                switch (classList[0]) {
+                    case 'default':
+                        $('.profile-box .box-page').removeClass('active').hide()
+                        $('.profile-box .box-page.default').addClass('active').show()
+                        break;
+                    case 'friends':
+                        $('.profile-box .box-page').removeClass('active').hide()
+                        $('.profile-box .box-page.friends').addClass('active').show()
+                        break;
+                    case 'topics':
+                        $('.profile-box .box-page').removeClass('active').hide()
+                        $('.profile-box .box-page.topics').addClass('active').show()
+                        break;
+                    default:
+                        break;
+                }
+            })
+        }
+    }
 }
 
 $(document).ready(() => {

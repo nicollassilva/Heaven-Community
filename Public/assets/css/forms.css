@@ -1,12 +1,12 @@
 button.btn { box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.07) }
 
-button.btn.btn-success { background: var(--default-wallpaper), var(--success); }
-button.btn.btn-primary { background: var(--default-wallpaper), var(--primary); }
-button.btn.btn-secondary { background: var(--default-wallpaper), var(--secondary); }
-button.btn.btn-dark { background: var(--default-wallpaper), var(--dark); }
-button.btn.btn-info { background: var(--default-wallpaper), var(--info); }
-button.btn.btn-danger { background: var(--default-wallpaper), var(--danger); }
-button.btn.btn-warning { background: var(--default-wallpaper), var(--warning); }
+*[class*="btn"].btn-success { background: var(--default-wallpaper), var(--success); }
+*[class*="btn"].btn-primary { background: var(--default-wallpaper), var(--primary); }
+*[class*="btn"].btn-secondary { background: var(--default-wallpaper), var(--secondary); }
+*[class*="btn"].btn-dark { background: var(--default-wallpaper), var(--dark); }
+*[class*="btn"].btn-info { background: var(--default-wallpaper), var(--info); }
+*[class*="btn"].btn-danger { background: var(--default-wallpaper), var(--danger); }
+*[class*="btn"].btn-warning { background: var(--default-wallpaper), var(--warning); }
 
 header input.input-search {
     background-color: rgba(0, 0, 0, .1);
