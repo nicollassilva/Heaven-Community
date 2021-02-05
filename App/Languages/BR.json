@@ -62,5 +62,14 @@
     "login_text_span_two": "Faça login agora",
     "login_account_no_exists": "Nome de usuário não registrado",
     "incorrect_password": "Senha inválida",
-    "login_text_welcome_back": "Seja bem-vindo novamente!"
+    "login_text_welcome_back": "Seja bem-vindo novamente!",
+    "user_logged_menu_text_one": "Ver meu perfil",
+    "user_logged_menu_text_two": "Preferências",
+    "user_logged_menu_text_three": "Minha Privacidade",
+    "user_logged_menu_text_four": "Mensagens Privadas",
+    "user_logged_menu_text_five": "Deslogar",
+    "messages": "Mensagens",
+    "welcome_message_after_register": "Seja bem-vindo ao nosso fórum! Leia nossas regras aqui.",
+    "come_back_again": "Volte sempre!",
+    "confirm_logout_user": "Tem certeza que deseja sair?"
 }

@@ -5,7 +5,8 @@ Community = {
         this.minimizeCategorie(),
         this.iziToastInit(),
         this.formsBundle(),
-        this.userDropdown()
+        this.userDropdown(),
+        this.userLogout()
     },
 
     tooltip() {
@@ -119,7 +120,64 @@ Community = {
                 i.removeClass('fa-chevron-up').addClass('fa-chevron-down')
             }
         })
-    }
+
+        $('.logged-box .menuLogged').on('click', function() {
+            $('.logged-box .menuLogged').removeClass('active')
+            $(this).addClass('active')
+            if($(this).hasClass('messages')) {
+                $('.logged-box .notifications .box-notifications:not(.message)').hide()
+                $('.logged-box .notifications .box-notifications.message').show()
+            } else {
+                $('.logged-box .notifications .box-notifications.message').hide()
+                $('.logged-box .notifications .box-notifications:not(.message)').show()
+            }
+        })
+    },
+
+    userLogout: function() {
+        $('.logged-box .box-me .dropdown a:last-of-type').on('click', function() {
+            iziToast.show({
+                theme: 'dark',
+                icon: 'far fa-frown',
+                title: 'Hey',
+                message: $(this).attr('data-confirm'),
+                position: 'bottomCenter',
+                balloon: true,
+                progressBarColor: '#0fbcf9',
+                buttons: [
+                    ['<button class="btn"><i class="far fa-thumbs-up"></i></button>', function (instance, toast) {
+                        $.ajax({
+                            url: "/logout",
+                            type: "POST",
+                            dataType: "JSON",
+                            beforeSend: () => {
+                                $("body").animate({
+                                    opacity: "0.9"
+                                }, 700)
+                            },
+                            success: t => {
+                                setTimeout(() => {
+                                    t.success && (iziToast.show({
+                                        title: t.title,
+                                        progressBarColor: 'rgba(68, 189, 50, 1.0)',
+                                        message: t.msg
+                                    }), setTimeout(() => {
+                                        location.reload()
+                                    }, 2e3))
+                                }, 1e3)
+                            },
+                            error: () => false
+                        })
+                    }, true],
+                    ['<button class="btn"><i class="far fa-thumbs-down"></i>', function (instance, toast) {
+                        instance.hide({
+                            transitionOut: 'fadeOutLeft'
+                        }, toast, 'buttonName');
+                    }]
+                ]
+            });
+        })
+    },
 }
 
 $(document).ready(() => {

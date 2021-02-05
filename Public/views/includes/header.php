@@ -2,9 +2,13 @@
 
 use App\Languages\GetLanguage;
 use App\Boot\ForumConfiguration;
+use App\Models\Apis\Notification;
 use App\Models\Apis\User;
 
 $userModel = new User;
+$notificationModel = new Notification;
+
+$notifications = $notificationModel->getNotifications();
 
 ?>
 <!DOCTYPE html>
@@ -115,20 +119,44 @@ $userModel = new User;
                 <?php } else { ?>
                     <div class="logged-box">
                         <div class="box-me">
-                            <a class="menuLogged" center><i class="far fa-bell"></i></a>
-                            <a class="menuLogged" center><i class="far fa-envelope-open"></i></a>
+                            <a class="menuLogged active" center><i class="far fa-bell"></i></a>
+                            <a class="menuLogged messages" center><i class="far fa-envelope-open"></i></a>
                             <div class="dropdown">
                                 <div class="me text-truncate"><?php echo $_SESSION['userHeavenLogged']['username'] ?><i class="fas fa-chevron-down ml-2"></i></div>
-                                <div class="messages"><?php echo $_SESSION['userHeavenLogged']['comments'] ?> mensagens</div>
+                                <div class="messages"><?php echo $_SESSION['userHeavenLogged']['comments'] . ' ' . GetLanguage::get('messages') ?></div>
                                 <div class="avatar" style="background-image: url('/uploads/profiles/<?php echo $_SESSION['userHeavenLogged']['avatar'] ?>')"></div>
                                 <div class="drop">
                                     <div class="name text-truncate" center><?php echo $_SESSION['userHeavenLogged']['username'] ?></div>
-                                    <a href="">Ver meu perfil</a>
-                                    <a href="">Preferências</a>
-                                    <a href="">Minha Privacidade</a>
-                                    <a href="">Mensagens Privadas</a>
-                                    <a href="">Deslogar</a>
+                                    <a href=""><?php echo GetLanguage::get('user_logged_menu_text_one') ?></a>
+                                    <a href=""><?php echo GetLanguage::get('user_logged_menu_text_two') ?></a>
+                                    <a href=""><?php echo GetLanguage::get('user_logged_menu_text_three') ?></a>
+                                    <a href=""><?php echo GetLanguage::get('user_logged_menu_text_four') ?></a>
+                                    <a data-confirm="<?php echo GetLanguage::get('confirm_logout_user') ?>"><?php echo GetLanguage::get('user_logged_menu_text_five') ?></a>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="notifications">
+                            <div class="box-notifications">
+                                <div class="title" center><i class="fas fa-bell mr-2"></i>Minhas notificações (<?php echo $_SESSION['myNotifications']['c'] ?>)</div>
+                                <ul>
+                                    <?php if(is_array($notifications)) { foreach($notifications as $notification) { ?>
+                                    <a href="<?php echo $notification['url'] ?>">
+                                        <i class="<?php echo $notification['icon'] ?>" style="background-color: <?php echo $notification['iconColor'] ?>"></i>
+                                        <span><?php echo mb_strimwidth($notification['text'], 0, 70, '...') ?></span>
+                                    </a>
+                                    <?php }} ?>
+                                </ul>
+                            </div>
+                            <div class="box-notifications message">
+                                <div class="title" center><i class="fas fa-envelope mr-2"></i>Minhas mensagens (2)</div>
+                                <ul>
+                                    <?php for($i = 0; $i < 15; $i++) { ?>
+                                    <a href="">
+                                        <i class="far fa-envelope"></i>
+                                        <span class="mt-3"><?php echo mb_strimwidth('lyod.hp enviou uma mensagem pra você...', 0, 40, '...') ?></span>
+                                    </a>
+                                    <?php } ?>
+                                </ul>
                             </div>
                         </div>
                     </div>

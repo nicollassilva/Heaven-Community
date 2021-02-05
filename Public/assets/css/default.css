@@ -1,6 +1,11 @@
 @import './forms.css';
 @import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Hanalei&display=swap');
 
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #ddd; }
+::-webkit-scrollbar-thumb:hover { background: #bbb; }
+
 :root {
     --strong-color: #1e88e5;
     --medium-color: #2196f3;
@@ -59,8 +64,13 @@ header {
 }
 
 @keyframes moveBackground {
-    0% { background-position: 0 0; }
-    100% { background-position: -10000px 0; }
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: -10000px 0;
+    }
 }
 
 header .menu {
@@ -167,6 +177,7 @@ header .logged-box {
     border-radius: 5px;
     float: right;
     padding: 10px;
+    position: relative;
 }
 
 header .logged-box .box-me {
@@ -186,11 +197,27 @@ header .logged-box .box-me a.menuLogged {
     color: #555;
     border-right: 1px solid #eee;
     cursor: pointer;
+    position: relative;
 }
 
-header .logged-box .box-me a.menuLogged span { font-size: 10px; }
+header .logged-box .box-me a.menuLogged span {
+    font-size: 10px;
+}
 
-header .logged-box .box-me a.menuLogged:hover { color: var(--strong-color) }
+header .logged-box .box-me a.menuLogged:hover,
+header .logged-box .box-me a.menuLogged.active {
+    color: var(--strong-color)
+}
+
+header .logged-box .box-me a.menuLogged.active::before {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    width: 15px;
+    height: 15px;
+    background-color: white;
+    transform: rotate(45deg);
+}
 
 header .logged-box .box-me .dropdown {
     width: calc(100% - 120px);
@@ -211,8 +238,14 @@ header .logged-box .box-me .dropdown .messages {
     color: var(--default-text);
 }
 
-header .logged-box .box-me .dropdown .messages { font-weight: 400; font-size: 12px; }
-header .logged-box .box-me .dropdown .me i { font-size: 12px; }
+header .logged-box .box-me .dropdown .messages {
+    font-weight: 400;
+    font-size: 12px;
+}
+
+header .logged-box .box-me .dropdown .me i {
+    font-size: 12px;
+}
 
 header .logged-box .box-me .dropdown .avatar {
     width: 40px;
@@ -247,11 +280,12 @@ header .logged-box .box-me .dropdown .drop {
     border-bottom-right-radius: 5px;
     background-color: white;
     border: 1px solid #ddd;
+    z-index: 2;
 }
 
 header .logged-box .box-me .dropdown .drop .name {
     width: 100%;
-    height: 50px;
+    height: 30px;
     background-color: #fafafa;
     border-bottom: 1px solid #ddd;
     font-weight: 600;
@@ -272,15 +306,105 @@ header .logged-box .box-me .dropdown .drop a {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    cursor: pointer;
     padding: 5px 15px;
     transition: padding-left .3s;
 }
 
-header .logged-box .box-me .dropdown .drop a:nth-child(even) { background-color: #fbfbfb; }
+header .logged-box .box-me .dropdown .drop a:nth-child(even) {
+    background-color: #fbfbfb;
+}
 
-header .logged-box .box-me .dropdown .drop a:last-of-type { height: 50px; color: red; font-weight: 600; }
+header .logged-box .box-me .dropdown .drop a:last-of-type {
+    height: 50px;
+    color: red;
+    font-weight: 600;
+}
 
-header .logged-box .box-me .dropdown .drop a:hover { padding-left: 20px; }
+header .logged-box .box-me .dropdown .drop a:hover {
+    padding-left: 20px;
+}
+
+header .logged-box .notifications {
+    width: 330px;
+    height: 310px;
+    position: absolute;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, .05);
+    top: 90px;
+    left: 10px;
+}
+
+header .logged-box .notifications .box-notifications {
+    width: 330px;
+    height: 310px;
+    float: left;
+    position: relative;
+    padding: 5px;
+}
+
+header .logged-box .notifications .box-notifications .title {
+    width: 100%;
+    height: 40px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+header .logged-box .notifications .box-notifications .title i {
+    animation: wobble 2s linear infinite;
+    color: var(--second-strong-color);
+}
+
+header .logged-box .notifications .box-notifications ul {
+    width: 100%;
+    float: left;
+    margin-top: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+header .logged-box .notifications .box-notifications ul::-webkit-scrollbar-thumb { background-color: rgba(0, 0, 0, .1); border-radius: 10px; }
+
+header .logged-box .notifications .box-notifications ul a {
+    width: calc(100% - 5px);
+    float: left;
+    height: 50px;
+    background-color: white;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 8);
+    overflow: hidden;
+}
+
+header .logged-box .notifications .box-notifications ul a:nth-child(even) { background-color: #fafafa; }
+
+header .logged-box .notifications .box-notifications ul a i {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    margin: 10px;
+    float: left;
+    background-color: var(--second-medium-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: white;
+}
+
+header .logged-box .notifications .box-notifications ul a span {
+    width: calc(100% - 50px);
+    height: 30px;
+    float: left;
+    margin-top: 8px;
+}
+
+header .logged-box .notifications .box-notifications ul a:hover {
+    background-color: #f0f0f0;
+}
 
 header .logo,
 footer .logo {
@@ -795,7 +919,9 @@ div.breadcrumb-box {
 }
 
 
-.general-box .general-right-column .partners .swiper-pagination { bottom: 0px; }
+.general-box .general-right-column .partners .swiper-pagination {
+    bottom: 0px;
+}
 
 .swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet {
     background-color: white;
@@ -804,7 +930,10 @@ div.breadcrumb-box {
     opacity: 0.8;
 }
 
-.swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet-active { opacity: 1; background-color: var(--second-strong-color); }
+.swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet-active {
+    opacity: 1;
+    background-color: var(--second-strong-color);
+}
 
 footer {
     width: 100%;
@@ -815,7 +944,10 @@ footer {
     border-top: 5px solid var(--border-default);
 }
 
-footer .logo { height: 200px; margin-top: 0; }
+footer .logo {
+    height: 200px;
+    margin-top: 0;
+}
 
 .register-box {
     padding: 10px 20px;
@@ -833,8 +965,14 @@ footer .logo { height: 200px; margin-top: 0; }
     float: left;
 }
 
-.popover .popover-header { font-size: 14px; }
-.popover .popover-body { font-size: 13px; color: var(--default-text); }
+.popover .popover-header {
+    font-size: 14px;
+}
+
+.popover .popover-body {
+    font-size: 13px;
+    color: var(--default-text);
+}
 
 .register-box .terms {
     background-color: #fafafa;

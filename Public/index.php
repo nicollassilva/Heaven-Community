@@ -12,22 +12,29 @@ use App\Models\Apis\User;
 Configuration::setMode();
 
 $user = new User;
-$user->userLogged();
+$userLogged = $user->userLogged();
 
 $router = new Router(Configuration::$forumAddress, '@');
 $router->namespace("App\Controllers\WebServices");
 
 if (Configuration::$forumMaintenance) {
     $router->get("/", "WebController@maintenance", 'Web.index');
+    $router->get("/rules", "WebController@rules", "Web.Rules");
 } else {
     $router->get("/", "WebController@index", "Web.index");
-    $router->get("/register", "WebController@register", "Web.Register");
+    if (!$userLogged) {
+        $router->get("/register", "WebController@register", "Web.Register");
+    }
 
     $router->namespace("App\Controllers\Apis");
 
-    $router->post("/register", "UserController@store", "User.Store");
-    $router->post("/login", "UserController@login", "User.Login");
-    $router->get("/account/verify/{token}", "UserController@verifyAccount", "User.VerifyAccount");
+    if (!$userLogged) {
+        $router->post("/register", "UserController@store", "User.Store");
+        $router->post("/login", "UserController@login", "User.Login");
+        $router->get("/account/verify/{token}", "UserController@verifyAccount", "User.VerifyAccount");
+    } else {
+        $router->post("/logout", "UserController@logout", "User.Logout");
+    }
 }
 
 $router->dispatch();

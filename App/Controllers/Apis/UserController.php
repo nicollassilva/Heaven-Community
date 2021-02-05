@@ -7,6 +7,7 @@ use App\Controllers\_interfaces\WebApisControllerInterface;
 use App\Core\PHPMailer\HeavenMail;
 use App\Core\Utils\BaseApiController;
 use App\Languages\GetLanguage;
+use App\Models\Apis\Notification;
 use App\Models\Apis\User;
 use PHPMailer\PHPMailer\Exception;
 
@@ -21,6 +22,9 @@ class UserController extends BaseApiController implements WebApisControllerInter
     /** @var object */
     protected $mailSystem;
 
+    /** @var object */
+    protected $notificationSystem;
+
     /**
      * @param object $router
      * @return void
@@ -30,6 +34,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
         $this->model = new User();
         $this->router = $router;
         $this->mailSystem = new HeavenMail;
+        $this->notificationSystem = new Notification;
     }
 
     /**
@@ -64,7 +69,11 @@ class UserController extends BaseApiController implements WebApisControllerInter
             try{
                 $user = trim(strip_tags(htmlspecialchars($response['username'])));
                 $email = trim($response['email']);
-                
+                $userId = $this->model->where([['username', '=', $user]])->only(['id'])->execute();
+
+                if(is_array($userId))
+                    $this->notificationSystem->store((int) $userId['id'], GetLanguage::get('welcome_message_after_register'), $this->router->route("Web.Rules"), 'far fa-hand-peace', '#10ac84');
+
                 $this->mailSystem->sendMail(
                     $email,
                     $user,
@@ -118,6 +127,19 @@ class UserController extends BaseApiController implements WebApisControllerInter
 
             return $this->response(GetLanguage::get('login_text_welcome_back'), "success", "/");
         }
+    }
+
+    public function logout()
+    {
+        if(isset($_SESSION['userHeavenLogged'])) {
+            unset($_SESSION['userHeavenLogged']);
+            unset($_SESSION['myNotifications']);
+            setcookie("heaven_user_cookie_uuid", null, -1, "/");
+
+            return $this->response(GetLanguage::get('come_back_again'), "success");
+        }
+
+        return $this->response("Error!");
     }
 
     public function show()
