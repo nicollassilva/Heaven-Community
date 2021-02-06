@@ -27,8 +27,7 @@ class Friend extends BaseApiModel {
     public function findAndUpdate(Int $id, String $decision)
     {
         $friendRequest = (new Friend)
-            ->find($id)
-            ->where([['status', '=', 'pending']])
+            ->whereRaw("id = '${id}' AND status = 'pending'")
             ->limit(1)
             ->execute(true);
         

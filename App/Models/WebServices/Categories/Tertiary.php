@@ -5,7 +5,6 @@ namespace App\Models\WebServices\Categories;
 use App\Core\Utils\BaseApiModel;
 
 class Tertiary extends BaseApiModel {
-    protected $table = 'categories_tertiary';
 
     function __construct()
     {
@@ -21,6 +20,27 @@ class Tertiary extends BaseApiModel {
             ])
             ->orderBy('name')
             ->execute();
+
+        return $this->fixArray($categories);
+    }
+
+    public function findByUrl(String $url)
+    {
+        $categories = $this->where([
+                ['url', '=', strip_tags($url)],
+                ['visible', '=', 'true']
+            ])->limit(1)
+            ->execute();
+
+        return $this->fixArray($categories);
+    }
+
+    public function findByFather(Int $father)
+    {
+        $categories = $this->where([
+                ['categorie_secondary_id', '=', $father],
+                ['visible', '=', 'true']
+            ])->execute();
 
         return $this->fixArray($categories);
     }

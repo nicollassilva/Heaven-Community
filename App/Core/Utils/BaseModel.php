@@ -17,7 +17,7 @@ class BaseModel extends SimplePHP {
         parent::__construct($tableName, $primaryKey);
     }
 
-    public function antiSqlInjection(Array $words)
+    public function shield(Array $words)
     {
         $filters = [
             "SELECT ", "UNION", "DROP", "TABLE", "FROM",

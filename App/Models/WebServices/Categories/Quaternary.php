@@ -4,11 +4,11 @@ namespace App\Models\WebServices\Categories;
 
 use App\Core\Utils\BaseApiModel;
 
-class Secondary extends BaseApiModel {
+class Quaternary extends BaseApiModel {
 
     function __construct()
     {
-        parent::__construct('categories_secondary', 'id');
+        parent::__construct('categories_quaternary', 'id');
     }
 
     public function show(Int $id)
@@ -16,9 +16,9 @@ class Secondary extends BaseApiModel {
         $categories = $this
             ->where([
                 ['visible', '=', 'true'],
-                ['categorie_primary_id', '=', $id]
+                ['categorie_tertiary_id', '=', $id]
             ])
-            ->orderBy('sequence')
+            ->orderBy('name')
             ->execute();
 
         return $this->fixArray($categories);

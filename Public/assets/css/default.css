@@ -504,11 +504,12 @@ div.breadcrumb-box {
 
 .general-box {
     width: 100%;
-    height: 500px;
+    min-height: 500px;
     background-color: #eee;
     border-radius: 5px;
     margin-top: -40px;
     position: relative;
+    float: left;
     z-index: 2;
     padding: 10px;
 }
@@ -572,9 +573,11 @@ div.breadcrumb-box {
 .general-box .categories-box {
     width: 80%;
     min-height: 500px;
-    float: left;
     position: relative;
+    float: left;
 }
+
+/*.general-box.page-categorie .categories-box { width: 100%; }*/
 
 .general-box .general-categorie {
     width: 100%;
@@ -692,7 +695,7 @@ div.breadcrumb-box {
 
 .general-box .categories-box .sub-categories .subcategorie .sub-categories-cats .statistics {
     width: 100px;
-    height: 100px;
+    height: 45px;
     float: right;
     position: relative;
 }

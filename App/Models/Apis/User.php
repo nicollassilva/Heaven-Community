@@ -171,8 +171,8 @@ class User extends BaseApiModel {
 
     public function getUserByUsername(String $username)
     {
-        return $this->
-            where([['username', '=', $username]])
+        return $this
+            ->where([['username', '=', $username]])
             ->except(['token_forgout'])
             ->limit(1)
             ->execute();

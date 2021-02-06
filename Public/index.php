@@ -25,6 +25,7 @@ if (Configuration::$forumMaintenance) {
      */
     $router->get("/", "WebController@index", "Web.index");
     $router->get("/rules", "WebController@rules", "Web.Rules");
+    $router->get("/categorie/{handle}", "CategoryController@index", "Category.Index");
 
     /**
      * Web Routes for logged in/not logged in users

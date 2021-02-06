@@ -49,7 +49,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
      */
     public function store(Array $data)
     {
-        $response = $this->model->antiSqlInjection($data);
+        $response = $this->model->shield($data);
         $validate = $this->model->validateStore($response);
             if (is_array($validate)) return $this->response($validate[0]);
 
@@ -106,7 +106,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
             } catch(Exception $e) {}
             
 
-            return $this->response(GetLanguage::get('registered_success'), "success", "/account/profile");
+            return $this->response(GetLanguage::get('registered_success'), "success", "/");
         } else {
             return $this->response("Error Code R01");
         }
@@ -118,7 +118,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
      */
     public function login(Array $data)
     {
-        $response = $this->model->antiSqlInjection($data);
+        $response = $this->model->shield($data);
         $validate = $this->model->validateLogin($response);
             if (is_array($validate)) return $this->response($validate[0]);
 
@@ -205,7 +205,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
 
     public function friendRequestsAction(Array $data)
     {
-        $response = $this->model->antiSqlInjection($data);
+        $response = $this->model->shield($data);
         $validate = $this->model->validateFriendRequestAction($response);
 
         if(is_array($validate))
@@ -226,7 +226,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
 
                         $this->notificationSystem->store(
                             $friendRelation['id'],
-                            $_SESSION['userHeavenLogged']['username'] . ' aceitou seu pedido de amizade!',
+                            $_SESSION['userHeavenLogged']['username'] . GetLanguage::get('user_accept_your_friend_request'),
                             $this->router->route('User.Profile', ['handle' => $friendRelation['url']]),
                             'fas fa-plus',
                             '#20bf6b'
