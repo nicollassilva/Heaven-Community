@@ -9,6 +9,7 @@ use App\Languages\GetLanguage;
 use App\Models\Apis\UserUtilities\Activitie;
 use App\Models\Apis\UserUtilities\Notification;
 use App\Models\Apis\User;
+use App\Models\Apis\UserUtilities\Friend;
 use PHPMailer\PHPMailer\Exception;
 
 class UserController extends BaseApiController implements WebApisControllerInterface {
@@ -39,6 +40,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
         $this->mailSystem = new HeavenMail;
         $this->notificationSystem = new Notification;
         $this->activitieSystem = new Activitie;
+        $this->friendSystem = new Friend;
     }
 
     /**
@@ -49,33 +51,33 @@ class UserController extends BaseApiController implements WebApisControllerInter
     {
         $response = $this->model->antiSqlInjection($data);
         $validate = $this->model->validateStore($response);
-            if(is_array($validate)) return $this->response($validate[0]);
+            if (is_array($validate)) return $this->response($validate[0]);
 
         $dataRegistered = $this->model->findRegistered($response['email'], $response['username']);
         $ipBan = $this->model->findBanByIp();
         $limitAccount = $this->model->checkLimitAccountByIp();
 
-        if($dataRegistered)
+        if ($dataRegistered)
             return $this->response(GetLanguage::get('user_already_registered'));
 
-        if($ipBan)
+        if ($ipBan)
             return $this->response(GetLanguage::get('user_banned_by_ip'));
 
-        if($limitAccount)
+        if ($limitAccount)
             return $this->response(GetLanguage::get('register_max_account_by_ip'));
 
-        if($data['terms'] === 'N')
+        if ($data['terms'] === 'N')
             return $this->response(GetLanguage::get('register_text_not_accept_terms'));
 
         $newUser = $this->model->register($response);
 
-        if($newUser) {
+        if ($newUser) {
             try{
                 $user = trim(strip_tags(htmlspecialchars($response['username'])));
                 $email = trim($response['email']);
                 $getUserId = (new User)->where([['username', '=', $user]])->only(['id'])->execute();
 
-                if(is_array($getUserId)) {
+                if (is_array($getUserId)) {
                     $this->notificationSystem->store(
                         (int) $getUserId['id'], 
                         GetLanguage::get('welcome_message_after_register'), 
@@ -118,26 +120,26 @@ class UserController extends BaseApiController implements WebApisControllerInter
     {
         $response = $this->model->antiSqlInjection($data);
         $validate = $this->model->validateLogin($response);
-            if(is_array($validate)) return $this->response($validate[0]);
+            if (is_array($validate)) return $this->response($validate[0]);
 
         $ipBan = $this->model->findBanByIp();
         
-        if($ipBan)
+        if ($ipBan)
             return $this->response(GetLanguage::get('user_banned_by_ip'));
 
         $username = trim(htmlspecialchars(strip_tags($response['username'])));
         $user = $this->model->getUserByUsername($username);
 
-        if(!is_array($user))
+        if (!is_array($user))
             return $this->response(GetLanguage::get('login_account_no_exists'));
 
-        if(!password_verify($response['password'], $user['password'])) {
+        if (!password_verify($response['password'], $user['password'])) {
             return $this->response(GetLanguage::get('incorrect_password'));
         } else {
             $_SESSION['user_uuid'] = $user['uuid'];
             $this->model->updateLogin($user['id']);
 
-            if(isset($response['autoLogin']) && $response['autoLogin'] == 'on') {
+            if (isset($response['autoLogin']) && $response['autoLogin'] == 'on') {
                 setcookie('heaven_user_cookie_uuid', $user['uuid'], time() + 604800, "/");
             }
 
@@ -147,7 +149,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
 
     public function logout()
     {
-        if(isset($_SESSION['userHeavenLogged'])) {
+        if (isset($_SESSION['userHeavenLogged'])) {
             unset($_SESSION['userHeavenLogged']);
             unset($_SESSION['myNotifications']);
             setcookie("heaven_user_cookie_uuid", null, -1, "/");
@@ -162,25 +164,81 @@ class UserController extends BaseApiController implements WebApisControllerInter
     {
         if(is_numeric($data['handle'])) {
             $url = (int) $data['handle'];
-            if(isset($_SESSION['userHeavenLogged']) && $url === $_SESSION['userHeavenLogged']['url']) {
+            $isOwner = isset($_SESSION['userHeavenLogged']) && $data['handle'] === $_SESSION['userHeavenLogged']['url'];
+            if ($isOwner) {
                 $user = $_SESSION['userHeavenLogged'];
+                $friendRequests = $this->friendSystem->getFriendlist($_SESSION['userHeavenLogged']['id'], 100, 'pending');
             } else {
                 $user = $this->model->where([['url', '=', $url]])->limit(1)->except(['password', 'token_forgout', 'uuid'])->execute();
             }
+            
             $userActivities = $this->activitieSystem->getActivities($user['id']);
+            $friends = $this->friendSystem->getFriendlist($user['id'], 500, 'accepted');
 
             return $this->view('users/profile', [
                     'user' => $user,
-                    'isOwner' => isset($_SESSION['userHeavenLogged']) && $user['id'] === $_SESSION['userHeavenLogged']['id'],
+                    'isOwner' => $isOwner,
                     'gender' => $this->model->realGender($user['gender']),
                     'social' => function(?String $social) {
                         return $this->model->realSocial($social);
                     },
-                    'activities' => $userActivities
+                    'activities' => $userActivities,
+                    'friends' => [$friends, is_array($friends) ? count($friends) : 0],
+                    'friendRequests' => $isOwner ? [$friendRequests, is_array($friendRequests) ? count($friendRequests) : 0] : false
                 ]);
         } else {
             return $this
                 ->view('error');
+        }
+    }
+
+    public function friendRequests(Array $data)
+    {
+        if(is_numeric($data['handle']) && $_SESSION['userHeavenLogged']['url'] == $data['handle']) {
+            return $this->view("users/friendRequests", [
+                'requests' => $this->friendSystem->getFriendList($_SESSION['userHeavenLogged']['id'], 100, 'pending')
+            ]);
+        } else {
+            return $this->view("error");
+        }
+    }
+
+    public function friendRequestsAction(Array $data)
+    {
+        $response = $this->model->antiSqlInjection($data);
+        $validate = $this->model->validateFriendRequestAction($response);
+
+        if(is_array($validate))
+            return $this->response($validate[0]);
+
+        if (is_numeric($data['handle']) && $_SESSION['userHeavenLogged']['url'] == $data['handle']) {
+            $id = (int) $data['id'];
+            $decision = htmlentities(trim($response['decision']));
+
+            $friendRelation = $this->friendSystem->findAndUpdate($id, $decision);
+
+            if($friendRelation) {
+                    if($decision === 'Y' && is_array($friendRelation)) {
+                        $this->activitieSystem->store(
+                            $_SESSION['userHeavenLogged']['id'],
+                            GetLanguage::get('user_started_new_friend') . (!is_bool($friendRelation) ? GetLanguage::get('word_with_spaces') . $friendRelation['username'] . '!' : '!')
+                        );
+
+                        $this->notificationSystem->store(
+                            $friendRelation['id'],
+                            $_SESSION['userHeavenLogged']['username'] . ' aceitou seu pedido de amizade!',
+                            $this->router->route('User.Profile', ['handle' => $friendRelation['url']]),
+                            'fas fa-plus',
+                            '#20bf6b'
+                        );
+                    }
+
+                return $this->response(GetLanguage::get('user_request_successful_response'), "success");
+            }
+
+            return $this->response(GetLanguage::get('user_request_badly_response'));
+        } else {
+            return $this->view("error");
         }
     }
 

@@ -1069,7 +1069,8 @@ footer .logo {
 .general-box.profile-box .menuProfile ul li:hover,
 .general-box.profile-box .menuProfile ul li.active { border-bottom: 4px solid var(--strong-color) }
 
-.general-box.profile-box .wallpaper button.edit {
+.general-box.profile-box .wallpaper button.edit,
+.general-box.profile-box .box-page.default .image-welcome button.edit {
     position: absolute;
     bottom: 10px;
     right: 10px;
@@ -1078,7 +1079,7 @@ footer .logo {
     color: #fafafa;
     width: 35px;
     height: 35px;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(255, 255, 255, .3);
 }
 
 .general-box.profile-box .box-page {
@@ -1128,12 +1129,11 @@ footer .logo {
 
 .general-box.profile-box .box-page .last-ativies ul li:nth-child(even) { background-color: #fafafa; }
 
-.general-box.profile-box .box-page .last-ativies:first-of-type ul li { height: 40px; font-size: 13px; }
+.general-box.profile-box .box-page .last-ativies:nth-child(2) ul li { height: 40px; font-size: 13px; }
 
 .general-box.profile-box .box-page.active { height: 440px; visibility: visible; margin: 30px 0 0 0; }
 
 .general-box.profile-box .box-page.friends.active {
-    height: 1200px;
     max-height: 1200px !important;
     overflow-y: auto;
 }
@@ -1218,9 +1218,21 @@ footer .logo {
 .general-box.profile-box .box-page.friends .menuHandle .btn span,
 .general-box.profile-box .box-page.topics .menuHandle .btn span { font-size: 14px; }
 
-.general-box.profile-box .box-page.topics table { font-size: 14px; }
+.general-box.profile-box table { font-size: 14px; }
 
 .general-box.profile-box .box-page.topics {
     max-height: 900px !important;
     overflow-y: auto;
 }
+
+.general-box.profile-box .box-page.default .image-welcome {
+    width: 100%;
+    height: 440px;
+    background-color: var(--second-medium-color);
+    border-radius: 5px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.general-box.profile-box .box-page.default .image-welcome button.edit { top: 10px; }

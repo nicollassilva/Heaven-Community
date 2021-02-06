@@ -10,7 +10,8 @@ Community = {
         this.formsBundle(),
         this.userDropdown(),
         this.userLogout(),
-        this.userProfile()
+        this.userProfile(),
+        this.userFriendRequestsAction()
     },
 
     tooltip() {
@@ -205,6 +206,49 @@ Community = {
                         break;
                     default:
                         break;
+                }
+            })
+        }
+    },
+
+    userFriendRequestsAction() {
+        let thisAwesome = this
+        if(this.urlArray[1] == 'profile' && this.urlArray[3] == 'friendRequests') {
+            $('table.table-hover tbody tr td button').on('click', function() {
+                let button = $(this)
+                if(button.hasClass('accept') || button.hasClass('decline')) {
+                    let tr = button.parent().parent();
+                    let id = Number(tr.find('th[scope="row"]').html())
+
+                    $.ajax({
+                        url: thisAwesome.url,
+                        method: 'POST',
+                        dataType: 'JSON',
+                        data: { id, decision: button.hasClass('accept') ? 'Y' : 'N' },
+                        success: function(response) {
+                            if(response.success) {
+                                tr.fadeOut('fast', function() {
+                                    $(this).remove()
+                                })
+                                iziToast.show({
+                                    title: response.title,
+                                    icon: 'fas fa-check',
+                                    progressBarColor: 'rgba(68, 189, 50, 1.0)',
+                                    message: response.msg
+                                })
+                            } else {
+                                iziToast.show({
+                                    title: response.title,
+                                    icon: 'fas fa-times',
+                                    progressBarColor: 'rgba(255, 94, 87,1.0)',
+                                    message: response.msg
+                                })
+                            }
+                        },
+                        error: a => console.log(a)
+                    })
+                } else {
+                    return false;
                 }
             })
         }

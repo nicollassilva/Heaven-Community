@@ -150,6 +150,25 @@ class User extends BaseApiModel {
         return $validation;
     }
 
+    public function validateFriendRequestAction(Array $filters)
+    {
+        $validation = \GUMP::is_valid($filters, [
+            'id' => 'required|integer',
+            'decision' => 'required|contains,Y;N'
+        ], [
+            'id' => [
+                'required' => GetLanguage::get("validation_field_id_required"),
+                'integer' => GetLanguage::get("validation_field_id_integer")
+            ],
+            'decision' => [
+                'required' => GetLanguage::get("validation_field_password_required"),
+                'contains' => GetLanguage::get("validation_field_decision_contains")
+            ]
+        ]);
+
+        return $validation;
+    }
+
     public function getUserByUsername(String $username)
     {
         return $this->
@@ -242,5 +261,14 @@ class User extends BaseApiModel {
     public function realSocial(?String $social)
     {
         return null !== $social ? @preg_replace("/^(https:\/\/|http:\/\/)?(www.)?(.*(\.com\/|\.app\/|\.com\.br\/|\.org\/))/", "", $social) : null;
+    }
+
+    public function getUserById(Int $id, Array $data)
+    {
+        return $this
+            ->find($id)
+            ->only($data)
+            ->limit(1)
+            ->execute();
     }
 }

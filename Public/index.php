@@ -20,24 +20,38 @@ $router->namespace("App\Controllers\WebServices");
 if (Configuration::$forumMaintenance) {
     $router->get("/", "WebController@maintenance", 'Web.index');
 } else {
+    /**
+     * Web Routes for all users
+     */
     $router->get("/", "WebController@index", "Web.index");
     $router->get("/rules", "WebController@rules", "Web.Rules");
 
+    /**
+     * Web Routes for logged in/not logged in users
+     */
     if (!$userLogged) {
         $router->get("/register", "WebController@register", "Web.Register");
     }
 
-
     $router->namespace("App\Controllers\Apis");
 
+    /**
+     * API Routes for all users
+     */
     $router->get("/profile/{handle}", "UserController@profile", "User.Profile");
 
+    /********************/
+    /**
+     * API Routes for logged in/not logged in users
+     */
     if (!$userLogged) {
         $router->post("/register", "UserController@store", "User.Store");
         $router->post("/login", "UserController@login", "User.Login");
         $router->get("/account/verify/{token}", "UserController@verifyAccount", "User.VerifyAccount");
     } else {
         $router->post("/logout", "UserController@logout", "User.Logout");
+        $router->get('/profile/{handle}/friendRequests', "UserController@friendRequests", "User.FriendRequests");
+        $router->post('/profile/{handle}/friendRequests', "UserController@friendRequestsAction", "User.FriendRequestAction");
     }
 }
 

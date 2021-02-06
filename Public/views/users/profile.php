@@ -1,5 +1,7 @@
 <?php
 
+use App\Boot\ForumConfiguration;
+
 $heavenTitle = 'Perfil de ' . $user['username'];
 $heavenBreadcrumb = ['Usuários', 'Perfil', $user['username']];
 include dirname(__DIR__) . "/includes/header.php";
@@ -23,11 +25,16 @@ include dirname(__DIR__) . "/includes/header.php";
             </div>
             <ul>
                 <li class="default active">Visão Geral</li>
-                <li class="friends">Amigos</li>
+                <li class="friends">Amigos <span class="badge badge-secondary"><?php echo $friends[1] ?></span></li>
                 <li class="topics">Tópicos</li>
             </ul>
         </div>
         <div class="box-page row d-flex default active">
+            <div class="col col-4 image-welcome" style="background-image: url('https://i.pinimg.com/originals/de/f6/96/def69643889ee29e232637646e839064.jpg')">
+            <?php if ($isOwner) { ?>
+                <button class="edit"><i class="fas fa-camera"></i></button>
+            <?php } ?>
+            </div>
             <div class="col col-4 last-ativies">
                 <div class="title"><i class="far fa-user-circle mr-2"></i>Minhas informações</div>
                 <ul>
@@ -44,7 +51,6 @@ include dirname(__DIR__) . "/includes/header.php";
                     <li><i class="fab fa-gitlab text-secondary mr-2"></i> GitLab: <b><?php echo $social($user['gitlab']) ?></b></li>
                 </ul>
             </div>
-            <div class="col col-4">a</div>
             <div class="col col-4 last-ativies">
                 <div class="title"><i class="fas fa-user-clock mr-2"></i>Últimas atividades</div>
                 <ul>
@@ -58,20 +64,20 @@ include dirname(__DIR__) . "/includes/header.php";
                 </ul>
             </div>
         </div>
-        <div class="box-page friends row d-flex">
+        <div class="box-page friends">
             <div class="menuHandle">
-                <div class="btn btn-dark"><?php echo $isOwner ? 'Meus amigos' : 'Amigos de ' . $user['username'] ?><span class="badge badge-secondary ml-2">20</span></div>
+                <div class="btn btn-dark"><?php echo $isOwner ? 'Meus amigos' : 'Amigos de ' . $user['username'] ?><span class="badge badge-secondary ml-2"><?php echo $friends[1] ?></span></div>
                 <?php if ($isOwner) { ?>
-                    <div class="btn btn-success">Pedidos de Amizade <span class="badge badge-light">2</span></div>
+                    <a href="<?php echo ForumConfiguration::getRouter('User.FriendRequests', ['handle' => $user['url']]) ?>" class="btn btn-success">Pedidos de Amizade <span class="badge badge-light"><?php echo $friendRequests[1] ?></span></a>
                     <div class="btn btn-primary">Gerenciar Amizades <span class="badge badge-light"><i class="fas fa-cog"></i></span></div>
                 <?php } ?>
             </div>
-            <?php for ($i = 0; $i < 50; $i++) { ?>
+            <?php if(is_array($friends[0])) { foreach($friends[0] as $friend) { $friend = $friend['data']; ?>
                 <div class="friend">
                     <div class="avatar-friend" style="background-image: url('uploads/profiles/avatarDefault.webp')"></div>
                     <div class="info">
-                        <span class="text-truncate"><a href="/profile/">lyod.hp</a></span>
-                        <span class="text-truncate">Online há 60 segundos atrás</span>
+                        <span class="text-truncate"><a href="/profile/<?php echo $friend['url'] ?>"><?php echo $friend['username'] ?></a></span>
+                        <span class="text-truncate">Online há <?php echo ForumConfiguration::formatTime($friend['last_time']) ?> atrás</span>
                         <?php if (!$isOwner) { ?>
                             <button class="btn btn-sm btn-success">Adicionar amigo</button>
                             <button class="btn btn-sm btn-dark ml-2" data-toggle="tooltip" title="Visitar perfil"><i class="far fa-id-card"></i></button>
@@ -81,7 +87,7 @@ include dirname(__DIR__) . "/includes/header.php";
                         <?php } ?>
                     </div>
                 </div>
-            <?php } ?>
+            <?php }} ?>
         </div>
         <div class="box-page topics">
             <div class="menuHandle">

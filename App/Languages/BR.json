@@ -51,6 +51,10 @@
     "validation_field_gender_contains": "Valor inválido para gênero.",
     "validation_field_terms_required": "Preencha o campo de aceitação dos termos",
     "validation_field_terms_contains": "Valor inválido para termos.",
+    "validation_field_decision_contains": "Valor inválido para sua decisão.",
+    "validation_field_decision_required": "Informe a sua decisão (aceito ou não).",
+    "validation_field_id_required": "Não foi possível localizar o ID do pedido de amizade",
+    "validation_field_id_integer": "ID do pedido de amizade inválido.",
     "user_already_registered": "Esse usuário ou e-mail já foi cadastrado",
     "user_banned_by_ip": "Você foi BANIDO POR IP e NÃO PODE criar uma nova conta.",
     "register_max_account_by_ip": "Você já atingiu o máximo de contas permitidas.",
@@ -71,5 +75,10 @@
     "messages": "Mensagens",
     "welcome_message_after_register": "Seja bem-vindo ao nosso fórum! Leia nossas regras aqui.",
     "come_back_again": "Volte sempre!",
-    "confirm_logout_user": "Tem certeza que deseja sair?"
+    "confirm_logout_user": "Tem certeza que deseja sair?",
+    "user_request_successful_response": "Pedido de amizade respondido!",
+    "user_request_badly_response": "Ocorreu um erro ao responder o pedido de amizade.",
+    "user_no_friend_requests": "Nenhum pedido de amizade por aqui!",
+    "user_started_new_friend": "Começou uma nova amizade",
+    "word_with_spaces": " com "
 }
