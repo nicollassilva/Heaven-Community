@@ -24,12 +24,14 @@ class Secondary extends BaseApiModel {
         return $this->fixArray($categories);
     }
 
-    public function findByUrl(String $url)
+    public function findByUrl(String $url, Bool $always = true)
     {
-        return $this->where([
+        $categories = $this->where([
                 ['url', '=', strip_tags($url)],
                 ['visible', '=', 'true']
             ])->limit(1)
             ->execute();
+
+        return $this->fixArray($categories, $always);
     }
 }

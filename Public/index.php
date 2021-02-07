@@ -25,6 +25,8 @@ if (Configuration::$forumMaintenance) {
      */
     $router->get("/", "WebController@index", "Web.index");
     $router->get("/rules", "WebController@rules", "Web.Rules");
+    $router->get("/{categorieOne}/{categorieTwo}/{categorieThree}", "CategoryController@delegateRouters");
+    $router->get("/{categorieOne}/{categorieTwo}", "CategoryController@delegateRouters");
     $router->get("/categorie/{handle}", "CategoryController@index", "Category.Index");
 
     /**

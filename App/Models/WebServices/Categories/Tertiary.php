@@ -24,7 +24,7 @@ class Tertiary extends BaseApiModel {
         return $this->fixArray($categories);
     }
 
-    public function findByUrl(String $url)
+    public function findByUrl(String $url, Bool $always = true)
     {
         $categories = $this->where([
                 ['url', '=', strip_tags($url)],
@@ -32,16 +32,28 @@ class Tertiary extends BaseApiModel {
             ])->limit(1)
             ->execute();
 
-        return $this->fixArray($categories);
+        return $this->fixArray($categories, $always);
     }
 
-    public function findByFather(Int $father)
+    public function findByFather(Int $father, Bool $always = true)
     {
         $categories = $this->where([
                 ['categorie_secondary_id', '=', $father],
                 ['visible', '=', 'true']
             ])->execute();
 
-        return $this->fixArray($categories);
+        return $this->fixArray($categories, $always);
+    }
+
+    public function findByUrlFather(String $url, Int $father, Bool $always = true)
+    {
+        $categories = $this->where([
+                ['url', '=', strip_tags($url)],
+                ['categorie_secondary_id', '=', $father],
+                ['visible', '=', 'true']
+            ])->limit(1)
+            ->execute();
+
+        return $this->fixArray($categories, $always);
     }
 }

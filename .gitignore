@@ -1,2 +1,5 @@
 /vendor
 .env
+.db
+*.log
+Logs.log

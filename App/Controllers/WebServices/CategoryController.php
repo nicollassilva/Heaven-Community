@@ -30,7 +30,7 @@ class CategoryController extends BaseApiController implements WebServicesControl
     public function index(Array $data)
     {
         $response = $this->model->shield($data);
-        $category = $this->categoryTwo->findByUrl($response['handle']);
+        $category = $this->categoryTwo->findByUrl($response['handle'], false);
             
         if (is_array($category)) {
             $childsCategory = $this->categoryThree->findByFather($category['id']);
@@ -56,8 +56,59 @@ class CategoryController extends BaseApiController implements WebServicesControl
         } else {
             return $this->view("error");
         }
+    }
 
-        
+    public function delegateRouters(Array $data)
+    {
+        if(!isset($data['categorieOne']) || !isset($data['categorieTwo']))
+            return $this->view("error");
+
+        $response = $this->model->shield($data);
+
+        $catOne = strip_tags($response['categorieOne']);
+        $catTwo = strip_tags($response['categorieTwo']);
+        $catThree = isset($response['categorieThree']) ? strip_tags($response['categorieThree']) : null;
+
+        if(isset($catThree)) {
+            $secondary = $this->categoryTwo->find($catOne)->execute();
+
+            if(!$secondary)
+                return $this->view("error");
+
+            $tertiary = $this->categoryThree->findByUrlFather($catTwo, $secondary['id'], false);
+
+            if(!$tertiary)
+                return $this->view("error");
+
+            $quaternary = $this->categoryFour->findByUrlFather($catThree, $tertiary['id'], false);
+
+            if(!$quaternary)
+                return $this->view("error");
+
+            return $this->view("discussions/categories/topics", [
+                'secondary' => $secondary,
+                'tertiary' => $tertiary,
+                'quaternary' => $quaternary
+            ]);
+        } else {
+            $secondary = $this->categoryTwo->findByUrl($catOne, false);
+
+            if(!$secondary)
+                return $this->view("error");
+
+            $tertiary = $this->categoryThree->findByUrlFather($catTwo, $secondary['id'], false);
+
+            if(!$tertiary)
+                return $this->view("error");
+
+            $quaternary = $this->categoryFour->show($tertiary['id']);
+                
+            return $this->view("discussions/categories/index", [
+                'secondary' => $secondary,
+                'tertiary' => $tertiary,
+                'quaternary' => $quaternary
+            ]);
+        }
     }
 
     public function create()

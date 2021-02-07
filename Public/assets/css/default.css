@@ -579,7 +579,8 @@ div.breadcrumb-box {
 
 /*.general-box.page-categorie .categories-box { width: 100%; }*/
 
-.general-box .general-categorie {
+.general-box .general-categorie,
+.general-box .general-categorie-info {
     width: 100%;
     height: 60px;
     border-radius: 5px;
@@ -1239,3 +1240,38 @@ footer .logo {
 }
 
 .general-box.profile-box .box-page.default .image-welcome button.edit { top: 10px; }
+
+.general-box .general-categorie-info {
+    background: white;
+    min-height: 140px;
+    height: auto;
+    margin-bottom: 15px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .2), 0 0 3px 1px rgba(0, 0, 0, .100);
+    padding: 10px 20px;
+}
+
+.general-box .general-categorie-info .alert { margin-top: 10px; }
+
+.general-box .general-categorie-info span:first-of-type {
+    width: 100%;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--default-text);
+    padding-left: 10px;
+}
+
+.general-box .general-categorie-info span:first-of-type i { font-size: 16px; color: #aaa; }
+
+.general-box .general-categorie-info p:first-of-type {
+    width: 100%;
+    font-size: 14px;
+    color: #aaa;
+    font-weight: 300;
+    padding-left: 10px;
+    margin-bottom: 5px;
+}
+
+.general-box .general-categorie-info button {
+    padding: 5px 15px;
+    font-size: 13px;
+}
