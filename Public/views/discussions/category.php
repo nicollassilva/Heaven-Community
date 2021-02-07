@@ -16,9 +16,10 @@ include dirname(__DIR__) . "/includes/header.php";
                 <span><?php echo $secondary['name'] ?></span>
                 <p><?php echo $secondary['description'] ?></p>
                 <hr class="my-0">
-                <button class="btn btn-sm mt-3 btn-success"><i class="fas fa-plus mr-2"></i><?php echo GetLanguage::get('text_post_new_topic') ?></button>
                 <button class="btn btn-sm mt-3 btn-dark ml-2"><i class="fas fa-list-ol mr-2"></i><?php echo GetLanguage::get('last_topics_comments') ?></button>
-                <div class="alert alert-danger">Categoria fechada por 24h. <b>Motivo:</b> Os moderadores estão arrumando os posts e reorganizando tudo.</div>
+                <div class="alert alert-danger">
+                    Categoria fechada por 24h. <b>Motivo:</b> Os moderadores estão arrumando os posts e reorganizando tudo.
+                </div>
             </div>
             <div class="general-categorie" <?php echo $secondary['bgIconColor'] ? ' style="background: var(--default-wallpaper), ' . $secondary['bgIconColor'] . '"' : '' ?>>
                 <div class="icon" center><?php echo $secondary['icon'] ?></div>

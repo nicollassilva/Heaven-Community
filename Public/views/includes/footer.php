@@ -18,6 +18,6 @@
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/swiper-bundle.min.js"></script>
-    <script src="assets/js/default.js"></script>
+    <script src="assets/js/default.js?t=<?php echo time() ?>"></script>
     </body>
 </html>

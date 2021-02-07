@@ -9,7 +9,7 @@ use App\Languages\GetLanguage;
     include "includes/header.php";
 ?>
 <div class="container">
-    <div class="general-box register-box bg-white">
+    <div class="general-box register-box bg-white form-dispatch">
         <span class="title"><?php echo GetLanguage::get('register_text_first_call') ?></span>
         <p class="text-muted"><?php echo GetLanguage::get('register_text_required_fields') ?></p>
         <div class="row">

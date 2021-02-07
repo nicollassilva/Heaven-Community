@@ -8,10 +8,24 @@ button.btn { box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.07) }
 *[class*="btn"].btn-danger { background: var(--default-wallpaper), var(--danger); }
 *[class*="btn"].btn-warning { background: var(--default-wallpaper), var(--warning); }
 
-.alert {font-size: 14px; position: relative; overflow: hidden; padding-right: 30px; }
+.alert {font-size: 13px; position: relative; overflow: hidden; padding-left: 60px; }
 
-.alert.alert-danger { border-color: #c0392b; background-color: #e74c3c; color: var(--light); font-weight: 500; }
-.alert.alert-success { border-color: #27ae60; background-color: #2ecc71; color: var(--light); font-weight: 500; }
+.alert.alert-danger { border-color: #c0392b; background: var(--default-wallpaper), #e74c3c; color: var(--light); font-weight: 500; }
+.alert.alert-success { border-color: #27ae60; background: var(--default-wallpaper), #2ecc71; color: var(--light); font-weight: 500; }
+
+.alert.alert-danger::before,
+.alert.alert-success::before {
+    content: '\f05e';
+    font-family: var(--fontAwesome);
+    position: absolute;
+    font-size: 22px;
+    font-weight: 900;
+    top: 7px;
+    left: 15px;
+    color: darkred;
+}
+
+.alert.alert-success::before { color: darkgreen; content: '\f00c'; }
 
 .alert b,
 .alert strong { font-weight: 700; color: white; }
@@ -52,7 +66,8 @@ header .login-box form .form-group,
 .register-box form .form-group { margin-bottom: 10px; }
 
 header .login-box form input:focus,
-.register-box form input:focus { box-shadow: none; }
+.register-box form input:focus,
+.register-box form select:focus { box-shadow: none; }
 
 header .custom-checkbox label,
 header .custom-checkbox input { cursor: pointer !important; }
@@ -84,5 +99,7 @@ header .login-container .actions button {
     top: 10px;
 }
 
-.register-box select { height: 50px; }
+.register-box select { height: 50px; font-size: 14px; }
 .register-box button[type="submit"] { height: 50px; }
+
+.register-box textarea { resize: none; }

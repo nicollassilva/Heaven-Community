@@ -23,7 +23,7 @@ if (Configuration::$forumMaintenance) {
     /**
      * Web Routes for all users
      */
-    $router->get("/", "WebController@index", "Web.index");
+    $router->get("/", "WebController@index", "Web.Index");
     $router->get("/rules", "WebController@rules", "Web.Rules");
     $router->get("/{categorieOne}/{categorieTwo}/{categorieThree}", "CategoryController@delegateRouters");
     $router->get("/{categorieOne}/{categorieTwo}", "CategoryController@delegateRouters");
@@ -34,6 +34,8 @@ if (Configuration::$forumMaintenance) {
      */
     if (!$userLogged) {
         $router->get("/register", "WebController@register", "Web.Register");
+    } else {
+        $router->get('/topics/new', "TopicController@create", "Topic.Create");
     }
 
     $router->namespace("App\Controllers\Apis");

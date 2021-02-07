@@ -50,7 +50,7 @@ $notifications = $notificationModel->getNotifications();
     <link rel="stylesheet" href="assets/css/iziToast.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
-    <link rel="stylesheet" href="assets/css/default.css">
+    <link rel="stylesheet" href="assets/css/default.css?t=<?php echo time() ?>">
 
     <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
 </head>
