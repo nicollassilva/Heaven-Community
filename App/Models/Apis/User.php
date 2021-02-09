@@ -18,8 +18,8 @@ class User extends BaseApiModel {
 
     public function findRegistered(String $email, String $username): bool
     {
-        $email = $this->antiSqlInjection(['email' => $email])['email'];
-        $username = $this->antiSqlInjection(['username' => $username])['username'];
+        $email = $this->shield(['email' => $email])['email'];
+        $username = $this->shield(['username' => $username])['username'];
 
         return !!$this
             ->where([['email', '=', $email]])

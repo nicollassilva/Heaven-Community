@@ -94,6 +94,8 @@ class HeavenMail {
             try {
                 if($this->mail->send()) {
                     return true;
+                } else {
+                    return false;
                 }
             } catch(Exception $e) {
                 return false;

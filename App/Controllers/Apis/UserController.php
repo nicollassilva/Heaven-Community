@@ -72,7 +72,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
         $newUser = $this->model->register($response);
 
         if ($newUser) {
-            try{
+            try {
                 $user = trim(strip_tags(htmlspecialchars($response['username'])));
                 $email = trim($response['email']);
                 $getUserId = (new User)->where([['username', '=', $user]])->only(['id'])->execute();
