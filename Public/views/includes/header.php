@@ -53,6 +53,7 @@ $notifications = $notificationModel->getNotifications();
     <link rel="stylesheet" href="assets/css/default.css?t=<?php echo time() ?>">
 
     <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
+    <script src="https://cdn.tiny.cloud/1/<?php echo ForumConfiguration::$tinyMCEKey ?>/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
 <body>

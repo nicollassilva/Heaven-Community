@@ -15,6 +15,7 @@ abstract class ForumConfiguration {
 
     public static $forumEnvironments = ['development', 'production'];
     public static $forumMode = 'development';
+    public static $tinyMCEKey = 'no-api-key'; /** Your key for TinyMCE Editor */
     
     public static $forumMailDebugger = false;
     public static $forumMaintenance = false;

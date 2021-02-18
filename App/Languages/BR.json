@@ -86,5 +86,11 @@
     "last_topics_comments": "Últimos tópicos vistos",
     "topics_title": "Tópicos",
     "create_new_topic": "Novo Tópico",
-    "new_topic_text_title": "Digite o título do tópico"
+    "new_topic_text_title": "Digite o título do tópico",
+    "button_submit_topic": "Enviar tópico",
+    "new_topic_allow_comments": "Permitir comentários",
+    "new_topic_allow_reactions": "Permitir reações",
+    "new_topic_subcategorie": "Informe o gênero do tópico",
+    "yes": "Sim",
+    "no": "Não"
 }

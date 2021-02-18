@@ -4,14 +4,15 @@ Community = {
 
     init() {
         this.tooltip(),
-        this.slidesCommunity(),
-        this.minimizeCategorie(),
-        this.iziToastInit(),
-        this.formsBundle(),
-        this.userDropdown(),
-        this.userLogout(),
-        this.userProfile(),
-        this.userFriendRequestsAction()
+            this.slidesCommunity(),
+            this.minimizeCategorie(),
+            this.iziToastInit(),
+            this.formsBundle(),
+            this.userDropdown(),
+            this.userLogout(),
+            this.userProfile(),
+            this.userFriendRequestsAction(),
+            this.tinyMCE()
     },
 
     tooltip() {
@@ -41,20 +42,20 @@ Community = {
             centeredSlides: true,
             loop: true,
             autoplay: {
-              delay: 2500,
-              disableOnInteraction: false,
+                delay: 2500,
+                disableOnInteraction: false,
             },
             pagination: {
-              el: '.swiper-pagination',
-              clickable: true,
+                el: '.swiper-pagination',
+                clickable: true,
             }
         });
     },
 
     minimizeCategorie() {
-        $('.minimize').on('click', function() {
+        $('.minimize').on('click', function () {
             $(this).parent().next('ul').slideToggle()
-            if($(this).find('i').hasClass('fa-minus')) {
+            if ($(this).find('i').hasClass('fa-minus')) {
                 $(this).html('<i class="fas fa-plus"></i>')
             } else {
                 $(this).html('<i class="fas fa-minus"></i>')
@@ -62,15 +63,15 @@ Community = {
         })
     },
 
-    formsBundle: function() {
-        $("form:not(.active)").removeClass("active").addClass("active").on("submit", function(t) {
+    formsBundle: function () {
+        $("form:not(.active)").removeClass("active").addClass("active").on("submit", function (t) {
             t.preventDefault(), $(this);
             let a = $(this).find('button[type="submit"]'),
                 e = $(this).attr("action"),
                 i = new FormData($(this)[0]),
                 o = $(this).attr("data-reset"),
                 n = a.text();
-                i.append("_token", $('meta[name="csrf-token"]').attr("content"));
+            i.append("_token", $('meta[name="csrf-token"]').attr("content"));
             $.ajax({
                 url: e,
                 type: "POST",
@@ -116,21 +117,21 @@ Community = {
     },
 
     userDropdown() {
-        $('.logged-box .dropdown').on('click', function() {
+        $('.logged-box .dropdown').on('click', function () {
             $(this).toggleClass('active')
             $(this).find('.drop').slideToggle('fast')
             let i = $(this).find('.me i')
-            if(i.hasClass('fa-chevron-down')) {
+            if (i.hasClass('fa-chevron-down')) {
                 i.removeClass('fa-chevron-down').addClass('fa-chevron-up')
             } else {
                 i.removeClass('fa-chevron-up').addClass('fa-chevron-down')
             }
         })
 
-        $('.logged-box .menuLogged').on('click', function() {
+        $('.logged-box .menuLogged').on('click', function () {
             $('.logged-box .menuLogged').removeClass('active')
             $(this).addClass('active')
-            if($(this).hasClass('messages')) {
+            if ($(this).hasClass('messages')) {
                 $('.logged-box .notifications .box-notifications:not(.message)').hide()
                 $('.logged-box .notifications .box-notifications.message').show()
             } else {
@@ -140,8 +141,8 @@ Community = {
         })
     },
 
-    userLogout: function() {
-        $('.logged-box .box-me .dropdown a:last-of-type').on('click', function() {
+    userLogout: function () {
+        $('.logged-box .box-me .dropdown a:last-of-type').on('click', function () {
             iziToast.show({
                 theme: 'dark',
                 icon: 'far fa-frown',
@@ -186,8 +187,8 @@ Community = {
     },
 
     userProfile() {
-        if(this.urlArray[1] == 'profile') {
-            $(document).on('click', '.profile-box .menuProfile ul li:not(.active)', function() {
+        if (this.urlArray[1] == 'profile') {
+            $(document).on('click', '.profile-box .menuProfile ul li:not(.active)', function () {
                 $('.profile-box .menuProfile ul li').removeClass('active')
                 $(this).addClass('active')
                 let classList = $(this).attr('class').split(/\s+/)
@@ -213,10 +214,10 @@ Community = {
 
     userFriendRequestsAction() {
         let thisAwesome = this
-        if(this.urlArray[1] == 'profile' && this.urlArray[3] == 'friendRequests') {
-            $('table.table-hover tbody tr td button').on('click', function() {
+        if (this.urlArray[1] == 'profile' && this.urlArray[3] == 'friendRequests') {
+            $('table.table-hover tbody tr td button').on('click', function () {
                 let button = $(this)
-                if(button.hasClass('accept') || button.hasClass('decline')) {
+                if (button.hasClass('accept') || button.hasClass('decline')) {
                     let tr = button.parent().parent();
                     let id = Number(tr.find('th[scope="row"]').html())
 
@@ -224,10 +225,13 @@ Community = {
                         url: thisAwesome.url,
                         method: 'POST',
                         dataType: 'JSON',
-                        data: { id, decision: button.hasClass('accept') ? 'Y' : 'N' },
-                        success: function(response) {
-                            if(response.success) {
-                                tr.fadeOut('fast', function() {
+                        data: {
+                            id,
+                            decision: button.hasClass('accept') ? 'Y' : 'N'
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                tr.fadeOut('fast', function () {
                                     $(this).remove()
                                 })
                                 iziToast.show({
@@ -252,6 +256,28 @@ Community = {
                 }
             })
         }
+    },
+
+    tinyMCE() {
+        tinymce.init({
+            selector: '#text_editor_textarea',
+            height: 400,
+            branding: false,
+            relative_urls: true,
+            theme: 'silver',
+            plugins: ['table advlist autolink lists link image charmap preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code', 'insertdatetime media nonbreaking save table contextmenu directionality', 'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'],
+            toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table',
+            toolbar2: 'preview media | forecolor backcolor emoticons | codesample',
+            image_advtab: true,
+            templates: [{
+                title: 'Test template 1',
+                content: 'Test 1'
+            }, {
+                title: 'Test template 2',
+                content: 'Test 2'
+            }],
+            content_css: ['https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i', 'https://www.tinymce.com/css/codepen.min.css']
+        });
     }
 }
 
