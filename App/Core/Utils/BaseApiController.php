@@ -32,4 +32,12 @@ class BaseApiController extends BaseController {
     {
         return explode("/", $_SERVER['HTTP_REFERER'])[4] ?? null;
     }
+
+    public function resetCsrf()
+    {
+        if(isset($_SESSION['_CSRF']))
+            unset($_SESSION['_CSRF']);
+
+        return $this;
+    }
 }

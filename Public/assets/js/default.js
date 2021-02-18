@@ -65,13 +65,14 @@ Community = {
 
     formsBundle: function () {
         $("form:not(.active)").removeClass("active").addClass("active").on("submit", function (t) {
+            tinyMCE.triggerSave();
             t.preventDefault(), $(this);
             let a = $(this).find('button[type="submit"]'),
                 e = $(this).attr("action"),
                 i = new FormData($(this)[0]),
                 o = $(this).attr("data-reset"),
                 n = a.text();
-            i.append("_token", $('meta[name="csrf-token"]').attr("content"));
+            i.append("_token", $('meta[name="heavencsrftoken"]').attr("content"));
             $.ajax({
                 url: e,
                 type: "POST",
@@ -261,9 +262,10 @@ Community = {
     tinyMCE() {
         tinymce.init({
             selector: '#text_editor_textarea',
-            height: 400,
+            height: 435,
             branding: false,
             relative_urls: true,
+            resize: false,
             theme: 'silver',
             plugins: ['table advlist autolink lists link image charmap preview hr anchor pagebreak', 'searchreplace wordcount visualblocks visualchars code', 'insertdatetime media nonbreaking save table contextmenu directionality', 'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'],
             toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table',
@@ -276,7 +278,7 @@ Community = {
                 title: 'Test template 2',
                 content: 'Test 2'
             }],
-            content_css: ['https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i', 'https://www.tinymce.com/css/codepen.min.css']
+            content_css: ['https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i']
         });
     }
 }

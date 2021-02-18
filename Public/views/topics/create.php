@@ -11,7 +11,7 @@ include dirname(__DIR__) . "/includes/header.php";
 <div class="container">
     <div class="general-box register-box bg-white">
         <div class="row">
-            <form action="" class="col-12 d-flex m-0 py-3" autocomplete="off" method="post">
+            <form class="col-12 d-flex m-0 py-3" autocomplete="off" method="post">
                 <div class="col col-9">
                     <div class="form-group">
                         <input id="title_topic" class="form-control" type="text" name="title" placeholder="<?php echo GetLanguage::get('new_topic_text_title') ?>">
@@ -34,14 +34,15 @@ include dirname(__DIR__) . "/includes/header.php";
                             <option value="Y"><?php echo GetLanguage::get('yes') ?></option>
                             <option value="N"><?php echo GetLanguage::get('no') ?></option>
                         </select>
+                        <input type="hidden" name="referer" value="<?php echo $_SERVER['HTTP_REFERER'] ?>">
                     </div>
                     <div class="form-group">
                         <select id="type_topic" class="custom-select" name="type">
                             <option selected><?php echo GetLanguage::get('new_topic_subcategorie') ?></option>
-                            <option value="Y">Comum</option>
-                            <option value="N">Pedido</option>
-                            <option value="N">CMS</option>
-                            <option value="N">Ajuda</option>
+                            <option value="C">Comum</option>
+                            <option value="R"><?php echo GetLanguage::get('new_topic_request') ?></option>
+                            <option value="CMS">CMS</option>
+                            <option value="A"><?php echo GetLanguage::get('help') ?></option>
                         </select>
                     </div>
                     <div class="form-group">

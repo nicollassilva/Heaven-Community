@@ -10,4 +10,56 @@ class Topic extends BaseApiModel {
     {
         parent::__construct('topics', 'id');
     }
+
+    public function validateStore(Array $filters)
+    {
+        $validation = \GUMP::is_valid($filters, [
+            'title' => 'required|min_len,6|max_len,255',
+            'text' => 'required|min_len,30|max_len,5000',
+            'comments' => 'required|contains,Y;N',
+            'reactions' => 'required|contains,Y;N',
+            'type' => 'required|contains,C;R;CMS;A',
+            'referer' => 'required|valid_url'
+        ], [
+            'title' => [
+                'required' => 'O campo título é obrigatório',
+                'min_len' => 'Digite no mínimo 6 caracteres no título',
+                'max_len' => 'Digite no máximo 255 caracteres no título'
+            ],
+            'text' => [
+                'required' => 'Digite seu tópico',
+                'min_len' => 'O tópico deve conter no mínimo 30 caracteres',
+                'max_len' => 'O tópico pode ter no máximo 5000 caracteres'
+            ],
+            'comments' => [
+                'required' => 'Preencha se deseja habilitar os comentários nos tópicos',
+                'contains' => 'Valor inválido para comentários'
+            ],
+            'reactions' => [
+                'required' => 'Preencha se deseja habilitar as reações nos tópicos',
+                'contains' => 'Valor inválido para reações'
+            ],
+            'type' => [
+                'required' => 'Preencha o tipo do seu tópico',
+                'contains' => 'Valor inválido para tipo de tópico'
+            ],
+            'referer' => [
+                'required' => 'Entre em uma categoria para postar um novo tópico',
+                'valid_url' => 'Você está tentando postar um tópico em uma categoria inválida'
+            ]
+        ]);
+
+        return $validation;
+    }
+    
+    public function findToDelay()
+    {
+        return $this->where([
+                ['author', '=', $_SESSION['userHeavenLogged']['id']],
+                ['date', '>', (time() * 5 - 60)]
+            ])->limit(1)
+            ->orderBy('id', 'DESC')
+            ->count()
+            ->execute();
+    }
 }

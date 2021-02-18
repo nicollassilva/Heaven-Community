@@ -39,6 +39,7 @@ $notifications = $notificationModel->getNotifications();
     <meta name="twitter:site" content="<?php echo ForumConfiguration::$forumTwitter ?>">
     <meta name="twitter:title" content="<?php echo $heavenTitle ?? ForumConfiguration::$forumName . ' - ' . ForumConfiguration::$forumTitle ?>!">
     <meta name="twitter:description" content="<?php echo $heavenDescription ?? ForumConfiguration::$forumDescription ?>!">
+    <meta name="heavencsrftoken" content="<?php echo $_SESSION['_CSRF'] ?? '' ?>">
 
 
     <title><?php echo $heavenTitle ?? ForumConfiguration::$forumName . ' - ' . ForumConfiguration::$forumTitle ?></title>

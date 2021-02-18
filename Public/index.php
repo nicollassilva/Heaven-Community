@@ -11,6 +11,8 @@ use App\Models\Apis\User;
 
 Configuration::setMode();
 
+if(!isset($_SESSION['_CSRF'])) $_SESSION['_CSRF'] = bin2hex(openssl_random_pseudo_bytes(24));
+
 $user = new User;
 $userLogged = $user->userLogged();
 
@@ -57,6 +59,8 @@ if (Configuration::$forumMaintenance) {
         $router->post("/logout", "UserController@logout", "User.Logout");
         $router->get('/profile/{handle}/friendRequests', "UserController@friendRequests", "User.FriendRequests");
         $router->post('/profile/{handle}/friendRequests', "UserController@friendRequestsAction", "User.FriendRequestAction");
+
+        $router->post('/topics/new', "TopicController@store", "Topic.Store");
     }
 }
 
