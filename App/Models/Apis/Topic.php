@@ -95,4 +95,17 @@ class Topic extends BaseApiModel {
 
         return false;
     }
+    
+    public function countAllTopics()
+    {
+        if (!isset($_SESSION['allTopics'])) {
+            $all = $this
+                ->count()
+                ->execute();
+
+            $_SESSION['allTopics'] = $all;
+        }
+
+        return $_SESSION['allTopics'] ?? $all;
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Apis\Balance;
 use App\Languages\GetLanguage;
 use App\Boot\ForumConfiguration;
 use App\Models\WebServices\Categories\Tertiary;
@@ -34,14 +35,16 @@ include dirname(__DIR__, 2) . "/includes/header.php";
             <?php } ?>
             <ul class="sub-categories">
                 <?php if (is_array($quaternary)) {
-                    foreach ($quaternary as $categorie) { ?>
+                    foreach ($quaternary as $categorie) {
+                        $balanceCategorie = (new Balance)->getStatistics(null, null, $categorie['id']);
+                    ?>
                         <li class="subcategorie">
                             <div class="icon" style="background-color: var(--second-strong-color)" center><i class="fas fa-comment"></i></div>
                             <div class="sub-categories-cats">
                                 <a class="name" href="<?php echo $secondary['id'] ?>/<?php echo $tertiary['url'] ?>/<?php echo $categorie['url'] ?>"><?php echo $categorie['name'] ?></a>
                                 <div class="statistics">
-                                    <div class="topics" data-toggle="tooltip" title="Total de Tópicos" center><i class="fas fa-pencil-alt"></i><?php echo random_int(0, 1000000) ?></div>
-                                    <div class="views" data-toggle="tooltip" title="Total de Visualizações" center><i class="fas fa-eye"></i><?php echo random_int(0, 1000000) ?></div>
+                                    <div class="topics" data-toggle="tooltip" title="Total de Tópicos" center><i class="fas fa-pencil-alt"></i><?php echo $balanceCategorie['posts'] ?? 'NaN' ?></div>
+                                    <div class="views" data-toggle="tooltip" title="Total de Visualizações" center><i class="fas fa-eye"></i><?php echo $balanceCategorie['views'] ?? 'NaN' ?></div>
                                 </div>
                                 <span class="description"><?php echo $categorie['description'] ?></span>
                             </div>

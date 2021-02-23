@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Apis\Balance;
 use App\Languages\GetLanguage;
 use App\Boot\ForumConfiguration;
 use App\Models\WebServices\Categories\Tertiary;
@@ -29,7 +30,9 @@ include dirname(__DIR__) . "/includes/header.php";
             <ul class="sub-categories">
                 <?php if (is_array($tertiary)) {
                     foreach ($tertiary as $subcategorie) {
-                        $listCategories = $quaternary((int) $subcategorie['id']); ?>
+                        $listCategories = $quaternary((int) $subcategorie['id']);
+                        $balanceCategorie = (new Balance)->getStatistics(null, $subcategorie['id']);
+                        ?>
                         <li class="subcategorie">
                             <div class="icon" center<?php echo $secondary['bgIconColor'] ? ' style="background-color: ' . $secondary['bgIconColor'] . '"' : '' ?>><?php echo $subcategorie['icon'] ?></div>
                             <div class="sub-categories-cats">
@@ -42,8 +45,8 @@ include dirname(__DIR__) . "/includes/header.php";
                                     } ?>
                                 </ul>
                                 <div class="statistics">
-                                    <div class="topics" data-toggle="tooltip" title="Total de Tópicos" center><i class="fas fa-pencil-alt"></i><?php echo random_int(0, 1000000) ?></div>
-                                    <div class="views" data-toggle="tooltip" title="Total de Visualizações" center><i class="fas fa-eye"></i><?php echo random_int(0, 1000000) ?></div>
+                                    <div class="topics" data-toggle="tooltip" title="Total de Tópicos" center><i class="fas fa-pencil-alt"></i><?php echo $balanceCategorie['posts'] ?? 'NaN' ?></div>
+                                    <div class="views" data-toggle="tooltip" title="Total de Visualizações" center><i class="fas fa-eye"></i><?php echo $balanceCategorie['views'] ?? 'NaN' ?></div>
                                 </div>
                                 <span class="description"><?php echo $subcategorie['description'] ?></span>
                             </div>

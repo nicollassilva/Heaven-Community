@@ -1,8 +1,12 @@
 <?php
 
 use App\Languages\GetLanguage;
+use App\Models\Apis\{
+    Balance,
+    Topic,
+    User
+};
 use App\Models\WebServices\Categories\Tertiary;
-use App\Models\Apis\User;
 
 $heavenBreadcrumb = ['Página Inicial'];
 include "includes/header.php";
@@ -23,7 +27,7 @@ include "includes/header.php";
                 <div class="card">
                     <i class="fas bg-danger fa-pencil-alt"></i>
                     <span>
-                        <p><?php echo GetLanguage::get('card_statistics_topics') ?></p>18
+                        <p><?php echo GetLanguage::get('card_statistics_topics') ?></p><?php echo (new Topic)->countAllTopics() ?>
                     </span>
                 </div>
             </div>
@@ -56,7 +60,9 @@ include "includes/header.php";
                     <ul class="sub-categories">
                         <?php if (is_array($sub)) {
                             foreach ($sub as $subcategorie) {
-                                $listCategories = (new Tertiary)->show($subcategorie['id']); ?>
+                                $listCategories = (new Tertiary)->show($subcategorie['id']);
+                                $balanceCategorie = (new Balance)->getStatistics($subcategorie['id'], null);
+                            ?>
                                 <li class="subcategorie">
                                     <div class="icon" center<?php echo $subcategorie['bgIconColor'] ? ' style="background-color: ' . $subcategorie['bgIconColor'] . '"' : '' ?>><?php echo $subcategorie['icon'] ?></div>
                                     <div class="sub-categories-cats">
@@ -73,8 +79,8 @@ include "includes/header.php";
                                             <?php } ?>
                                         </ul>
                                         <div class="statistics">
-                                            <div class="topics" data-toggle="tooltip" title="Total de Tópicos" center><i class="fas fa-pencil-alt"></i><?php echo random_int(0, 1000000) ?></div>
-                                            <div class="views" data-toggle="tooltip" title="Total de Visualizações" center><i class="fas fa-eye"></i><?php echo random_int(0, 1000000) ?></div>
+                                            <div class="topics" data-toggle="tooltip" title="Total de Tópicos" center><i class="fas fa-pencil-alt"></i><?php echo $balanceCategorie['posts'] ?? 'NaN' ?></div>
+                                            <div class="views" data-toggle="tooltip" title="Total de Visualizações" center><i class="fas fa-eye"></i><?php echo $balanceCategorie['views'] ?? 'NaN' ?></div>
                                         </div>
                                         <span class="description"><?php echo $subcategorie['description'] ?></span>
                                     </div>
