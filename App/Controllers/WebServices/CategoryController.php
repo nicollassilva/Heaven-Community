@@ -8,7 +8,8 @@ use App\Models\WebServices\Categories\{
     Primary,
     Quaternary,
     Secondary,
-    Tertiary
+    Tertiary,
+    Union
 };
 
 class CategoryController extends BaseApiController implements WebServicesControllerInterface {
@@ -17,6 +18,7 @@ class CategoryController extends BaseApiController implements WebServicesControl
     protected $categoryTwo;
     protected $categoryThree;
     protected $categoryFour;
+    protected $unionCategory;
     
     function __construct(Object $router)
     {
@@ -25,6 +27,7 @@ class CategoryController extends BaseApiController implements WebServicesControl
         $this->categoryTwo = new Secondary();
         $this->categoryThree = new Tertiary();
         $this->categoryFour = new Quaternary();
+        $this->unionCategory = new Union;
     }
     
     public function index(Array $data)
@@ -70,44 +73,19 @@ class CategoryController extends BaseApiController implements WebServicesControl
         $catThree = isset($response['categorieThree']) ? strip_tags($response['categorieThree']) : null;
 
         if(isset($catThree)) {
-            $secondary = $this->categoryTwo->find($catOne)->execute();
+            $logic = $this->unionCategory->logicUrl($catOne, $catTwo, $catThree);
 
-            if(!$secondary)
+            if(!$logic)
                 return $this->view("error");
 
-            $tertiary = $this->categoryThree->findByUrlFather($catTwo, $secondary['id'], false);
-
-            if(!$tertiary)
-                return $this->view("error");
-
-            $quaternary = $this->categoryFour->findByUrlFather($catThree, $tertiary['id'], false);
-
-            if(!$quaternary)
-                return $this->view("error");
-
-            return $this->view("discussions/categories/topics", [
-                'secondary' => $secondary,
-                'tertiary' => $tertiary,
-                'quaternary' => $quaternary
-            ]);
+            return $this->view("discussions/categories/topics", $logic);
         } else {
-            $secondary = $this->categoryTwo->findByUrl($catOne, false);
+            $logic = $this->unionCategory->logicUrl($catOne, $catTwo);
 
-            if(!$secondary)
+            if(!$logic)
                 return $this->view("error");
-
-            $tertiary = $this->categoryThree->findByUrlFather($catTwo, $secondary['id'], false);
-
-            if(!$tertiary)
-                return $this->view("error");
-
-            $quaternary = $this->categoryFour->show($tertiary['id']);
                 
-            return $this->view("discussions/categories/index", [
-                'secondary' => $secondary,
-                'tertiary' => $tertiary,
-                'quaternary' => $quaternary
-            ]);
+            return $this->view("discussions/categories/index", $logic);
         }
     }
 

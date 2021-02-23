@@ -95,5 +95,8 @@
     "no": "Não",
     "new_topic_help": "Ajuda",
     "new_topic_request": "Pedido",
-    "wait_5_minutes_for_new_topic": "Espere 5 minutos para postar um novo tópico"
+    "wait_5_minutes_for_new_topic": "Espere 5 minutos para postar um novo tópico",
+    "new_topic_store_error": "Ocorreu um erro ao postar novo tópico",
+    "new_topic_store_success": "O tópico foi aberto com sucesso",
+    "new_topic_invalid_referer_url": "Você está tentando postar um tópico em uma categoria inválida"
 }

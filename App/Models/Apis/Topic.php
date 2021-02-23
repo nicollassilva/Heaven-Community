@@ -56,10 +56,43 @@ class Topic extends BaseApiModel {
     {
         return $this->where([
                 ['author', '=', $_SESSION['userHeavenLogged']['id']],
-                ['date', '>', (time() * 5 - 60)]
+                ['date', '>', (time() - 5 * 60)]
             ])->limit(1)
             ->orderBy('id', 'DESC')
             ->count()
             ->execute();
+    }
+
+    public function new(Array $data)
+    {
+        if(!$data['categoryId'])
+            return false;
+
+        return $this->
+            request([
+                'title' => strip_tags($data['title']),
+                'text' => $data['text'],
+                'author' => $_SESSION['userHeavenLogged']['id'],
+                'url' => $this->urlFormat(strip_tags($data['title'])),
+                'category' => $data['categoryId'],
+                'type' => $data['type'] === 'C' ? 'normal' : ($data['type'] === 'R' ? 'request' : ($data['type'] === 'CMS' ? 'cms' : 'help')),
+                'comments' => $data['comments'] === 'Y' ? 'true' : 'false',
+                'reactions' => $data['reactions'] === 'Y' ? 'true' : 'false',
+                'date' => time()
+            ])->create();
+    }
+
+    public function separateReferer(String $routerReferer)
+    {
+        $routerReferer = explode('/', $routerReferer);
+        
+        if(is_array($routerReferer) && count($routerReferer) >= 5)
+            return [
+                !isset($routerReferer[5]) ? htmlspecialchars(trim(strip_tags($routerReferer[3]))) : (int) $routerReferer[3],
+                htmlspecialchars(trim(strip_tags($routerReferer[4]))),
+                isset($routerReferer[5]) ? htmlspecialchars(trim(strip_tags($routerReferer[5]))) : null
+            ];
+
+        return false;
     }
 }
