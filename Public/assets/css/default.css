@@ -1,5 +1,6 @@
 @import './forms.css';
 @import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Hanalei&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Exo+2:400,500,700&display=swap');
 
 ::-webkit-scrollbar { width: 7px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -1305,4 +1306,76 @@ nav ul li:not(.disabled):hover a {
     border-radius: 5px;
     box-shadow: 0 0 3px 2px rgba(0, 0, 0, .100);
     padding: 20px;
+}
+
+.general-box .area-user {
+    width: 100%;
+    height: 60px;
+    position: relative;
+    margin-top: 5px;
+}
+
+.general-box .area-user::before {
+    content: '';
+    width: 50%;
+    height: 1px;
+    background-color: #f0f0f0;
+    bottom: -20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.general-box .area-user .avatar {
+    width: 60px;
+    height: 60px;
+    background-color: var(--second-strong-color);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+}
+
+.general-box .area-user .info {
+    height: 60px;
+    padding-top: 10px;
+    width: auto;
+    margin-left: 20px;
+    float: right;
+}
+
+.general-box .area-user .info span.name {
+    font-weight: 600;
+    width: 100%;
+    float: left;
+}
+
+.general-box .area-user .info span.date {
+    font-weight: 500;
+    font-size: 14px;
+    color: #ccc;
+    width: 100%;
+    float: left;
+}
+
+.general-box .topic-body {
+    width: 100%;
+    padding: 20px 60px;
+    margin-top: 20px;
+    font-size: 14px;
+    font-family: 'Exo 2',sans-serif;
+    text-align: justify;
+    letter-spacing: .5px;
+    line-height: 20px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+.general-box .topic-body ol, 
+.general-box .topic-body ul { list-style: inherit; }
+
+.general-box .topic-actions {
+    width: 100%;
+    height: 60px;
+    position: relative;
 }

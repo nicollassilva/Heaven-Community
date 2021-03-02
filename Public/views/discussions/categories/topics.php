@@ -23,7 +23,7 @@ include dirname(__DIR__, 2) . "/includes/header.php";
             <div class="general-categorie">
                 <div class="name" center><i class="fas fa-angle-double-right mx-2"></i><?php echo GetLanguage::get('topics_title') ?></div>
             </div>
-            <nav aria-label="Page navigation example" class="float-right">
+            <!-- <nav aria-label="Page navigation example" class="float-right">
                 <ul class="pagination justify-content-end">
                     <li class="page-item disabled">
                         <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
@@ -35,7 +35,7 @@ include dirname(__DIR__, 2) . "/includes/header.php";
                         <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
                     </li>
                 </ul>
-            </nav>
+            </nav> -->
             <ul class="sub-categories">
                 <?php if (is_array($topics)) {
                     foreach ($topics as $topic) { ?>

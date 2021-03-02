@@ -36,7 +36,7 @@ class Balance extends BaseApiModel {
         if(!$balance || !isset($balance->$column))
             return false;
 
-        $balance->$column += 1;
+        $balance->$column++;
         $balance->save();
 
         return true;

@@ -3,16 +3,19 @@
     namespace App\Controllers\WebServices;
 
 use App\Core\Utils\BaseApiController;
+use App\Models\Apis\User;
 use App\Models\WebServices\Topic;
 
 class TopicController extends BaseApiController {
     protected $router;
     protected $model;
+    protected $user;
 
     function __construct(Object $router)
     {
         $this->router = $router;
         $this->model = new Topic;
+        $this->user = new User;
     }
     
     public function create()
@@ -37,7 +40,8 @@ class TopicController extends BaseApiController {
             return $this->view('error');
 
         return $this->view("topics/show", [
-            'topic' => $topic
+            'topic' => $topic,
+            'owner' => $this->user->getUserById($topic['author'], ['username', 'avatar', 'url', 'topics', 'comments', 'last_time'])
         ]);
     }
 

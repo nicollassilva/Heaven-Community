@@ -42,7 +42,7 @@ include dirname(__DIR__) . "/includes/header.php";
                             <option value="C">Comum</option>
                             <option value="R"><?php echo GetLanguage::get('new_topic_request') ?></option>
                             <option value="CMS">CMS</option>
-                            <option value="A"><?php echo GetLanguage::get('help') ?></option>
+                            <option value="A"><?php echo GetLanguage::get('new_topic_help') ?></option>
                         </select>
                     </div>
                     <div class="form-group">
