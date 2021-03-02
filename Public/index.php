@@ -30,6 +30,7 @@ if (Configuration::$forumMaintenance) {
     $router->get("/{categorieOne}/{categorieTwo}/{categorieThree}", "CategoryController@delegateRouters");
     $router->get("/{categorieOne}/{categorieTwo}", "CategoryController@delegateRouters");
     $router->get("/categorie/{handle}", "CategoryController@index", "Category.Index");
+    $router->get('/topic/{id}/{handle}', 'TopicController@show', 'Topic.Show');
 
     /**
      * Web Routes for logged in/not logged in users

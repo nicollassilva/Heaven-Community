@@ -57,7 +57,7 @@ $notifications = $notificationModel->getNotifications();
     <script src="https://cdn.tiny.cloud/1/<?php echo ForumConfiguration::$tinyMCEKey ?>/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
-<body>
+<body class="animated fadeIn">
     <header>
         <div class="menu">
             <div class="container">

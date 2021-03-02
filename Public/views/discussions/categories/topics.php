@@ -2,13 +2,10 @@
 
 use App\Languages\GetLanguage;
 use App\Boot\ForumConfiguration;
-use App\Models\WebServices\Categories\Tertiary;
 
 $heavenTitle = 'Tópicos: ' . $quaternary['name'];
 $heavenBreadcrumb = ['Fórum', $tertiary['name'], $quaternary['name']];
 include dirname(__DIR__, 2) . "/includes/header.php";
-
-$topics = false;
 
 ?>
 <div class="container">
@@ -41,16 +38,16 @@ $topics = false;
             </nav>
             <ul class="sub-categories">
                 <?php if (is_array($topics)) {
-                    foreach ($quaternary as $categorie) { ?>
+                    foreach ($topics as $topic) { ?>
                         <li class="subcategorie">
-                            <div class="icon" style="background-color: var(--second-strong-color)" center><i class="fas fa-comment"></i></div>
+                            <div class="icon" style="background-color: var(--second-strong-color)" center><i class="fas fa-pencil-alt"></i></div>
                             <div class="sub-categories-cats">
-                                <a class="name" href="<?php echo $secondary['id'] ?>/<?php echo $tertiary['url'] ?>/<?php echo $categorie['url'] ?>"><?php echo $categorie['name'] ?></a>
+                                <a class="name" href="topic/<?php echo $topic['id'] ?>/<?php echo $topic['url'] ?>"><?php echo $topic['title'] ?></a>
                                 <div class="statistics">
-                                    <div class="topics" data-toggle="tooltip" title="Total de Tópicos" center><i class="fas fa-pencil-alt"></i><?php echo random_int(0, 1000000) ?></div>
+                                    <div class="topics" data-toggle="tooltip" title="Total de Respostas" center><i class="fas fa-comments"></i><?php echo random_int(0, 1000000) ?></div>
                                     <div class="views" data-toggle="tooltip" title="Total de Visualizações" center><i class="fas fa-eye"></i><?php echo random_int(0, 1000000) ?></div>
                                 </div>
-                                <span class="description"><?php echo $categorie['description'] ?></span>
+                                <span class="description" style="margin-top: -35px;">Postado por <a class="font-weight-bold text-dark" href="profile/<?php echo $topic['urlProfile'] ?>"><?php echo $topic['username'] ?></a> em <b><?php echo date("d-m-Y H:i", $topic['date']) ?></b></span>
                             </div>
                             <div class="last-post">
                                 <div class="photo" style="background-image: url('https://i.pinimg.com/originals/8b/da/ca/8bdaca81d5ddbaeb92b61d6b5787d866.jpg')"></div>

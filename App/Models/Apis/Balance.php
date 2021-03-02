@@ -11,7 +11,7 @@ class Balance extends BaseApiModel {
         parent::__construct('heaven_balance', 'id');
     }
 
-    public function getStatistics(?Int $secondary = null, ?Int $tertiary = null, ?Int $quaternary = null)
+    public function getStatistics(?Int $secondary = null, ?Int $tertiary = null, ?Int $quaternary = null, Bool $modifier = false)
     {
         return $this->where([
             [
@@ -26,6 +26,19 @@ class Balance extends BaseApiModel {
                     )
                 )
             ]
-        ])->limit(1)->execute();
+        ])->limit(1)->execute($modifier);
+    }
+
+    public function increment(?Int $secondary = null, ?Int $tertiary = null, ?Int $quaternary = null, ?String $column = 'views')
+    {
+        $balance = $this->getStatistics($secondary, $tertiary, $quaternary, true);
+
+        if(!$balance || !isset($balance->$column))
+            return false;
+
+        $balance->$column += 1;
+        $balance->save();
+
+        return true;
     }
 }

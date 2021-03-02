@@ -108,4 +108,18 @@ class Topic extends BaseApiModel {
 
         return $_SESSION['allTopics'] ?? $all;
     }
+    
+    public function byCategorie(Int $categorie, Int $limit = 15)
+    {
+        return $this->fixArray(
+            (new Topic)->useTable('topics t, users u')->where([
+                ['t.category', '=', $categorie],
+                ['u.id', '=', 't.author', false]
+            ])
+            ->only(['t.*', 'u.username', 'u.url as urlProfile'])
+            ->limit($limit)
+            ->orderBy('id', 'DESC')
+            ->execute()
+        );
+    }
 }

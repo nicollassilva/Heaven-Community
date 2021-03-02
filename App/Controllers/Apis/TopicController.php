@@ -5,6 +5,7 @@ namespace App\Controllers\Apis;
 use App\Controllers\_interfaces\WebApisControllerInterface;
 use App\Core\Utils\BaseApiController;
 use App\Languages\GetLanguage;
+use App\Models\Apis\Balance;
 use App\Models\Apis\Topic;
 use App\Models\Apis\User;
 use App\Models\WebServices\Categories\Union;
@@ -57,11 +58,17 @@ class TopicController extends BaseApiController implements WebApisControllerInte
         try {
             $newTopic = $this->model->new($response);
 
-            if($newTopic)
+            if($newTopic) {
                 return $this->response(
                     GetLanguage::get('new_topic_store_success'), 
                     "success"
                 );
+
+                (new Balance)->increment(null,
+                    (isset($category['tertiary']['id']) ? (int) $category['tertiary']['id'] : null),
+                    (isset($category['quaternary']['id']) ? (int) $category['quaternary']['id'] : null)
+                );
+            }
 
             return $this->response(GetLanguage::get('new_topic_store_error'));
         } catch (Exception $error) {

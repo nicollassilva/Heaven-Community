@@ -4,6 +4,7 @@ namespace App\Controllers\WebServices;
 
 use App\Controllers\_interfaces\WebServicesControllerInterface;
 use App\Core\Utils\BaseApiController;
+use App\Models\Apis\Topic;
 use App\Models\WebServices\Categories\{
     Primary,
     Quaternary,
@@ -19,6 +20,7 @@ class CategoryController extends BaseApiController implements WebServicesControl
     protected $categoryThree;
     protected $categoryFour;
     protected $unionCategory;
+    protected $topics;
     
     function __construct(Object $router)
     {
@@ -27,6 +29,7 @@ class CategoryController extends BaseApiController implements WebServicesControl
         $this->categoryTwo = new Secondary();
         $this->categoryThree = new Tertiary();
         $this->categoryFour = new Quaternary();
+        $this->topics = new Topic;
         $this->unionCategory = new Union;
     }
     
@@ -78,7 +81,12 @@ class CategoryController extends BaseApiController implements WebServicesControl
             if(!$logic)
                 return $this->view("error");
 
-            return $this->view("discussions/categories/topics", $logic);
+            return $this->view("discussions/categories/topics", [
+                'secondary' => $logic['secondary'],
+                'tertiary' => $logic['tertiary'],
+                'quaternary' => $logic['quaternary'],
+                'topics' => $this->topics->byCategorie($logic['quaternary']['id'])
+            ]);
         } else {
             $logic = $this->unionCategory->logicUrl($catOne, $catTwo);
 

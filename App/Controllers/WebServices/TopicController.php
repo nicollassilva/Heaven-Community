@@ -24,4 +24,25 @@ class TopicController extends BaseApiController {
             'referer' => $_SERVER['HTTP_REFERER']
         ]);
     }
+
+    public function show(Array $data)
+    {
+        if(!isset($data['id']) || !is_numeric($data['id']) || !isset($data['handle']))
+            return $this->view('error');
+
+        $id = (int) $data['id'];
+        $handle = ($this->model->shield($data))['handle'];
+
+        if((!$topic = $this->model->find($id)->limit(1)->execute()) || $handle != $topic['url'])
+            return $this->view('error');
+
+        return $this->view("topics/show", [
+            'topic' => $topic
+        ]);
+    }
+
+    public function paginate(Array $data)
+    {
+        
+    }
 }
