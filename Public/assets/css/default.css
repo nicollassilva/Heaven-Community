@@ -1443,6 +1443,8 @@ nav ul li:not(.disabled):hover a {
 }
 
 .general-box .topic-actions .actions a.redirect-href:hover i { background-color: var(--strong-color); color: white; }
+.general-box .topic-actions .actions a.redirect-href.reply i { background-color: #3ae374; color: white; }
+.general-box .topic-actions .actions a.redirect-href.love i { background-color: #ff3838; color: white; }
 
 .general-box .topic-reply,
 .general-box .topic-comments {

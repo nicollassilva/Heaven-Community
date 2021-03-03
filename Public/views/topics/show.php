@@ -2,6 +2,7 @@
 
 use App\Boot\ForumConfiguration;
 use App\Languages\GetLanguage;
+use App\Models\WebServices\Web;
 
 $heavenTitle = GetLanguage::get('create_new_topic');
 $heavenBreadcrumb = [GetLanguage::get('topics_title'), $topic['title']];
@@ -32,9 +33,9 @@ include dirname(__DIR__) . "/includes/header.php";
                     <a href="" class="redirect-href"><i class="fas fa-pencil-alt mr-2"></i><?php echo GetLanguage::get('edit_topic') ?></a>
                     <a href="" class="redirect-href"><i class="fas fa-trash mr-2"></i><?php echo GetLanguage::get('remove_topic') ?></a>
                 <?php } ?>
-                <a href="" class="redirect-href"><i class="fab fa-gratipay mr-2"></i><?php echo GetLanguage::get('save_topic') ?></a>
+                <a href="" class="redirect-href love"><i class="fab fa-gratipay mr-2"></i><?php echo GetLanguage::get('save_topic') ?></a>
                 <?php if (isset($_SESSION['userHeavenLogged'])) { ?>
-                    <a href="" class="redirect-href"><i class="fas fa-reply mr-2"></i><?php echo GetLanguage::get('reply_topic') ?></a>
+                    <a href="" class="redirect-href reply"><i class="fas fa-reply mr-2"></i><?php echo GetLanguage::get('reply_topic') ?></a>
                 <?php } ?>
             </div>
         </div>
@@ -57,6 +58,11 @@ include dirname(__DIR__) . "/includes/header.php";
                 <div class="area-comment"><?php echo htmlspecialchars_decode($comment['text']) ?></div>
             </div>
             <?php }} ?>
+        </div>
+    </div>
+    <div class="general-box w-100 p-4 mt-0">
+        <div class="w-100 d-block">
+            <?php echo Web::generateViewPaginate($totalComments, $page, 15) ?>
         </div>
         <h4 class="h4 my-5"><i class="fas fa-angle-double-right mr-2 text-primary"></i><?php echo GetLanguage::get('fast_reply') ?></h4>
         <div class="topic-reply">

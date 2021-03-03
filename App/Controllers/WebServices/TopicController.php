@@ -44,7 +44,8 @@ class TopicController extends BaseApiController {
 
         return $this->view("topics/show", [
             'topic' => $topic,
-            'comments' => $this->commentSystem->findByIdAndPaginate($topic['id'], (isset($data['paginate']) ? (int) $data['paginate'] : 0)),
+            'comments' => $this->commentSystem->findByIdAndPaginate($topic['id'], (isset($data['paginate']) && $data['paginate'] != '1' ? (int) $data['paginate'] - 1 : 0)),
+            'page' => (isset($data['paginate']) ? (int) $data['paginate'] : 1),
             'totalComments' => $this->commentSystem->getTotalById($topic['id']),
             'owner' => $this->user->getUserById($topic['author'], ['username', 'avatar', 'url', 'topics', 'comments', 'last_time']),
             'isOwner' => $this->user->isOwner('id', $topic['author'])
