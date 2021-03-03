@@ -98,5 +98,13 @@
     "wait_5_minutes_for_new_topic": "Espere 5 minutos para postar um novo tópico",
     "new_topic_store_error": "Ocorreu um erro ao postar novo tópico",
     "new_topic_store_success": "O tópico foi aberto com sucesso",
-    "new_topic_invalid_referer_url": "Você está tentando postar um tópico em uma categoria inválida"
+    "new_topic_invalid_referer_url": "Você está tentando postar um tópico em uma categoria inválida",
+    "reaction.like": "Gostei",
+    "reaction.love": "Amei",
+    "reaction.unlike": "Não gostei",
+    "report_topic": "Reportar esse tópico",
+    "edit_topic": "Editar tópico",
+    "remove_topic": "Remover tópico",
+    "save_topic": "Salvar nos favoritos",
+    "comments": "Comentários"
 }

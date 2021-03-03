@@ -1333,7 +1333,7 @@ nav ul li:not(.disabled):hover a {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    border-radius: 50%;
+    border-radius: 15px;
 }
 
 .general-box .area-user .info {
@@ -1362,7 +1362,6 @@ nav ul li:not(.disabled):hover a {
     width: 100%;
     padding: 20px 60px;
     margin-top: 20px;
-    font-size: 14px;
     font-family: 'Exo 2',sans-serif;
     text-align: justify;
     letter-spacing: .5px;
@@ -1378,4 +1377,59 @@ nav ul li:not(.disabled):hover a {
     width: 100%;
     height: 60px;
     position: relative;
+    padding: 0 20px;
+    background-color: #fbfbfb;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, .03)
 }
+
+.general-box .topic-actions button {
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
+    border: none;
+    font-size: 14px;
+    background-color: transparent;
+    margin-left: 20px;
+    color: #222;
+    font-family: 'Exo 2',sans-serif;
+}
+
+.general-box .topic-actions button i {
+    transition: all .5s;
+}
+
+.general-box .topic-actions button:first-of-type { margin-left: 0; }
+.general-box .topic-actions button.like:hover i { color: green; }
+.general-box .topic-actions button.love:hover i { color: red; }
+.general-box .topic-actions button.unlike:hover i { color: pink; }
+
+.general-box .topic-actions .actions {
+    float: right;
+    height: 60px;
+    position: relative;
+}
+
+.general-box .topic-actions .actions a.redirect-href {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #222;
+    font-size: 13px;
+    padding: 0 10px;
+    font-weight: 500;
+    float: left;
+}
+
+.general-box .topic-actions .actions a.redirect-href:not(:last-of-type) { margin-right: 10px; }
+
+.general-box .topic-actions .actions a.redirect-href i {
+    padding: 10px;
+    border-radius: 50%;
+    background-color: #eee;
+    color: #aaa;
+    transition: background-color .3s;
+}
+
+.general-box .topic-actions .actions a.redirect-href:hover i { background-color: var(--strong-color); color: white; }

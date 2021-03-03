@@ -28,6 +28,11 @@ class User extends BaseApiModel {
             ->execute();
     }
 
+    public function isOwner(String $column, $value)
+    {
+        return $this->userLogged() ? ($_SESSION['userHeavenLogged'][$column] == $value ? true : false) : false;
+    }
+
     public function validateStore(Array $filters)
     {
         $validation = \GUMP::is_valid($filters, [

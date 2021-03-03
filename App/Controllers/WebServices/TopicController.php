@@ -41,7 +41,8 @@ class TopicController extends BaseApiController {
 
         return $this->view("topics/show", [
             'topic' => $topic,
-            'owner' => $this->user->getUserById($topic['author'], ['username', 'avatar', 'url', 'topics', 'comments', 'last_time'])
+            'owner' => $this->user->getUserById($topic['author'], ['username', 'avatar', 'url', 'topics', 'comments', 'last_time']),
+            'isOwner' => $this->user->isOwner('id', $topic['author'])
         ]);
     }
 
