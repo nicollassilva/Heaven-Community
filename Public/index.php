@@ -62,6 +62,7 @@ if (Configuration::$forumMaintenance) {
         $router->post('/profile/{handle}/friendRequests', "UserController@friendRequestsAction", "User.FriendRequestAction");
 
         $router->post('/topics/new', "TopicController@store", "Topic.Store");
+        $router->post('/topics/comment', "TopicController@comment", "Topic.Comment");
     }
 }
 

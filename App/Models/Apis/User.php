@@ -195,16 +195,35 @@ class User extends BaseApiModel {
         return $this;
     }
 
+    public function sesSecurity()
+    {
+        if(!isset($_SESSION['securityTime']))
+            $_SESSION['securityTime'] = time();
+
+        if((time() - $_SESSION['securityTime']) > 1800) {
+            session_regenerate_id(true);
+            $_SESSION['securityTime'] = time();
+        }
+    }
+
+    public function findByUuid(String $uuid)
+    {
+        return $this->where([
+            ['uuid', '=', $uuid],
+            ['ip_last', '=', $this->getAdressIP()]
+        ])->limit(1)
+        ->except(['password'])
+        ->execute();
+    }
+
     public function userLogged()
     {
         $uuidCookie = isset($_COOKIE['heaven_user_cookie_uuid']) ? $_COOKIE['heaven_user_cookie_uuid'] : null;
         $uuidSession = isset($_SESSION['user_uuid']) ? $_SESSION['user_uuid'] : null;
 
+        $this->sesSecurity();
         if ($uuidSession !== null) {
-            $user = $this->where([
-                ['uuid', '=', $uuidSession],
-                ['ip_last', '=', $this->getAdressIP()]
-            ])->limit(1)->except(['password'])->execute();
+            $user = $this->findByUuid($uuidSession);
 
             if (is_array($user)) {
                 unset($_SESSION['user_uuid']);
@@ -217,25 +236,22 @@ class User extends BaseApiModel {
                 return true;
             } else {
                 if ($uuidCookie !== null) {
-                    $user = $this->where([
-                        ['uuid', '=', strip_tags(trim(htmlspecialchars($uuidCookie)))],
-                        ['ip_last', '=', $this->getAdressIP()]
-                    ])->except(['password'])->limit(1)->execute();
+                    $user = $this->findByUuid(strip_tags(htmlspecialchars(trim($uuidCookie))));
                     if (is_array($user)) {
                         unset($_SESSION['user_uuid']);
                         $_SESSION['userHeavenLogged'] = $user;
                         
                         return true;
                     } else {
-                        if(isset($_COOKIE['pixelfeed_user_uuid']))
-                            setcookie('pixelfeed_user_uuid', null, -1, "/");
+                        if(isset($_COOKIE['heaven_user_uuid']))
+                            setcookie('heaven_user_uuid', null, -1, "/");
                             
                         session_destroy();
                         return false;
                     }
                 } else {
-                    if(isset($_COOKIE['pixelfeed_user_uuid']))
-                        setcookie('pixelfeed_user_uuid', null, -1, "/");
+                    if(isset($_COOKIE['heaven_user_uuid']))
+                        setcookie('heaven_user_uuid', null, -1, "/");
 
                     unset($_SESSION['user_uuid']);
                     unset($_SESSION['userHeavenLogged']);

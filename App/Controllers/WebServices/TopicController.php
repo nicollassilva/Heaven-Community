@@ -3,6 +3,7 @@
     namespace App\Controllers\WebServices;
 
 use App\Core\Utils\BaseApiController;
+use App\Models\Apis\TopicUtilities\Comment;
 use App\Models\Apis\User;
 use App\Models\WebServices\Topic;
 
@@ -10,12 +11,14 @@ class TopicController extends BaseApiController {
     protected $router;
     protected $model;
     protected $user;
+    protected $commentSystem;
 
     function __construct(Object $router)
     {
         $this->router = $router;
         $this->model = new Topic;
         $this->user = new User;
+        $this->commentSystem = new Comment;
     }
     
     public function create()
@@ -41,6 +44,8 @@ class TopicController extends BaseApiController {
 
         return $this->view("topics/show", [
             'topic' => $topic,
+            'comments' => $this->commentSystem->findByIdAndPaginate($topic['id'], (isset($data['paginate']) ? (int) $data['paginate'] : 0)),
+            'totalComments' => $this->commentSystem->getTotalById($topic['id']),
             'owner' => $this->user->getUserById($topic['author'], ['username', 'avatar', 'url', 'topics', 'comments', 'last_time']),
             'isOwner' => $this->user->isOwner('id', $topic['author'])
         ]);

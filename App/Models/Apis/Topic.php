@@ -3,6 +3,7 @@
 namespace App\Models\Apis;
 
 use App\Core\Utils\BaseApiModel;
+use App\Languages\GetLanguage;
 
 class Topic extends BaseApiModel {
 
@@ -82,13 +83,13 @@ class Topic extends BaseApiModel {
             ])->create();
     }
 
-    public function separateReferer(String $routerReferer)
+    public function separateReferer(String $routerReferer, Bool $paramInt = true)
     {
         $routerReferer = explode('/', $routerReferer);
         
         if(is_array($routerReferer) && count($routerReferer) >= 5)
             return [
-                !isset($routerReferer[5]) ? htmlspecialchars(trim(strip_tags($routerReferer[3]))) : (int) $routerReferer[3],
+                !isset($routerReferer[5]) ? htmlspecialchars(trim(strip_tags($routerReferer[3]))) : ($paramInt ? (int) $routerReferer[3] : $routerReferer[3]),
                 htmlspecialchars(trim(strip_tags($routerReferer[4]))),
                 isset($routerReferer[5]) ? htmlspecialchars(trim(strip_tags($routerReferer[5]))) : null
             ];
@@ -121,5 +122,18 @@ class Topic extends BaseApiModel {
             ->orderBy('id', 'DESC')
             ->execute()
         );
+    }
+
+    public function prepareStoreComment(Int $topic)
+    {
+        $topic = $this->find($topic)->execute();
+
+        if(!$topic)
+            return GetLanguage::get('topic_no_exists');
+
+        if($topic['comments'] == 'false' || $topic['visible'] == 'false' || $topic['moderate'] == 'closed')
+            return GetLanguage::get('topic_comments_disabled');
+
+        return (int) $topic['id'];
     }
 }

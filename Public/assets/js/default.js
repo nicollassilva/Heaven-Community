@@ -104,14 +104,17 @@ Community = {
                         a.attr("disabled", !1), a.text(n)
                     }, 1500)
                 },
-                error: (a) => {
-                    console.log(a)
+                error: (b) => {
+                    console.log(b)
                     iziToast.show({
                         title: "Error!",
                         message: "Error Code AC01.",
                         closeOnClick: !0,
                         position: "bottomCenter"
                     })
+                    setTimeout(() => {
+                        a.attr("disabled", !1), a.text(n)
+                    }, 1500)
                 }
             })
         })

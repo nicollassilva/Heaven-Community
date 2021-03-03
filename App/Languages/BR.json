@@ -96,6 +96,7 @@
     "new_topic_help": "Ajuda",
     "new_topic_request": "Pedido",
     "wait_5_minutes_for_new_topic": "Espere 5 minutos para postar um novo tópico",
+    "wait_5_minutes_for_new_comment": "Espere 5 minutos para postar um novo comentário",
     "new_topic_store_error": "Ocorreu um erro ao postar novo tópico",
     "new_topic_store_success": "O tópico foi aberto com sucesso",
     "new_topic_invalid_referer_url": "Você está tentando postar um tópico em uma categoria inválida",
@@ -106,5 +107,12 @@
     "edit_topic": "Editar tópico",
     "remove_topic": "Remover tópico",
     "save_topic": "Salvar nos favoritos",
-    "comments": "Comentários"
+    "comments": "Comentários",
+    "reply_topic": "Responder tópico",
+    "reply_topic_button": "Responder",
+    "fast_reply": "Resposta Rápida",
+    "register_to_react": "Registre-se ou faça login para realizar essa ação",
+    "topic_no_exists": "Esse tópico não foi encontrado.",
+    "topic_comments_disabled": "Esse tópico está fechado para comentários",
+    "topic_comment_store_success": "Você comentou esse tópico"
 }

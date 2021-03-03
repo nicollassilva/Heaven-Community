@@ -1368,10 +1368,19 @@ nav ul li:not(.disabled):hover a {
     line-height: 20px;
     border-bottom: 1px solid #eee;
     margin-bottom: 20px;
+    color: #222;
+}
+
+.mce-content-body {
+    letter-spacing: .5px !important;
+    line-height: 20px !important;
+    font-family: 'Exo 2',sans-serif !important;
 }
 
 .general-box .topic-body ol, 
-.general-box .topic-body ul { list-style: inherit; }
+.general-box .topic-body ul,
+.general-box .topic-comments .topic-comment .area-comment ol,
+.general-box .topic-comments .topic-comment .area-comment ul { list-style: inherit; }
 
 .general-box .topic-actions {
     width: 100%;
@@ -1382,7 +1391,8 @@ nav ul li:not(.disabled):hover a {
     box-shadow: 0 0 3px 2px rgba(0, 0, 0, .03)
 }
 
-.general-box .topic-actions button {
+.general-box .topic-actions button,
+.general-box .topic-comments .topic-comment .area-user .comment-actions button {
     width: 40px;
     height: 40px;
     margin-top: 10px;
@@ -1433,3 +1443,61 @@ nav ul li:not(.disabled):hover a {
 }
 
 .general-box .topic-actions .actions a.redirect-href:hover i { background-color: var(--strong-color); color: white; }
+
+.general-box .topic-reply,
+.general-box .topic-comments {
+    width: 100%;
+    position: relative;
+}
+
+.tox:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type),
+.tox .tox-menubar,
+.tox .tox-toolbar, .tox .tox-toolbar__overflow, .tox .tox-toolbar__primary,
+.tox .tox-toolbar-overlord,
+.tox .tox-statusbar { border: none !important; background-image: none !important; }
+
+.tox-tinymce { border: 1px solid #eee !important; }
+
+.general-box .topic-comments .topic-comment {
+    width: 100%;
+    min-height: 300px;
+    max-height: 600px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 10px 30px;
+    margin-top: 20px;
+}
+
+.general-box .topic-comments .topic-comment .area-user::before { display: none; }
+
+.general-box .topic-comments .topic-comment .area-user .avatar,
+.general-box .topic-comments .topic-comment .area-user .info { float: left; }
+
+.general-box .topic-comments .topic-comment .area-user .avatar { border-radius: 50%; }
+
+.general-box .topic-comments .topic-comment .area-user .comment-actions {
+    height: 60px;
+    float: right;
+}
+
+.general-box .topic-comments .topic-comment .area-user .comment-actions button { font-size: 12px; background-color: #f0f0f0; border-radius: 50%; margin-right: 0; transition: all .4s; }
+.general-box .topic-comments .topic-comment .area-user .comment-actions button:hover { background-color: var(--strong-color); color: white; }
+
+.general-box .topic-comments .topic-comment .area-comment {
+    width: 100%;
+    max-height: 490px;
+    min-height: 180px;
+    margin-top: 10px;
+    overflow-y: auto;
+    padding: 10px 20px;
+    background-color: #fafafa;
+    font-family: 'Exo 2',sans-serif;
+    text-align: justify;
+    letter-spacing: .5px;
+    line-height: 20px;
+    border-bottom: 1px solid #eee;
+    color: #222;
+}
+
+.general-box .topic-comments .topic-comment .area-comment img { max-width: 100%; }

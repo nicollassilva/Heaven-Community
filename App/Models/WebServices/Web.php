@@ -20,4 +20,9 @@ class Web extends BaseApiModel {
 
         return isset($info[$information]) ? $info[$information] : false;
     }
+
+    public function generateViewPaginate(Int $total, Int $page, Int $limit)
+    {
+        
+    }
 }
