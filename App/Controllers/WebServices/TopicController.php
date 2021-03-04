@@ -4,6 +4,7 @@
 
 use App\Core\Utils\BaseApiController;
 use App\Models\Apis\TopicUtilities\Comment;
+use App\Models\Apis\TopicUtilities\LastActivities;
 use App\Models\Apis\User;
 use App\Models\WebServices\Topic;
 
@@ -12,13 +13,15 @@ class TopicController extends BaseApiController {
     protected $model;
     protected $user;
     protected $commentSystem;
-
-    function __construct(Object $router)
+    protected $lastActivitiesSystem;
+    
+    function __construct(?Object $router = null)
     {
         $this->router = $router;
         $this->model = new Topic;
         $this->user = new User;
         $this->commentSystem = new Comment;
+        $this->lastActivitiesSystem = new LastActivities;
     }
     
     public function create()
@@ -55,5 +58,10 @@ class TopicController extends BaseApiController {
     public function paginate(Array $data)
     {
         
+    }
+
+    public function lastActivities(Int $limit)
+    {
+        return $this->lastActivitiesSystem->show();
     }
 }

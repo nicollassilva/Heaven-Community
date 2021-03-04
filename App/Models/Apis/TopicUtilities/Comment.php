@@ -3,17 +3,22 @@
 namespace App\Models\Apis\TopicUtilities;
 
 use App\Core\Utils\BaseApiModel;
+use App\Models\Apis\TopicUtilities\LastActivities;
 
 class Comment extends BaseApiModel {
+    protected $lastActivitiesSystem;
 
     function __construct()
     {
         parent::__construct('topics_comments', 'id');
+        $this->lastActivitiesSystem = new LastActivities;
     }
 
     public function store(Array $data)
     {
-        (new Comment)
+        $this->lastActivitiesSystem->store($data['topic']);
+
+        return (new Comment)
             ->request([
                 'topic' => trim(strip_tags($data['topic'])),
                 'author' => $_SESSION['userHeavenLogged']['id'],

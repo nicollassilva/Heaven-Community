@@ -1,5 +1,7 @@
 <?php
 
+use App\Boot\ForumConfiguration;
+use App\Controllers\WebServices\TopicController;
 use App\Languages\GetLanguage;
 use App\Models\Apis\{
     Balance,
@@ -7,6 +9,9 @@ use App\Models\Apis\{
     User
 };
 use App\Models\WebServices\Categories\Tertiary;
+
+$topicObject = new TopicController();
+$lastActivities = $topicObject->lastActivities(15);
 
 $heavenBreadcrumb = ['Página Inicial'];
 include "includes/header.php";
@@ -109,14 +114,15 @@ include "includes/header.php";
                     <?php echo GetLanguage::get('last_activities_title') ?>
                 </div>
                 <ul class="activies">
-                    <?php for ($i = 0; $i < 15; $i++) { ?>
+                    <?php if(is_array($lastActivities)) { foreach($lastActivities as $lastActivitie) { ?>
                         <li>
-                            <div class="photo" style="background-image: url('https://i.pinimg.com/originals/8b/da/ca/8bdaca81d5ddbaeb92b61d6b5787d866.jpg')"></div>
-                            <div class="title text-truncate"><a href="/topic/">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur quisquam, accusamus quae quam.</a></div>
-                            <div class="time">Hoje ás 13:45</div>
-                            <div class="owner text-truncate"><i class="fas fa-user text-secondary mr-1"></i><a href="/user/">iNicollas</a></div>
+                            <?php echo $lastActivitie['id'] ?>
+                            <div class="photo" style="background-image: url('/uploads/profiles/<?php echo $lastActivitie['avatar'] ?>')"></div>
+                            <div class="title text-truncate"><a href="/topic/<?php echo $lastActivitie['idTopic'] . '/' . $lastActivitie['url'] ?>"><?php echo $lastActivitie['title'] ?></a></div>
+                            <div class="time"><?php echo ForumConfiguration::formatTime($lastActivitie['date']) ?></div>
+                            <div class="owner text-truncate"><i class="fas fa-user text-secondary mr-1"></i><a href="/profile/<?php echo $lastActivitie['urlProfile'] ?>"><?php echo $lastActivitie['username'] ?></a></div>
                         </li>
-                    <?php } ?>
+                    <?php }} ?>
                 </ul>
             </div>
             <div class="general-title" center>

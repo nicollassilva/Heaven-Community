@@ -10,6 +10,7 @@ use App\Models\Apis\Topic;
 use App\Models\Apis\User;
 use App\Models\WebServices\Categories\Union;
 use App\Models\Apis\TopicUtilities\Comment;
+use App\Models\Apis\TopicUtilities\LastActivities;
 use Exception;
 
 class TopicController extends BaseApiController implements WebApisControllerInterface
@@ -18,6 +19,7 @@ class TopicController extends BaseApiController implements WebApisControllerInte
     protected $model;
     protected $unionCategory;
     protected $commentSystem;
+    protected $lastActivitiesSystem;
 
 
     function __construct(Object $router)
@@ -27,6 +29,7 @@ class TopicController extends BaseApiController implements WebApisControllerInte
         $this->user = new User;
         $this->unionCategory = new Union;
         $this->commentSystem = new Comment;
+        $this->lastActivitiesSystem = new LastActivities;
     }
 
     public function store(array $data)
@@ -63,6 +66,8 @@ class TopicController extends BaseApiController implements WebApisControllerInte
             $newTopic = $this->model->new($response);
 
             if ($newTopic) {
+                $lastTopic = (new Topic)->orderBy('id', 'DESC')->limit(1)->execute();
+                $this->lastActivitiesSystem->store($lastTopic['id']);
                 return $this->response(
                     GetLanguage::get('new_topic_store_success'),
                     "success"
