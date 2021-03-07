@@ -3,26 +3,31 @@
 namespace App\Controllers\Apis;
 
 use Exception;
-use App\Models\Apis\User;
-use App\Models\Apis\Topic;
-use App\Models\Apis\Balance;
+use App\Models\Apis\{
+    User,
+    Topic,
+    Balance,
+    TopicUtilities\Comment,
+    UserUtilities\Notification,
+    TopicUtilities\LastActivities,
+    TopicUtilities\Reactions
+};
 use App\Languages\GetLanguage;
 use App\Core\Utils\BaseApiController;
-use App\Models\Apis\TopicUtilities\Comment;
 use App\Models\WebServices\Categories\Union;
-use App\Models\Apis\UserUtilities\Notification;
-use App\Models\Apis\TopicUtilities\LastActivities;
 use App\Controllers\_interfaces\WebApisControllerInterface;
 
 class TopicController extends BaseApiController implements WebApisControllerInterface
 {
     protected $router;
     protected $model;
+    protected $user;
     protected $unionCategory;
     protected $commentSystem;
     protected $lastActivitiesSystem;
     protected $notificationSystem;
     protected $notificationCommentIconColors = ['#f0932b', '#eb4d4b', '#be2edd', '#22a6b3', '#30336b', '#f9ca24'];
+    protected $reactionSystem;
     
 
     function __construct(Object $router)
@@ -34,6 +39,7 @@ class TopicController extends BaseApiController implements WebApisControllerInte
         $this->commentSystem = new Comment;
         $this->lastActivitiesSystem = new LastActivities;
         $this->notificationSystem = new Notification;
+        $this->reactionSystem = new Reactions;
     }
 
     public function store(array $data)
@@ -72,6 +78,7 @@ class TopicController extends BaseApiController implements WebApisControllerInte
             if ($newTopic) {
                 $lastTopic = (new Topic)->orderBy('id', 'DESC')->limit(1)->execute();
                 $realCategories = $this->unionCategory->getCategoriesByQuaternary($lastTopic['category']);
+                $this->user->updateBalance($_SESSION['userHeavenLogged']['id'], 'topics');
                 
                 if(is_array($realCategories)) {
                     $this->lastActivitiesSystem->store($lastTopic['id'], $realCategories);
@@ -133,6 +140,7 @@ class TopicController extends BaseApiController implements WebApisControllerInte
                 
                 if($newComment) {
                     $this->model->updateBalance($response['topic']);
+                    $this->user->updateBalance($_SESSION['userHeavenLogged']['id']);
 
                     if($_SESSION['userHeavenLogged']['id'] != $logicTopicStoreComment['author']['id']) {
                         $this->notificationSystem->store(
@@ -148,6 +156,37 @@ class TopicController extends BaseApiController implements WebApisControllerInte
                 }
             } catch (Exception $e) {}
         }
+    }
+
+    public function reaction(Array $data)
+    {
+        $response = $this->model->shield($data);
+        $validate = $this->reactionSystem->validateStore($response);
+        
+        if(is_array($validate))
+            return $this->response($validate[0]);
+
+        if (!$topic = $this->model->find((int) $response['topic'])->execute()) {
+            return $this->response(GetLanguage::get('topic_no_exists'));
+        } else {
+            if ($topic['reactions'] == 'false') {
+                return $this->response(GetLanguage::get('topic_reactions_disabled'));
+            } else {
+                if ($this->reactionSystem->checkReaction($topic['id'])) {
+                    return $this->response(GetLanguage::get('already_vote_topic'));
+                } else {
+                    try {
+                        $newVote = $this->reactionSystem->new($response);
+                        
+                        if ($newVote)
+                            return $this->response(GetLanguage::get('vote_successful'), "success");
+
+                        return $this->response("Error");
+                    } catch(Exception $e) {}
+                }
+            }
+        }
+
     }
 
     public function show()

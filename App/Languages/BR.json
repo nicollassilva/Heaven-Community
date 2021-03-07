@@ -113,12 +113,16 @@
     "register_to_react": "Registre-se ou faça login para realizar essa ação",
     "topic_no_exists": "Esse tópico não foi encontrado.",
     "topic_comments_disabled": "Esse tópico está fechado para comentários",
+    "topic_reactions_disabled": "Esse tópico não aceita reações",
     "topic_comment_store_success": "Você comentou esse tópico",
     "topic_doesnt_accept_comments": "Esse tópico não aceita comentários",
-    "topic_closed_by_moderator": "Esse tópico foi fechado por um moderador.",
+    "topic_closed_by_moderator": "Tópico fechado por um moderador.",
     "make_a_topic_now": "Faça um tópico para ele aparecer aqui",
     "time_format": "Há %s atrás",
     "comment_your_topic": "O usuário <b>%s</b> comentou seu tópico! Clique aqui para conferir",
     "report_comment": "Reportar esse comentário",
-    "quote_button": "Citar usuário"
+    "quote_button": "Citar usuário",
+    "already_vote_topic": "Você já votou nesse tópico",
+    "vote_successful": "Voto computado com sucesso",
+    "error_ajax": "Ocorreu um erro no AJAX!"
 }

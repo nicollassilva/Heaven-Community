@@ -8,6 +8,7 @@ use App\Models\Apis\{
     Topic,
     User
 };
+use App\Models\Apis\TopicUtilities\Comment;
 use App\Models\WebServices\Categories\Tertiary;
 
 $topicObject = new TopicController();
@@ -40,7 +41,7 @@ include "includes/header.php";
                 <div class="card">
                     <i class="fas bg-info fa-comment"></i>
                     <span>
-                        <p><?php echo GetLanguage::get('card_statistics_comments') ?></p>18
+                        <p><?php echo GetLanguage::get('card_statistics_comments') ?></p><?php echo (new Comment)->countAllComments() ?>
                     </span>
                 </div>
             </div>

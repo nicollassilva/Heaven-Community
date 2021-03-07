@@ -82,4 +82,18 @@ class Comment extends BaseApiModel {
     {
         return $this->where([['topic', '=', $topic], ['visible', '=', 'true']])->count()->execute();
     }
+
+    public function countAllComments()
+    {
+        if (!isset($_SESSION['allComments'])) {
+            $all = $this
+                ->where([['visible', '=', 'true']])
+                ->count()
+                ->execute();
+
+            $_SESSION['allComments'] = $all;
+        }
+
+        return $_SESSION['allComments'] ?? $all;
+    }
 }

@@ -292,4 +292,19 @@ class User extends BaseApiModel {
             ->limit(1)
             ->execute();
     }
+
+    public function updateBalance(Int $user, String $balance = 'comments')
+    {
+        $user = $this->find($user)->only(['id', $balance])->execute(true);
+
+        if(!$user)
+            return false;
+
+        if(isset($user->$balance)) {
+            $user->$balance++;
+            $_SESSION['userHeavenLogged'][$balance] = $user->balance;
+            
+            $user->save();
+        }
+    }
 }

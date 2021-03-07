@@ -28,6 +28,7 @@ $notifications = $notificationModel->getNotifications();
 
     <meta property="og:title" content="<?php echo $heavenTitle ?? ForumConfiguration::$forumName . ' - ' . ForumConfiguration::$forumTitle ?>!">
     <meta property="og:url" content="<?php echo ForumConfiguration::$forumAddress ?>">
+    <meta name="logged" content="<?php echo (int) $userModel->userLogged() ?>">
     <meta property="og:image" content="<?php echo ForumConfiguration::$forumAddress ?>media/images/logonova.gif">
 
     <meta name="theme-color" content="#2980b9">
@@ -55,6 +56,12 @@ $notifications = $notificationModel->getNotifications();
 
     <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
     <script src="https://cdn.tiny.cloud/1/<?php echo ForumConfiguration::$tinyMCEKey ?>/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        const _langs = {
+            register_to_react: "<?php echo GetLanguage::get('register_to_react') ?>",
+            error_ajax: "<?php echo GetLanguage::get('error_ajax') ?>"
+        };
+    </script>
 </head>
 
 <body class="animated fadeIn">

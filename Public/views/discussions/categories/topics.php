@@ -7,8 +7,6 @@ $heavenTitle = 'Tópicos: ' . $quaternary['name'];
 $heavenBreadcrumb = ['Fórum', $tertiary['name'], $quaternary['name']];
 include dirname(__DIR__, 2) . "/includes/header.php";
 
-echo $quaternary['id'];
-
 ?>
 <div class="container">
     <div class="general-box">

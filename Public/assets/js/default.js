@@ -1,6 +1,8 @@
 Community = {
     url: window.location.pathname,
     urlArray: window.location.pathname.split('/'),
+    userLogged: Number($('meta[name="logged"]').attr('content')),
+    delayReactionPost: false,
 
     init() {
         this.tooltip(),
@@ -13,6 +15,10 @@ Community = {
             this.userProfile(),
             this.userFriendRequestsAction(),
             this.tinyMCEEditor()
+
+            if(this.urlArray[1] === 'topic') {
+                this.topicReaction()
+            }
     },
 
     tooltip() {
@@ -284,6 +290,67 @@ Community = {
             }],
             content_css: ['https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i']
         });
+    },
+
+    topicReaction() {
+        const thisClass = this
+
+        $('.topic-actions button.reaction').on('click', function() {
+            if(!thisClass.userLogged) {
+                thisClass.alerts(_langs.register_to_react, 'error')
+            } else {
+                if(!thisClass.delayReactionPost) {
+                    $.ajax({
+                        url: 'topics/reaction',
+                        dataType: 'JSON',
+                        method: 'POST',
+                        data: {
+                            type: $(this)[0].classList[1],
+                            topic: Number(thisClass.urlArray[2])
+                        },
+                        beforeSend: () => {
+                            thisClass.delayReactionPost = true;
+                        },
+                        success: (response) => {
+                            if(response.success) {
+                                thisClass.alerts(response.msg, 'success', response.title)
+
+                                const span = $(this).find('span')
+                                span.html(Number(span.html() + 1))
+                            } else {
+                                thisClass.alerts(response.msg, 'error', response.title)
+                            }
+
+                            setTimeout(() => thisClass.delayReactionPost = false, 5000)
+                        },
+                        error: (error) => {
+                            thisClass.alerts(_langs.error_ajax, "error")
+                            setTimeout(() => thisClass.delayReactionPost = false, 5000)
+                        }
+                    })
+                }
+            }
+        })
+    },
+
+    alerts(msg, type, title = '') {
+        if (type === 'success') {
+            title = 'Yeah'
+            iziToast.show({
+                title: title,
+                icon: 'fas fa-check',
+                progressBarColor: 'rgba(68, 189, 50, 1.0)',
+                message: msg
+            })
+        } else if (type === 'error') {
+            title = 'Oops'
+            iziToast.show({
+                title: title,
+                icon: 'fas fa-times',
+                progressBarColor: 'rgba(255, 94, 87,1.0)',
+                message: msg
+            })
+        }
     }
 }
 

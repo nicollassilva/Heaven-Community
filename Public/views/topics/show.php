@@ -2,16 +2,19 @@
 
 use App\Boot\ForumConfiguration;
 use App\Languages\GetLanguage;
+use App\Models\Apis\TopicUtilities\Reactions;
 use App\Models\WebServices\Web;
 
-$heavenTitle = GetLanguage::get('create_new_topic');
+$heavenTitle = $topic['title'];
 $heavenBreadcrumb = [GetLanguage::get('topics_title'), $topic['title']];
 include dirname(__DIR__) . "/includes/header.php";
+
+$reactions = (new Reactions)->showById($topic['id']);
 
 ?>
 <div class="container">
     <div class="general-box w-100 p-4 bg-white">
-        <h4 class="h4 w-100 text-truncate font-weight-bold text-center mb-3"><?php echo $topic['title'] ?></h4>
+        <h4 class="h4 w-100 text-truncate text-center mb-3"><?php echo $topic['title'] ?></h4>
         <div class="area-user" center>
             <div class="avatar" style="background-image: url('uploads/profiles/<?php echo $owner['avatar'] ?>')"></div>
             <div class="info">
@@ -23,9 +26,13 @@ include dirname(__DIR__) . "/includes/header.php";
             <?php echo htmlspecialchars_decode($topic['text']) ?>
         </div>
         <div class="topic-actions mb-5">
-            <button class="like" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.like') ?>"><i class="fas fa-thumbs-up"></i> <span>0</span></button>
-            <button class="love" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.love') ?>"><i class="far fa-heart"></i> <span>0</span></button>
-            <button class="unlike" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.unlike') ?>"><i class="fas fa-thumbs-down"></i> <span>0</span></button>
+            <?php if($topic['reactions'] == 'true') { ?>
+            <button class="reaction like" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.like') ?>"><i class="fas fa-thumbs-up d-block mb-1"></i> <span><?php echo $reactions['like'] ?? 0 ?></span></button>
+            <button class="reaction love" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.love') ?>"><i class="far fa-heart d-block mb-1"></i> <span><?php echo $reactions['love'] ?? 0 ?></span></button>
+            <button class="reaction unlike" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.unlike') ?>"><i class="fas fa-thumbs-down d-block mb-1"></i> <span><?php echo $reactions['unlike'] ?? 0 ?></span></button>
+            <?php } else { ?>
+                <span class="topic-help float-left mt-2 px-3 py-2" style="font-size: 12px;"><i class="fas fa-times mr-2"></i><?php echo GetLanguage::get('topic_reactions_disabled') ?></span>
+            <?php } ?>
             <div class="actions">
                 <?php if (!$isOwner) { ?>
                     <a href="" class="redirect-href"><i class="fas fa-exclamation-circle mr-2"></i><?php echo GetLanguage::get('report_topic') ?></a>
@@ -60,7 +67,7 @@ include dirname(__DIR__) . "/includes/header.php";
             <?php }} ?>
         </div>
     </div>
-    <div class="general-box w-100 p-4 mt-0">
+    <div class="general-box w-100 p-4 mt-0" style="min-height: 100px;">
         <div class="w-100 d-block">
             <?php echo Web::generateViewPaginate($totalComments, $page, 15) ?>
         </div>

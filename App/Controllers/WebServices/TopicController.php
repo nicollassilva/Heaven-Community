@@ -6,6 +6,7 @@ use App\Core\Utils\BaseApiController;
 use App\Models\Apis\TopicUtilities\Comment;
 use App\Models\Apis\TopicUtilities\LastActivities;
 use App\Models\Apis\User;
+use App\Models\Apis\UserUtilities\Notification;
 use App\Models\WebServices\Topic;
 
 class TopicController extends BaseApiController {
@@ -14,12 +15,14 @@ class TopicController extends BaseApiController {
     protected $user;
     protected $commentSystem;
     protected $lastActivitiesSystem;
+    protected $notificationSystem;
     
     function __construct(?Object $router = null)
     {
         $this->router = $router;
         $this->model = new Topic;
         $this->user = new User;
+        $this->notificationSystem = new Notification;
         $this->commentSystem = new Comment;
         $this->lastActivitiesSystem = new LastActivities;
     }
@@ -45,6 +48,9 @@ class TopicController extends BaseApiController {
         if((!$topic = $this->model->find($id)->limit(1)->execute()) || $handle != $topic['url'])
             return $this->view('error');
 
+        if($this->user->userLogged())
+            $this->notificationSystem->checkNotificationsByUrl($_SERVER['REQUEST_URI']);
+            
         return $this->view("topics/show", [
             'topic' => $topic,
             'comments' => $this->commentSystem->findByIdAndPaginate($topic['id'], (isset($data['paginate']) && $data['paginate'] != '1' ? (int) $data['paginate'] - 1 : 0)),

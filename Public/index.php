@@ -64,6 +64,7 @@ if (Configuration::$forumMaintenance) {
 
         $router->post('/topics/new', "TopicController@store", "Topic.Store");
         $router->post('/topics/comment', "TopicController@comment", "Topic.Comment");
+        $router->post('/topics/reaction', "TopicController@reaction", "Topic.Reaction");
     }
 }
 
