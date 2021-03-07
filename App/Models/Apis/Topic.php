@@ -19,7 +19,7 @@ class Topic extends BaseApiModel {
             'text' => 'required|min_len,30|max_len,5000',
             'comments' => 'required|contains,Y;N',
             'reactions' => 'required|contains,Y;N',
-            'type' => 'required|contains,C;R;CMS;A',
+            'type' => 'required|contains,C;R;CMS;A;P',
             'referer' => 'required|valid_url'
         ], [
             'title' => [
@@ -76,7 +76,7 @@ class Topic extends BaseApiModel {
                 'author' => $_SESSION['userHeavenLogged']['id'],
                 'url' => $this->urlFormat(strip_tags($data['title'])),
                 'category' => $data['categoryId'],
-                'type' => $data['type'] === 'C' ? 'normal' : ($data['type'] === 'R' ? 'request' : ($data['type'] === 'CMS' ? 'cms' : 'help')),
+                'type' => $data['type'] === 'C' ? 'normal' : ($data['type'] === 'R' ? 'request' : ($data['type'] === 'CMS' ? 'cms' : ($data['type'] == 'P' ? 'pack' : 'help'))),
                 'comments' => $data['comments'] === 'Y' ? 'true' : 'false',
                 'reactions' => $data['reactions'] === 'Y' ? 'true' : 'false',
                 'date' => time()
@@ -101,6 +101,7 @@ class Topic extends BaseApiModel {
     {
         if (!isset($_SESSION['allTopics'])) {
             $all = $this
+                ->where([['visible', '=', 'true']])
                 ->count()
                 ->execute();
 
@@ -134,6 +135,9 @@ class Topic extends BaseApiModel {
         if($topic['comments'] == 'false' || $topic['visible'] == 'false' || $topic['moderate'] == 'closed')
             return GetLanguage::get('topic_comments_disabled');
 
-        return (int) $topic['id'];
+        return [
+            'id' => $topic['id'],
+            'category' => $topic['category']
+        ];
     }
 }

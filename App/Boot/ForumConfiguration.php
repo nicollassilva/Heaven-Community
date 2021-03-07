@@ -104,4 +104,27 @@ abstract class ForumConfiguration {
 			}
 		}
     }
+
+    public static function getTagForTopic(String $type = 'normal')
+    {
+        switch ($type) {
+            case 'request':
+                $languageTag = GetLanguage::get('new_topic_request');
+                break;
+            case 'help':
+                $languageTag = GetLanguage::get('new_topic_help');
+                break;
+            case 'cms':
+                $languageTag = 'CMS';
+                break;
+            case 'pack':
+                $languageTag = 'PACK';
+                break;
+            default:
+                $languageTag = 'normal';
+                break;
+        }
+
+        return $type != 'normal' ? "<span class=\"topic-{$type}\">{$languageTag}</span>" : '';
+    }
 }

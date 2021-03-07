@@ -65,4 +65,28 @@ class Union extends BaseApiModel {
             ];
         }
     }
+
+    public function getCategoriesByQuaternary(Int $quaternary)
+    {
+        $quaternaryCat = $this->categoryFour->find($quaternary)->only(['id', 'categorie_tertiary_id'])->execute();
+
+        if(!$quaternaryCat)
+            return false;
+
+        $tertiary = $this->categoryThree->find($quaternaryCat['categorie_tertiary_id'])->only(['id', 'categorie_secondary_id'])->execute();
+
+        if(!$tertiary)
+            return false;
+
+        $secondary = $this->categoryTwo->find($tertiary['categorie_secondary_id'])->only(['id'])->execute();
+
+        if(!$secondary)
+            return false;
+
+        return [
+            'secondary' => $secondary['id'],
+            'tertiary' => $tertiary['id'],
+            'quaternary' => $quaternaryCat['id']
+        ];
+    }
 }

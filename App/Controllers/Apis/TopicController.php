@@ -67,7 +67,11 @@ class TopicController extends BaseApiController implements WebApisControllerInte
 
             if ($newTopic) {
                 $lastTopic = (new Topic)->orderBy('id', 'DESC')->limit(1)->execute();
-                $this->lastActivitiesSystem->store($lastTopic['id']);
+                $realCategories = $this->unionCategory->getCategoriesByQuaternary($lastTopic['category']);
+                if(is_array($realCategories)) {
+                    $this->lastActivitiesSystem->store($lastTopic['id'], $realCategories);
+                }
+                
                 return $this->response(
                     GetLanguage::get('new_topic_store_success'),
                     "success"
@@ -113,7 +117,13 @@ class TopicController extends BaseApiController implements WebApisControllerInte
                 return $this->response($logicTopicStoreComment);
                 
             try {
-                $response['topic'] = $logicTopicStoreComment;
+                $response['topic'] = $logicTopicStoreComment['id'];
+
+                $realCategories = $this->unionCategory->getCategoriesByQuaternary($logicTopicStoreComment['category']);
+                if(is_array($realCategories)) {
+                    $this->lastActivitiesSystem->store($logicTopicStoreComment['id'], $realCategories);
+                }
+
                 $newComment = $this->commentSystem->store($response);
                 
                 if($newComment)

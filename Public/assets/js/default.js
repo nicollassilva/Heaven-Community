@@ -12,7 +12,7 @@ Community = {
             this.userLogout(),
             this.userProfile(),
             this.userFriendRequestsAction(),
-            this.tinyMCE()
+            this.tinyMCEEditor()
     },
 
     tooltip() {
@@ -262,7 +262,7 @@ Community = {
         }
     },
 
-    tinyMCE() {
+    tinyMCEEditor() {
         tinymce.init({
             selector: '#text_editor_textarea',
             height: 435,

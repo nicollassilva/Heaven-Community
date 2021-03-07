@@ -16,8 +16,6 @@ class Comment extends BaseApiModel {
 
     public function store(Array $data)
     {
-        $this->lastActivitiesSystem->store($data['topic']);
-
         return (new Comment)
             ->request([
                 'topic' => trim(strip_tags($data['topic'])),
@@ -75,7 +73,7 @@ class Comment extends BaseApiModel {
                     ])->only(['c.*', 'u.username', 'u.avatar', 'u.url'])
                     ->take($limit)
                     ->skip($paginate)
-                    ->orderBy('id', 'DESC')
+                    ->orderBy('id')
                     ->execute()
             );
     }

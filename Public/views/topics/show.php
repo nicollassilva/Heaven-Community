@@ -23,15 +23,15 @@ include dirname(__DIR__) . "/includes/header.php";
             <?php echo htmlspecialchars_decode($topic['text']) ?>
         </div>
         <div class="topic-actions mb-5">
-            <button class="like" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.like') ?>"><i class="fas fa-thumbs-up"></i> <?php echo random_int(0, 100000) ?></button>
-            <button class="love" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.love') ?>"><i class="far fa-heart"></i> <?php echo random_int(0, 100000) ?></button>
-            <button class="unlike" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.unlike') ?>"><i class="fas fa-thumbs-down"></i> <?php echo random_int(0, 100000) ?></button>
+            <button class="like" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.like') ?>"><i class="fas fa-thumbs-up"></i> <span>0</span></button>
+            <button class="love" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.love') ?>"><i class="far fa-heart"></i> <span>0</span></button>
+            <button class="unlike" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.unlike') ?>"><i class="fas fa-thumbs-down"></i> <span>0</span></button>
             <div class="actions">
                 <?php if (!$isOwner) { ?>
                     <a href="" class="redirect-href"><i class="fas fa-exclamation-circle mr-2"></i><?php echo GetLanguage::get('report_topic') ?></a>
                 <?php } else { ?>
-                    <a href="" class="redirect-href"><i class="fas fa-pencil-alt mr-2"></i><?php echo GetLanguage::get('edit_topic') ?></a>
-                    <a href="" class="redirect-href"><i class="fas fa-trash mr-2"></i><?php echo GetLanguage::get('remove_topic') ?></a>
+                    <a href="" class="redirect-href" editTopic><i class="fas fa-pencil-alt mr-2"></i><?php echo GetLanguage::get('edit_topic') ?></a>
+                    <a href="" class="redirect-href" destroyTopic><i class="fas fa-trash mr-2"></i><?php echo GetLanguage::get('remove_topic') ?></a>
                 <?php } ?>
                 <a href="" class="redirect-href love"><i class="fab fa-gratipay mr-2"></i><?php echo GetLanguage::get('save_topic') ?></a>
                 <?php if (isset($_SESSION['userHeavenLogged'])) { ?>
@@ -66,7 +66,7 @@ include dirname(__DIR__) . "/includes/header.php";
         </div>
         <h4 class="h4 my-5"><i class="fas fa-angle-double-right mr-2 text-primary"></i><?php echo GetLanguage::get('fast_reply') ?></h4>
         <div class="topic-reply">
-            <?php if(isset($_SESSION['userHeavenLogged'])) { ?>
+            <?php if($topic['comments'] == 'true' && $topic['moderate'] != 'closed') { if(isset($_SESSION['userHeavenLogged'])) { ?>
             <form action="<?php echo ForumConfiguration::getRouter('Topic.Comment') ?? '' ?>" method="post" autocomplete="off">
                 <div class="form-group">
                     <textarea id="text_editor_textarea" class="form-control" name="text"></textarea>
@@ -78,6 +78,15 @@ include dirname(__DIR__) . "/includes/header.php";
             <?php } else { ?>
                 <div class="alert alert-danger">
                     <?php echo GetLanguage::get('register_to_react') ?>
+                </div>
+            <?php }} else { ?>
+                <div class="alert alert-danger">
+                    <?php echo GetLanguage::get('topic_doesnt_accept_comments') ?>
+                </div>
+            <?php } ?>
+            <?php if($topic['moderate'] == 'closed') { ?>
+                <div class="alert alert-warning">
+                    <?php echo GetLanguage::get('topic_closed_by_moderator') ?>
                 </div>
             <?php } ?>
         </div>

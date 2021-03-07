@@ -24,6 +24,8 @@ class Web extends BaseApiModel {
 
     public static function generateViewPaginate(Int $total, Int $atual, Int $limit)
     {
+        if(!$total) return;
+
         $pageComplete = explode('/', $_SERVER['REQUEST_URI']);
         $page = function(Int $pageId) use ($pageComplete) {
             return ForumConfiguration::getRouter('Topic.ShowPagination', [

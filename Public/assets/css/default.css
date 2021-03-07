@@ -1503,3 +1503,19 @@ nav ul li:not(.disabled):hover a {
 }
 
 .general-box .topic-comments .topic-comment .area-comment img { max-width: 100%; }
+
+span.topic-help,
+span.topic-request,
+span.topic-cms,
+span.topic-pack {
+    padding: 1px 3px;
+    border: 1px solid darkred;
+    color: darkred;
+    border-radius: 5px;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+span.topic-request { border-color: darkorange; color: darkorange; }
+span.topic-cms { border-color: darkcyan; color: darkcyan; }
+span.topic-pack { border-color: darkolivegreen; color: darkolivegreen; }

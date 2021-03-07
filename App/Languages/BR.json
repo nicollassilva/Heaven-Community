@@ -114,5 +114,7 @@
     "register_to_react": "Registre-se ou faça login para realizar essa ação",
     "topic_no_exists": "Esse tópico não foi encontrado.",
     "topic_comments_disabled": "Esse tópico está fechado para comentários",
-    "topic_comment_store_success": "Você comentou esse tópico"
+    "topic_comment_store_success": "Você comentou esse tópico",
+    "topic_doesnt_accept_comments": "Esse tópico não aceita comentários",
+    "topic_closed_by_moderator": "Esse tópico foi fechado por um moderador."
 }

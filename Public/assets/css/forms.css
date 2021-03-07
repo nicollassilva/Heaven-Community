@@ -8,12 +8,16 @@ button.btn { box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.07) }
 *[class*="btn"].btn-danger { background: var(--default-wallpaper), var(--danger); }
 *[class*="btn"].btn-warning { background: var(--default-wallpaper), var(--warning); }
 
-.alert {font-size: 13px; position: relative; overflow: hidden; padding-left: 60px; }
+.alert {font-size: 13px; height: 50px; position: relative; overflow: hidden; padding-left: 60px; display: flex; justify-content: flex-start; align-items: center; }
 
 .alert.alert-danger { border-color: #c0392b; background: var(--default-wallpaper), #e74c3c; color: var(--light); font-weight: 500; }
 .alert.alert-success { border-color: #27ae60; background: var(--default-wallpaper), #2ecc71; color: var(--light); font-weight: 500; }
+.alert.alert-warning { border-color: #cc8e35; background: var(--default-wallpaper), #ffb142; color: var(--light); font-weight: 500; }
+.alert.alert-info { border-color: #227093; background: var(--default-wallpaper), #34ace0; color: var(--light); font-weight: 500; }
 
 .alert.alert-danger::before,
+.alert.alert-warning::before,
+.alert.alert-info::before,
 .alert.alert-success::before {
     content: '\f05e';
     font-family: var(--fontAwesome);
@@ -26,6 +30,8 @@ button.btn { box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.07) }
 }
 
 .alert.alert-success::before { color: darkgreen; content: '\f00c'; }
+.alert.alert-warning::before { color: darkgoldenrod; content: '\f071'; }
+.alert.alert-info::before { color: darkslateblue; content: '\f12a'; left: 20px; top: 10px; }
 
 .alert b,
 .alert strong { font-weight: 700; color: white; }
