@@ -221,7 +221,7 @@ class UserController extends BaseApiController implements WebApisControllerInter
                     if($decision === 'Y' && is_array($friendRelation)) {
                         $this->activitieSystem->store(
                             $_SESSION['userHeavenLogged']['id'],
-                            GetLanguage::get('user_started_new_friend') . (!is_bool($friendRelation) ? GetLanguage::get('word_with_spaces') . $friendRelation['username'] . '!' : '!')
+                            GetLanguage::get('user_started_new_friend') . (!is_bool($friendRelation) ? $friendRelation['username'] . '!' : '!')
                         );
 
                         $this->notificationSystem->store(

@@ -1519,3 +1519,10 @@ span.topic-pack {
 span.topic-request { border-color: darkorange; color: darkorange; }
 span.topic-cms { border-color: darkcyan; color: darkcyan; }
 span.topic-pack { border-color: darkolivegreen; color: darkolivegreen; }
+
+span.make-new-topic {
+    width: 100%;
+    height: 100%;
+    float: left;
+    font-size: 12px;
+}

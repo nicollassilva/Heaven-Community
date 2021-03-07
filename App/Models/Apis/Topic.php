@@ -2,14 +2,20 @@
 
 namespace App\Models\Apis;
 
-use App\Core\Utils\BaseApiModel;
+use App\Models\Apis\User;
 use App\Languages\GetLanguage;
+use App\Core\Utils\BaseApiModel;
+use App\Models\Apis\TopicUtilities\LastActivities;
 
 class Topic extends BaseApiModel {
+    protected $lastActivitiesSystem;
+    protected $userSystem;
 
     function __construct()
     {
         parent::__construct('topics', 'id');
+        $this->lastActivitiesSystem = new LastActivities;
+        $this->userSystem = new User;
     }
 
     public function validateStore(Array $filters)
@@ -136,8 +142,28 @@ class Topic extends BaseApiModel {
             return GetLanguage::get('topic_comments_disabled');
 
         return [
-            'id' => $topic['id'],
-            'category' => $topic['category']
+            'id' => (int) $topic['id'],
+            'category' => (int) $topic['category'],
+            'author' => (new User)->find($topic['author'])->only(['username', 'id'])->execute(),
+            'url' => $topic['url']
         ];
+    }
+
+    public function lastTopic(Int $categorieId, String $categorie = 'secondary')
+    {
+        $categorie = 'categorie_' . $categorie . '_id';
+
+        return $this->lastActivitiesSystem->show($categorieId, $categorie);
+    }
+
+    public function updateBalance(Int $topic, String $balance = 'comments')
+    {
+        $topic = $this->find($topic)->execute(true);
+
+        if(!$topic)
+            return false;
+
+        $balance == 'comments' ? $topic->commentsT++ : $topic->views++;
+        $topic->save();
     }
 }

@@ -16,7 +16,7 @@ include dirname(__DIR__) . "/includes/header.php";
             <div class="avatar" style="background-image: url('uploads/profiles/<?php echo $owner['avatar'] ?>')"></div>
             <div class="info">
                 <span class="name"><a class="text-dark" href="<?php echo ForumConfiguration::getRouter('User.Profile', ['handle' => $owner['url']]) ?>"><?php echo $owner['username'] ?></a></span>
-                <span class="date"><i class="fas fa-clock mr-2"></i><?php echo ForumConfiguration::formatTime($topic['date']) ?></span>
+                <span class="date"><i class="fas fa-clock mr-2"></i><?php echo sprintf(GetLanguage::get('time_format'), ForumConfiguration::formatTime($topic['date'])) ?></span>
             </div>
         </div>
         <div class="topic-body">
@@ -47,10 +47,10 @@ include dirname(__DIR__) . "/includes/header.php";
                     <div class="avatar" style="background-image: url('uploads/profiles/<?php echo $comment['avatar'] ?>')"></div>
                     <div class="info">
                         <span class="name"><a class="text-dark" href="<?php echo ForumConfiguration::getRouter('User.Profile', ['handle' => $comment['url']]) ?>"><?php echo $comment['username'] ?></a></span>
-                        <span class="date"><i class="fas fa-clock mr-2"></i><?php echo ForumConfiguration::formatTime($comment['date']) ?></span>
+                        <span class="date"><i class="fas fa-clock mr-2"></i><?php echo sprintf(GetLanguage::get('time_format'), ForumConfiguration::formatTime($comment['date'])) ?></span>
                     </div>
                     <div class="comment-actions">
-                        <button data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.like') ?>"><i class="fas fa-quote-left"></i></button>
+                        <button data-toggle="tooltip" title="<?php echo GetLanguage::get('quote_button') ?>"><i class="fas fa-quote-left"></i></button>
                         <button data-toggle="tooltip" title="<?php echo GetLanguage::get('report_comment') ?>"><i class="fas fa-exclamation-circle"></i></button>
                         <button data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.like') ?>"><i class="fas fa-thumbs-up"></i></button>
                     </div>

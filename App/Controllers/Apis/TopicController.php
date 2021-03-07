@@ -2,16 +2,17 @@
 
 namespace App\Controllers\Apis;
 
-use App\Controllers\_interfaces\WebApisControllerInterface;
-use App\Core\Utils\BaseApiController;
-use App\Languages\GetLanguage;
-use App\Models\Apis\Balance;
-use App\Models\Apis\Topic;
-use App\Models\Apis\User;
-use App\Models\WebServices\Categories\Union;
-use App\Models\Apis\TopicUtilities\Comment;
-use App\Models\Apis\TopicUtilities\LastActivities;
 use Exception;
+use App\Models\Apis\User;
+use App\Models\Apis\Topic;
+use App\Models\Apis\Balance;
+use App\Languages\GetLanguage;
+use App\Core\Utils\BaseApiController;
+use App\Models\Apis\TopicUtilities\Comment;
+use App\Models\WebServices\Categories\Union;
+use App\Models\Apis\UserUtilities\Notification;
+use App\Models\Apis\TopicUtilities\LastActivities;
+use App\Controllers\_interfaces\WebApisControllerInterface;
 
 class TopicController extends BaseApiController implements WebApisControllerInterface
 {
@@ -20,7 +21,9 @@ class TopicController extends BaseApiController implements WebApisControllerInte
     protected $unionCategory;
     protected $commentSystem;
     protected $lastActivitiesSystem;
-
+    protected $notificationSystem;
+    protected $notificationCommentIconColors = ['#f0932b', '#eb4d4b', '#be2edd', '#22a6b3', '#30336b', '#f9ca24'];
+    
 
     function __construct(Object $router)
     {
@@ -30,6 +33,7 @@ class TopicController extends BaseApiController implements WebApisControllerInte
         $this->unionCategory = new Union;
         $this->commentSystem = new Comment;
         $this->lastActivitiesSystem = new LastActivities;
+        $this->notificationSystem = new Notification;
     }
 
     public function store(array $data)
@@ -68,6 +72,7 @@ class TopicController extends BaseApiController implements WebApisControllerInte
             if ($newTopic) {
                 $lastTopic = (new Topic)->orderBy('id', 'DESC')->limit(1)->execute();
                 $realCategories = $this->unionCategory->getCategoriesByQuaternary($lastTopic['category']);
+                
                 if(is_array($realCategories)) {
                     $this->lastActivitiesSystem->store($lastTopic['id'], $realCategories);
                 }
@@ -126,8 +131,21 @@ class TopicController extends BaseApiController implements WebApisControllerInte
 
                 $newComment = $this->commentSystem->store($response);
                 
-                if($newComment)
+                if($newComment) {
+                    $this->model->updateBalance($response['topic']);
+
+                    if($_SESSION['userHeavenLogged']['id'] != $logicTopicStoreComment['author']['id']) {
+                        $this->notificationSystem->store(
+                            $logicTopicStoreComment['author']['id'],
+                            sprintf(GetLanguage::get('comment_your_topic'), $logicTopicStoreComment['author']['username']),
+                            $this->router->route('Topic.Show', ['id' => $logicTopicStoreComment['id'], 'handle' => $logicTopicStoreComment['url']]),
+                            'far fa-comment-alt',
+                            $this->notificationCommentIconColors[array_rand($this->notificationCommentIconColors)]
+                        );
+                    }
+                    
                     return $this->response(GetLanguage::get('topic_comment_store_success'), 'success');
+                }
             } catch (Exception $e) {}
         }
     }

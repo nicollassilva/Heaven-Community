@@ -35,21 +35,36 @@ class LastActivities extends BaseApiModel {
     /**
      * @return null|array|false
      */
-    public function show()
+    public function show(?Int $categorieId = null, ?String $categorie = null)
     {
-        $lastActivities = (new LastActivities)
-            ->useTable('last_activities la, users u, topics t')
-            ->where([
-                ['la.topic', '=', 't.id', false],
-                ['la.author', '=', 'u.id', false],
-                ['t.visible', '=', 'true']
-            ])
-            ->only(['t.id as idTopic', 'la.id', 't.type', 't.title', 't.url', 'la.date', 'u.username', 'u.avatar', 'u.url as urlProfile'])
-            ->limit(15)
-            ->orderBy('la.id', 'DESC')
-            ->execute();
+        if($categorieId && $categorie) {
+            $lastActivitie = (new LastActivities)
+                ->useTable('last_activities la, users u, topics t')
+                ->where([
+                    ["la.{$categorie}", '=', $categorieId],
+                    ['la.topic', '=', 't.id', false],
+                    ['la.author', '=', 'u.id', false],
+                    ['t.visible', '=', 'true']
+                ])
+                ->only(['t.id as idTopic', 'la.id', 't.type', 't.title', 't.url', 'la.date', 'u.username', 'u.avatar', 'u.url as urlProfile'])
+                ->limit(1)
+                ->orderBy('la.id', 'DESC')
+                ->execute();
+        } else {
+            $lastActivities = (new LastActivities)
+                ->useTable('last_activities la, users u, topics t')
+                ->where([
+                    ['la.topic', '=', 't.id', false],
+                    ['la.author', '=', 'u.id', false],
+                    ['t.visible', '=', 'true']
+                ])
+                ->only(['t.id as idTopic', 'la.id', 't.type', 't.title', 't.url', 'la.date', 'u.username', 'u.avatar', 'u.url as urlProfile'])
+                ->limit(15)
+                ->orderBy('la.id', 'DESC')
+                ->execute();
+        }
         
-        return $this->fixArray($lastActivities);
+        return !$categorieId ? $this->fixArray($lastActivities) : $lastActivitie;
     }
 
     public function checkEqualsActivitie(Int $idTopic)

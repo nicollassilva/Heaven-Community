@@ -56,7 +56,8 @@ include "includes/header.php";
         <div class="categories-box">
             <?php if (is_array($primaryCategories)) {
                 foreach ($primaryCategories as $categorie) {
-                    $sub = $categorie['sub']; ?>
+                    $sub = $categorie['sub'];
+                    ?>
                     <div class="general-categorie" <?php echo $categorie['backgroundColor'] ? ' style="background: var(--default-wallpaper), ' . $categorie['backgroundColor'] . '"' : '' ?>>
                         <div class="icon" center><?php echo $categorie['icon'] ?></div>
                         <div class="name" center><?php echo $categorie['name'] ?></div>
@@ -65,6 +66,7 @@ include "includes/header.php";
                     <ul class="sub-categories">
                         <?php if (is_array($sub)) {
                             foreach ($sub as $subcategorie) {
+                                $lastTopic = (new Topic)->lastTopic($subcategorie['id']);
                                 $listCategories = (new Tertiary)->show($subcategorie['id']);
                                 $balanceCategorie = (new Balance)->getStatistics($subcategorie['id'], null);
                             ?>
@@ -90,11 +92,14 @@ include "includes/header.php";
                                         <span class="description"><?php echo $subcategorie['description'] ?></span>
                                     </div>
                                     <div class="last-post">
-                                        <div class="photo" style="background-image: url('https://i.pinimg.com/originals/8b/da/ca/8bdaca81d5ddbaeb92b61d6b5787d866.jpg')"></div>
-                                        <div class="title text-truncate"><a href="/topic/">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur quisquam, accusamus quae quam.</a></div>
-                                        <div class="time">Hoje ás 13:45</div>
-                                        <div class="owner text-truncate"><i class="fas fa-user text-secondary mr-1"></i><a href="/user/">iNicollas</a></div>
+                                    <?php if(is_array($lastTopic)) { ?>
+                                        <div class="photo" style="background-image: url('uploads/profiles/<?php echo $lastTopic['avatar'] ?>')"></div>
+                                        <div class="title text-truncate"><a href="/topic/<?php echo $lastTopic['idTopic'] . '/' . $lastTopic['url'] ?>"><?php echo ForumConfiguration::getTagForTopic(strtolower($lastTopic['type'])) ?><?php echo $lastTopic['title'] ?></a></div>
+                                        <div class="time"><?php echo sprintf(GetLanguage::get('time_format'), ForumConfiguration::formatTime($lastTopic['date'])) ?></div>
+                                        <div class="owner text-truncate"><i class="fas fa-user text-secondary mr-1"></i><a href="/user/<?php echo $lastTopic['urlProfile'] ?>"><?php echo $lastTopic['username'] ?></a></div>
+                                    <?php } else { echo '<span class="make-new-topic" center>' . GetLanguage::get('make_a_topic_now') . '</span>'; } ?>
                                     </div>
+                                        
                                 </li>
                             <?php }
                         } else { ?>
@@ -114,14 +119,7 @@ include "includes/header.php";
                     <?php echo GetLanguage::get('last_activities_title') ?>
                 </div>
                 <ul class="activies">
-                    <?php if(is_array($lastActivities)) { foreach($lastActivities as $lastActivitie) { ?>
-                        <li>
-                            <div class="photo" style="background-image: url('/uploads/profiles/<?php echo $lastActivitie['avatar'] ?>')"></div>
-                            <div class="title text-truncate"><a href="/topic/<?php echo $lastActivitie['idTopic'] . '/' . $lastActivitie['url'] ?>"><?php echo ForumConfiguration::getTagForTopic(strtolower($lastActivitie['type'])) ?><?php echo $lastActivitie['title'] ?></a></div>
-                            <div class="time"><?php echo ForumConfiguration::formatTime($lastActivitie['date']) ?></div>
-                            <div class="owner text-truncate"><i class="fas fa-user text-secondary mr-1"></i><a href="/profile/<?php echo $lastActivitie['urlProfile'] ?>"><?php echo $lastActivitie['username'] ?></a></div>
-                        </li>
-                    <?php }} ?>
+                    <?php require __DIR__ . '/includes/lastActivities.php' ?>
                 </ul>
             </div>
             <div class="general-title" center>

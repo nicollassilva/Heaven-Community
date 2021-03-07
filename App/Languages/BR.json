@@ -79,8 +79,7 @@
     "user_request_successful_response": "Pedido de amizade respondido!",
     "user_request_badly_response": "Ocorreu um erro ao responder o pedido de amizade.",
     "user_no_friend_requests": "Nenhum pedido de amizade por aqui!",
-    "user_started_new_friend": "Começou uma nova amizade",
-    "word_with_spaces": " com ",
+    "user_started_new_friend": "Começou uma nova amizade com ",
     "user_accept_your_friend_request": " aceitou seu pedido de amizade!",
     "text_post_new_topic": "Novo tópico",
     "last_topics_comments": "Últimos tópicos vistos",
@@ -116,5 +115,10 @@
     "topic_comments_disabled": "Esse tópico está fechado para comentários",
     "topic_comment_store_success": "Você comentou esse tópico",
     "topic_doesnt_accept_comments": "Esse tópico não aceita comentários",
-    "topic_closed_by_moderator": "Esse tópico foi fechado por um moderador."
+    "topic_closed_by_moderator": "Esse tópico foi fechado por um moderador.",
+    "make_a_topic_now": "Faça um tópico para ele aparecer aqui",
+    "time_format": "Há %s atrás",
+    "comment_your_topic": "O usuário <b>%s</b> comentou seu tópico! Clique aqui para conferir",
+    "report_comment": "Reportar esse comentário",
+    "quote_button": "Citar usuário"
 }

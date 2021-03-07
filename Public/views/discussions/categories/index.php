@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\Apis\Topic;
 use App\Models\Apis\Balance;
 use App\Languages\GetLanguage;
 use App\Boot\ForumConfiguration;
-use App\Models\WebServices\Categories\Tertiary;
 
 $heavenTitle = $secondary['name'] . ' - ' . $tertiary['name'];
 $heavenBreadcrumb = ['Fórum', $secondary['name'], $tertiary['name']];
@@ -17,9 +17,6 @@ include dirname(__DIR__, 2) . "/includes/header.php";
                 <span><?php echo $secondary['name'] . '<i class="fas fa-angle-double-right mx-2"></i>' . $tertiary['name'] ?></span>
                 <p><?php echo $tertiary['description'] ?></p>
                 <hr class="my-0">
-                <?php if (!is_array($quaternary) && isset($_SESSION['userHeavenLogged'])) { ?>
-                    <a href="<?php echo ForumConfiguration::getRouter('Topic.Create') ?>" class="btn btn-sm mt-3 btn-success"><i class="fas fa-plus mr-2"></i><?php echo GetLanguage::get('text_post_new_topic') ?></a>
-                <?php } ?>
                 <button class="btn btn-sm mt-3 btn-dark ml-2"><i class="fas fa-list-ol mr-2"></i><?php echo GetLanguage::get('last_topics_comments') ?></button>
             </div>
             <?php if (is_array($quaternary)) { ?>
@@ -36,6 +33,7 @@ include dirname(__DIR__, 2) . "/includes/header.php";
             <ul class="sub-categories">
                 <?php if (is_array($quaternary)) {
                     foreach ($quaternary as $categorie) {
+                        $lastTopic = (new Topic)->lastTopic($categorie['id'], 'quaternary');
                         $balanceCategorie = (new Balance)->getStatistics(null, null, $categorie['id']);
                     ?>
                         <li class="subcategorie">
@@ -49,10 +47,12 @@ include dirname(__DIR__, 2) . "/includes/header.php";
                                 <span class="description"><?php echo $categorie['description'] ?></span>
                             </div>
                             <div class="last-post">
-                                <div class="photo" style="background-image: url('https://i.pinimg.com/originals/8b/da/ca/8bdaca81d5ddbaeb92b61d6b5787d866.jpg')"></div>
-                                <div class="title text-truncate"><a href="/topic/">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur quisquam, accusamus quae quam.</a></div>
-                                <div class="time">Hoje ás 13:45</div>
-                                <div class="owner text-truncate"><i class="fas fa-user text-secondary mr-1"></i><a href="/user/">iNicollas</a></div>
+                            <?php if(is_array($lastTopic)) { ?>
+                                <div class="photo" style="background-image: url('uploads/profiles/<?php echo $lastTopic['avatar'] ?>')"></div>
+                                <div class="title text-truncate"><a href="/topic/<?php echo $lastTopic['idTopic'] . '/' . $lastTopic['url'] ?>"><?php echo ForumConfiguration::getTagForTopic(strtolower($lastTopic['type'])) ?><?php echo $lastTopic['title'] ?></a></div>
+                                <div class="time"><?php echo sprintf(GetLanguage::get('time_format'), ForumConfiguration::formatTime($lastTopic['date'])) ?></div>
+                                <div class="owner text-truncate"><i class="fas fa-user text-secondary mr-1"></i><a href="/user/<?php echo $lastTopic['urlProfile'] ?>"><?php echo $lastTopic['username'] ?></a></div>
+                            <?php } else { echo '<span class="make-new-topic" center>' . GetLanguage::get('make_a_topic_now') . '</span>'; } ?>
                             </div>
                         </li>
                 <?php }
@@ -65,14 +65,7 @@ include dirname(__DIR__, 2) . "/includes/header.php";
                     <?php echo GetLanguage::get('last_activities_title') ?>
                 </div>
                 <ul class="activies">
-                    <?php for ($i = 0; $i < 15; $i++) { ?>
-                        <li>
-                            <div class="photo" style="background-image: url('https://i.pinimg.com/originals/8b/da/ca/8bdaca81d5ddbaeb92b61d6b5787d866.jpg')"></div>
-                            <div class="title text-truncate"><a href="/topic/">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur quisquam, accusamus quae quam.</a></div>
-                            <div class="time">Hoje ás 13:45</div>
-                            <div class="owner text-truncate"><i class="fas fa-user text-secondary mr-1"></i><a href="/user/">iNicollas</a></div>
-                        </li>
-                    <?php } ?>
+                    <?php require dirname(__DIR__, 2) . '/includes/lastActivities.php' ?>
                 </ul>
             </div>
             <div class="general-title" center>

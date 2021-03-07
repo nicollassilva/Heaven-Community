@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\Apis\Topic;
 use App\Models\Apis\Balance;
 use App\Languages\GetLanguage;
 use App\Boot\ForumConfiguration;
-use App\Models\WebServices\Categories\Tertiary;
 
 $heavenTitle = $primary['name'] . ' - ' . $secondary['name'];
 $heavenBreadcrumb = ['Fórum', $primary['name'], $secondary['name']];
@@ -30,6 +30,7 @@ include dirname(__DIR__) . "/includes/header.php";
             <ul class="sub-categories">
                 <?php if (is_array($tertiary)) {
                     foreach ($tertiary as $subcategorie) {
+                        $lastTopic = (new Topic)->lastTopic($subcategorie['id'], 'tertiary');
                         $listCategories = $quaternary((int) $subcategorie['id']);
                         $balanceCategorie = (new Balance)->getStatistics(null, $subcategorie['id']);
                         ?>
@@ -51,10 +52,12 @@ include dirname(__DIR__) . "/includes/header.php";
                                 <span class="description"><?php echo $subcategorie['description'] ?></span>
                             </div>
                             <div class="last-post">
-                                <div class="photo" style="background-image: url('https://i.pinimg.com/originals/8b/da/ca/8bdaca81d5ddbaeb92b61d6b5787d866.jpg')"></div>
-                                <div class="title text-truncate"><a href="/topic/">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur quisquam, accusamus quae quam.</a></div>
-                                <div class="time">Hoje ás 13:45</div>
-                                <div class="owner text-truncate"><i class="fas fa-user text-secondary mr-1"></i><a href="/user/">iNicollas</a></div>
+                            <?php if(is_array($lastTopic)) { ?>
+                                <div class="photo" style="background-image: url('uploads/profiles/<?php echo $lastTopic['avatar'] ?>')"></div>
+                                <div class="title text-truncate"><a href="/topic/<?php echo $lastTopic['idTopic'] . '/' . $lastTopic['url'] ?>"><?php echo ForumConfiguration::getTagForTopic(strtolower($lastTopic['type'])) ?><?php echo $lastTopic['title'] ?></a></div>
+                                <div class="time"><?php echo sprintf(GetLanguage::get('time_format'), ForumConfiguration::formatTime($lastTopic['date'])) ?></div>
+                                <div class="owner text-truncate"><i class="fas fa-user text-secondary mr-1"></i><a href="/user/<?php echo $lastTopic['urlProfile'] ?>"><?php echo $lastTopic['username'] ?></a></div>
+                            <?php } else { echo '<span class="make-new-topic" center>' . GetLanguage::get('make_a_topic_now') . '</span>'; } ?>
                             </div>
                         </li>
                     <?php }
@@ -71,14 +74,7 @@ include dirname(__DIR__) . "/includes/header.php";
                     <?php echo GetLanguage::get('last_activities_title') ?>
                 </div>
                 <ul class="activies">
-                    <?php for ($i = 0; $i < 15; $i++) { ?>
-                        <li>
-                            <div class="photo" style="background-image: url('https://i.pinimg.com/originals/8b/da/ca/8bdaca81d5ddbaeb92b61d6b5787d866.jpg')"></div>
-                            <div class="title text-truncate"><a href="/topic/">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur quisquam, accusamus quae quam.</a></div>
-                            <div class="time">Hoje ás 13:45</div>
-                            <div class="owner text-truncate"><i class="fas fa-user text-secondary mr-1"></i><a href="/user/">iNicollas</a></div>
-                        </li>
-                    <?php } ?>
+                    <?php require dirname(__DIR__, 1) . '/includes/lastActivities.php' ?>
                 </ul>
             </div>
             <div class="general-title" center>
