@@ -69,4 +69,21 @@ class Reactions extends BaseApiModel {
 
         return $is_valid;
     }
+
+    public function getReactionsByTopic(Int $topic)
+    {
+        return $this
+            ->fixArray(
+                (new Reactions)
+                    ->useTable('topics_reactions tr, users u')
+                    ->where([
+                        ['tr.topic', '=', $topic],
+                        ['u.id', '=', 'tr.author', false]
+                    ])
+                    ->only(['tr.*', 'u.username', 'u.url', 'u.avatar'])
+                    ->limit(25)
+                    ->orderBy('id', 'DESC')
+                    ->execute()
+            );
+    }
 }

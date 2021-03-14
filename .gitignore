@@ -1,6 +1,6 @@
 /vendor
-.env
-.db
-.sql
+*.env
+*.db
+*.sql
 *.log
 /App/Boot/Logs.log

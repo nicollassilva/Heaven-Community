@@ -1,14 +1,17 @@
 <?php
 
+use App\Models\Apis\User;
 use App\Languages\GetLanguage;
 use App\Boot\ForumConfiguration;
+use App\Controllers\Apis\SlideController;
 use App\Models\Apis\UserUtilities\Notification;
-use App\Models\Apis\User;
 
 $userModel = new User;
 $notificationModel = new Notification;
+$slideObject = new SlideController;
 
 $notifications = $notificationModel->getNotifications();
+$slides = $slideObject->show();
 
 ?>
 <!DOCTYPE html>
@@ -128,7 +131,7 @@ $notifications = $notificationModel->getNotifications();
                 <?php } else { ?>
                     <div class="logged-box">
                         <div class="box-me">
-                            <a class="menuLogged active" center><i class="far fa-bell"><?php echo $_SESSION['myNotifications']['c'] > 0 ? '<span class="badge badge-danger">'.$_SESSION['myNotifications']['c'].'</span>' : '' ?></i></a>
+                            <a class="menuLogged active" center><i class="far fa-bell"><?php echo $_SESSION['myNotifications']['c'] > 0 ? '<span class="badge badge-danger">' . $_SESSION['myNotifications']['c'] . '</span>' : '' ?></i></a>
                             <a class="menuLogged messages" center><i class="far fa-envelope-open"></i></a>
                             <div class="dropdown">
                                 <div class="me text-truncate"><?php echo $_SESSION['userHeavenLogged']['username'] ?><i class="fas fa-chevron-down ml-2"></i></div>
@@ -148,22 +151,24 @@ $notifications = $notificationModel->getNotifications();
                             <div class="box-notifications">
                                 <div class="title" center><i class="fas fa-bell mr-2"></i>Minhas notificações (<?php echo $_SESSION['myNotifications']['c'] ?>)</div>
                                 <ul>
-                                    <?php if(is_array($notifications)) { foreach($notifications as $notification) { ?>
-                                    <a href="<?php echo $notification['url'] ?>">
-                                        <i class="<?php echo $notification['icon'] ?>" style="background-color: <?php echo $notification['iconColor'] ?>"></i>
-                                        <span><?php echo mb_strimwidth($notification['text'], 0, 70, '...') ?></span>
-                                    </a>
-                                    <?php }} ?>
+                                    <?php if (is_array($notifications)) {
+                                        foreach ($notifications as $notification) { ?>
+                                            <a href="<?php echo $notification['url'] ?>">
+                                                <i class="<?php echo $notification['icon'] ?>" style="background-color: <?php echo $notification['iconColor'] ?>"></i>
+                                                <span><?php echo mb_strimwidth($notification['text'], 0, 70, '...') ?></span>
+                                            </a>
+                                    <?php }
+                                    } ?>
                                 </ul>
                             </div>
                             <div class="box-notifications message">
                                 <div class="title" center><i class="fas fa-envelope mr-2"></i>Minhas mensagens (2)</div>
                                 <ul>
-                                    <?php for($i = 0; $i < 15; $i++) { ?>
-                                    <a href="">
-                                        <i class="far fa-envelope"></i>
-                                        <span class="mt-3"><?php echo mb_strimwidth('lyod.hp enviou uma mensagem pra você...', 0, 40, '...') ?></span>
-                                    </a>
+                                    <?php for ($i = 0; $i < 15; $i++) { ?>
+                                        <a href="">
+                                            <i class="far fa-envelope"></i>
+                                            <span class="mt-3"><?php echo mb_strimwidth('lyod.hp enviou uma mensagem pra você...', 0, 40, '...') ?></span>
+                                        </a>
                                     <?php } ?>
                                 </ul>
                             </div>
@@ -187,3 +192,31 @@ $notifications = $notificationModel->getNotifications();
             </nav>
         </div>
     </div>
+    <?php if($_SERVER['REQUEST_URI'] === '/' && is_array($slides)) { ?>
+    <div class="container">
+        <div class="swiper-container slide">
+            <div class="swiper-wrapper">
+                <?php foreach($slides as $slide) { ?>
+                <div class="swiper-slide" style="background-image:url('uploads/slides/<?php echo $slide['image'] ?>')">
+                    <div class="swiper-info">
+                        <div class="swiper-title text-truncate"><a href="<?php echo $slide['url'] ?>"<?php echo $slide['new_window'] == 'true' ? ' target="_blank"' : '' ?>><?php echo $slide['title'] ?></a></div>
+                        <div class="swiper-description"><?php echo $slide['description'] ?></div>
+                    </div>
+                </div>
+                <?php } ?>
+            </div>
+
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="container-news">
+            <?php for($i = 0; $i < 4; $i++) { ?>
+                <div class="box-new">
+                    <div class="image" style="background-image:url('uploads/slides/team.jpg')"></div>
+                    <div class="title text-truncate"><a href="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis ullam non quis mollitia minima nemo doloribus.</a></div>
+                    <div class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis ullam non quis mollitia minima nemo doloribus. Blanditiis ullam non quis mollitia minima nemo doloribus.</div>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+    <?php } ?>

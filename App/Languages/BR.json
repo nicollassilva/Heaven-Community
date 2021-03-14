@@ -124,5 +124,6 @@
     "quote_button": "Citar usuário",
     "already_vote_topic": "Você já votou nesse tópico",
     "vote_successful": "Voto computado com sucesso",
-    "error_ajax": "Ocorreu um erro no AJAX!"
+    "error_ajax": "Ocorreu um erro no AJAX!",
+    "user_reaction_text": "%s votou '%s' para esse tópico."
 }

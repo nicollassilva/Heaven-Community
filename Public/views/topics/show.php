@@ -9,7 +9,9 @@ $heavenTitle = $topic['title'];
 $heavenBreadcrumb = [GetLanguage::get('topics_title'), $topic['title']];
 include dirname(__DIR__) . "/includes/header.php";
 
-$reactions = (new Reactions)->showById($topic['id']);
+$reactionObject = new Reactions;
+$reactions = $reactionObject->showById($topic['id']);
+$reactionUsers = $reactionObject->getReactionsByTopic($topic['id']);
 
 ?>
 <div class="container">
@@ -25,7 +27,7 @@ $reactions = (new Reactions)->showById($topic['id']);
         <div class="topic-body">
             <?php echo htmlspecialchars_decode($topic['text']) ?>
         </div>
-        <div class="topic-actions mb-5">
+        <div class="topic-actions mb-3">
             <?php if($topic['reactions'] == 'true') { ?>
             <button class="reaction like" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.like') ?>"><i class="fas fa-thumbs-up d-block mb-1"></i> <span><?php echo $reactions['like'] ?? 0 ?></span></button>
             <button class="reaction love" data-toggle="tooltip" title="<?php echo GetLanguage::get('reaction.love') ?>"><i class="far fa-heart d-block mb-1"></i> <span><?php echo $reactions['love'] ?? 0 ?></span></button>
@@ -46,6 +48,13 @@ $reactions = (new Reactions)->showById($topic['id']);
                 <?php } ?>
             </div>
         </div>
+        <?php if(is_array($reactionUsers)) { ?>
+        <div class="topic-actions mb-5 float-left" style="min-height: 60px; height: auto; max-height: auto;">
+            <?php foreach($reactionUsers as $reaction) { ?>
+            <a href="/profile/<?php echo $reaction['url'] ?>" class="user-reaction reaction-<?php echo $reaction['type'] ?>" data-toggle="tooltip" title="<?php echo sprintf(GetLanguage::get('user_reaction_text'), $reaction['username'], GetLanguage::get('reaction.' . $reaction['type'])) ?>" style="background-image: url('uploads/profiles/<?php echo $reaction['avatar'] ?>')"></a>
+            <?php } ?>
+        </div>
+        <?php } ?>
         <h4 class="h4"><?php echo GetLanguage::get('comments') ?> (<?php echo $totalComments ?>)</h4>
         <div class="topic-comments">
             <?php if(is_array($comments)) { foreach($comments as $comment) { ?>

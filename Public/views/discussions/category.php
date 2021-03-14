@@ -77,19 +77,6 @@ include dirname(__DIR__) . "/includes/header.php";
                     <?php require dirname(__DIR__, 1) . '/includes/lastActivities.php' ?>
                 </ul>
             </div>
-            <div class="general-title" center>
-                <?php echo GetLanguage::get('our_partners') ?>
-            </div>
-            <div class="partners">
-                <div class="swiper-container">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide" style="background-image: url('https://i.pinimg.com/originals/de/f6/96/def69643889ee29e232637646e839064.jpg')"></div>
-                        <div class="swiper-slide" style="background-image: url('https://i2.wp.com/marketingcomcafe.com.br/wp-content/uploads/2017/12/banco-imagens-gratis.png')"></div>
-                        <div class="swiper-slide" style="background-image: url('https://i0.wp.com/gamelogia.com.br/wp-content/uploads/2016/11/gamer.jpg?resize=1280%2C640&ssl=1')"></div>
-                    </div>
-                    <div class="swiper-pagination"></div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

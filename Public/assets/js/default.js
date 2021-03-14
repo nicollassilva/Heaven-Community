@@ -5,7 +5,7 @@ Community = {
     delayReactionPost: false,
 
     init() {
-        this.tooltip(),
+        this.functions(),
             this.slidesCommunity(),
             this.minimizeCategorie(),
             this.iziToastInit(),
@@ -21,13 +21,27 @@ Community = {
             }
     },
 
-    tooltip() {
+    functions() {
         $(document).tooltip({
             selector: '[data-toggle="tooltip"]',
             html: true,
             boundary: 'window'
         });
         $('[data-toggle="popover"]').popover()
+
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            loop: true,
+            effect: 'fade',
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+              el: '.swiper-pagination',
+              clickable: true,
+            }
+        });
     },
 
     iziToastInit() {
